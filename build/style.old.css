@@ -1,7 +1,7 @@
 body {
-    background: #5be9a6;
+    background: #ffffff;
     font-family: verdana;
-    width: 80%;
+    width: 90%;
     margin: auto;
 }
 
@@ -11,7 +11,7 @@ body {
     width: 100%;
     height: 50px;
     padding: 0px 16px;
-    background-color: #65280E;
+    background-color: #202020;
     justify-content: space-between;
     align-items: center;
     top: 0px;
@@ -34,7 +34,7 @@ body {
     display: flex;
     margin-top: 38px;
     border-radius: 100%;
-    color: #01eb7e;
+    color: #e09696;
     
 }
 .bottomArea{
@@ -104,6 +104,9 @@ body {
 .precos{
     margin-bottom: 5px;
     text-decoration: solid;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
 }
 
 .btn-remove,
@@ -125,12 +128,14 @@ body {
 
 .card {
     width: auto;
-    
+    box-shadow: 0 0 1em rgb(0, 0, 0);
 }
 
 .bottom-Card {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
+    height: 40px;
 }
 
 .price {
@@ -144,19 +149,30 @@ body {
 }
 
 .companny-info {
-    background-color: white;
     margin: 10px 0px 10px 0px;
-    border: 2px #1a1e21;
+    border: 2px #325672;
     padding: 1px 16px;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(100, 100, 100, 0.425);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
+
 
 .accordion {
     margin-bottom: 20px;
 }
 
+#flush-collapseOne{
+    margin-left: 20px;
+}
+
+.btns-categ{
+    width: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: 30px;
+}
 
 /* Collapse Fonte: Bootstrap */
 @media (prefers-reduced-motion:reduce) {
@@ -370,8 +386,8 @@ fieldset:disabled .btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #0d6efd;
-    border-color: #0d6efd
+    background-color: #161718;
+    border-color: #050505
 }
 
 .btn-primary:hover {
@@ -773,40 +789,12 @@ fieldset:disabled .btn {
     border-color: #6c757d
 }
 
-.btn-outline-secondary:hover {
-    color: #fff;
-    background-color: #6c757d;
-    border-color: #6c757d
-}
 
-.btn-check:focus+.btn-outline-secondary,
-.btn-outline-secondary:focus {
+
+.btn-check:focus {
     box-shadow: 0 0 0 .25rem rgba(108, 117, 125, .5)
 }
 
-.btn-check:active+.btn-outline-secondary,
-.btn-check:checked+.btn-outline-secondary,
-.btn-outline-secondary.active,
-.btn-outline-secondary.dropdown-toggle.show,
-.btn-outline-secondary:active {
-    color: #fff;
-    background-color: #6c757d;
-    border-color: #6c757d
-}
-
-.btn-check:active+.btn-outline-secondary:focus,
-.btn-check:checked+.btn-outline-secondary:focus,
-.btn-outline-secondary.active:focus,
-.btn-outline-secondary.dropdown-toggle.show:focus,
-.btn-outline-secondary:active:focus {
-    box-shadow: 0 0 0 .25rem rgba(108, 117, 125, .5)
-}
-
-.btn-outline-secondary.disabled,
-.btn-outline-secondary:disabled {
-    color: #6c757d;
-    background-color: transparent
-}
 
 .btn-outline-success {
     color: #198754;
@@ -1185,7 +1173,7 @@ fieldset:disabled .btn {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(150px);
     --webkit-backdrop-filter: blur(10px);
-    border: 2px solid rgba(0, 0, 0, 0.525);
+    
     border-radius: .25rem
 }
 
@@ -1218,7 +1206,7 @@ fieldset:disabled .btn {
 
 .card-body {
     flex: 1 1 auto;
-    padding: 1rem 1rem
+    padding: 0.7rem 0.7rem
 }
 
 .card-title {
@@ -1232,7 +1220,8 @@ fieldset:disabled .btn {
 }
 
 .card-text:last-child {
-    margin-bottom: 0
+    margin-bottom: 0;
+    margin-left: 10px;
 }
 
 .card-link+.card-link {
@@ -1282,15 +1271,28 @@ fieldset:disabled .btn {
     border-radius: calc(.25rem - 1px)
 }
 
+.img-text{
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.card-text {
+    margin-left: 10px;
+    margin-right: 10px;
+    align-items: baseline;
+    text-align: left;
+    width: 300px;
+}
 .card-img,
 .card-img-bottom,
 .card-img-top {
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 90px;
+    height: 90px;
+    margin-left: 10px;
+    margin-top: 5px;
     align-items: baseline;
-   
-    box-shadow: 0 0 1em rgb(0, 0, 0);
+    border: 2px solid rgba(0, 0, 0, 0.525);
 }
 
 .card-img,
@@ -1304,7 +1306,14 @@ fieldset:disabled .btn {
     border-bottom-right-radius: calc(.25rem - 1px);
     border-bottom-left-radius: calc(.25rem - 1px)
 }
-
+.card-img-view{
+    position: fixed;
+    z-index: 1300;
+    inset: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .card-group>.card {
     margin-bottom: .75rem
 }
