@@ -54,21 +54,24 @@ const CartCard = ({ id, nomeprod, preco, img, ingr, count }) => {
     }
 
     function Excluir() {
-        var arrListCart = JSON.parse(localStorage.getItem('listCart'));
-        if (arrListCart !== null) {
-            var listCart = arrListCart;
-        }
-        var newListCart = listCart.filter((item) => item.id !== id);
-        if (arrListCart.length === 1) {
-            localStorage.removeItem('listCart')
-        } else {
-            localStorage.setItem('listCart', JSON.stringify(newListCart));
-        }
-        ReactDOM.render(<CountItens />, document.getElementById('Iten-Count'));
-        window.location.href = './mycart'
+        const resp = window.confirm(`Deseja remover ${nomeprod} da cesta?`)
+        if (resp === true) {
 
-        alert(`${nomeprod} removido da sua cesta.`)
 
+            var arrListCart = JSON.parse(localStorage.getItem('listCart'));
+            if (arrListCart !== null) {
+                var listCart = arrListCart;
+            }
+            var newListCart = listCart.filter((item) => item.id !== id);
+            if (arrListCart.length === 1) {
+                localStorage.removeItem('listCart')
+            } else {
+                localStorage.setItem('listCart', JSON.stringify(newListCart));
+            }
+            ReactDOM.render(<CountItens />, document.getElementById('Iten-Count'));
+            window.location.href = './mycart'
+
+        }
     }
 
     totalCart();

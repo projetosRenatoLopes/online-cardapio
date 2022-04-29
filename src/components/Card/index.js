@@ -58,22 +58,23 @@ const Card = ({ id, nomeprod, preco, img, ingr }) => {
     }
 
     function Remover() {
-        if (vstatus === 0) {
-        } else {
-            setValor(vstatus - 1)
-            var arrListCart = JSON.parse(localStorage.getItem('listCart'));
-            if (arrListCart !== null) {
-                var listCart = arrListCart;
-            }
-            var newListCart = listCart.filter((item) => item.id !== id);
-            if (arrListCart.length === 1) {
-                localStorage.removeItem('listCart')
+        const resp = window.confirm(`Deseja remover ${nomeprod} da cesta?`)
+        if (resp === true) {
+            if (vstatus === 0) {
             } else {
-                localStorage.setItem('listCart', JSON.stringify(newListCart));
+                setValor(vstatus - 1)
+                var arrListCart = JSON.parse(localStorage.getItem('listCart'));
+                if (arrListCart !== null) {
+                    var listCart = arrListCart;
+                }
+                var newListCart = listCart.filter((item) => item.id !== id);
+                if (arrListCart.length === 1) {
+                    localStorage.removeItem('listCart')
+                } else {
+                    localStorage.setItem('listCart', JSON.stringify(newListCart));
+                }
+                ReactDOM.render(<CountItens />, document.getElementById('Iten-Count'));
             }
-            ReactDOM.render(<CountItens />, document.getElementById('Iten-Count'));
-
-            alert(`${nomeprod} removido da sua cesta.`)
         }
 
     }
@@ -81,7 +82,7 @@ const Card = ({ id, nomeprod, preco, img, ingr }) => {
     function imgView() {
         return (
             <div className='card-img-view'>
-               <img src={img} className="card-img-top" alt='img-card'></img>
+                <img src={img} className="card-img-top" alt='img-card'></img>
             </div>)
     }
 

@@ -9,9 +9,11 @@ function backHome() {
 }
 function sendOrder() {
   localStorage.removeItem("listCart")
-  confirm('Deseja enviar o pedido?')
-  alert("Pedido enviado com sucesso!")
-  window.location.href = './home'
+  const resp = window.confirm('Deseja enviar o pedido?')
+  if (resp === true) {
+    alert("Pedido enviado com sucesso!")
+    window.location.href = './home'
+  }
 }
 const MyCart = () => {
   var products = listItensCart();
