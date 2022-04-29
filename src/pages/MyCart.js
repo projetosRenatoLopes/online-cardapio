@@ -9,6 +9,7 @@ function backHome() {
 }
 function sendOrder() {
   localStorage.removeItem("listCart")
+  confirm('Deseja enviar o pedido?')
   alert("Pedido enviado com sucesso!")
   window.location.href = './home'
 }
