@@ -1,13 +1,11 @@
-import { CompannyName } from '../components/Companny'
+import { AiOutlineClose } from 'react-icons/ai'
 import LogoCart from '../components/Cart'
 import CardsGalerry from '../components/Card/CardsGalerry'
 import CategGallery from '../components/Categories/Categs'
 import { myCategs } from "../components/Companny";
 import Button from '../components/Button';
+import { Link } from 'react-router-dom'
 
-function backHome() {
-    window.location.href = './home'
-}
 
 const Filter = () => {
     var arrProduct = JSON.parse(localStorage.getItem('viewProducts'));
@@ -15,7 +13,7 @@ const Filter = () => {
     return (
         <>
             <div className='title-page'>
-                {CompannyName}
+                <div className='title-mycart'><Link to='/home'><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Filtro: {localStorage.getItem('filter')} </p></div>
                 <LogoCart />
             </div>
             <br></br>
@@ -28,7 +26,7 @@ const Filter = () => {
                 <CardsGalerry cards={products} />
             </div>
             <div className='bottomArea'>
-                <Button className="btn btn-success" onClick={backHome}>Voltar à pagina principal</Button>
+                <Link to='/home'><Button className="btn btn-success">Voltar à pagina principal</Button></Link>
             </div>
         </>
     )

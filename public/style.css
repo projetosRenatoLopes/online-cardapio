@@ -180,6 +180,43 @@ body {
     margin-top: 30px;
 }
 
+.title-mycart {
+    display: flex;
+    align-items: center;
+}
+
+.title-mycart svg {
+    font-size: 25px;
+    margin-right: 10px;
+}
+
+/* CUPOM */
+
+.Cupom {
+    background: #b9b37b;
+}
+
+.cp-line-price {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.cp-top p {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0px;
+}
+
+.cp-top div {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: 0px;
+    padding: 0px;
+}
 
 /*NOVO ACCORDION*/
 .box svg {

@@ -33,7 +33,7 @@ const InfoCompanny = () => {
                 return <div style={{ color: '#3eca89' }}>{day}: {hours}</div>
             }
         } else {
-            return <div style={{ color: '#000000' }}> {day}: {hours}</div>
+            return <div style={{ color: '#000000' }}>{day}: {hours}</div>
         }
     }
 

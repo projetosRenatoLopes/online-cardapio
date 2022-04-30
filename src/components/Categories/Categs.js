@@ -1,8 +1,6 @@
 import React, { memo, useState } from 'react'
-import ReactDOM from 'react-dom';
-import Home from '../../pages/Home';
 import Button from '../Button';
-import CardsGalerry from '../Card/CardsGalerry';
+import { Link } from 'react-router-dom';
 
 
 function CategGallery(props) {
@@ -14,20 +12,19 @@ function CategGallery(props) {
     const renderCateg = (gallery, key) => {
 
         function listActual() {
-            console.log(gallery)
             let arrProduct = JSON.parse(localStorage.getItem('listProduct'));
             var newArrProduct = arrProduct.filter((item) => item.categ === gallery)
             localStorage.setItem('viewProducts', JSON.stringify(newArrProduct))
-            window.location.href = './filter'
+            localStorage.setItem('filter', gallery)
         }
 
         return (
-            <Button className="btn btn-primary" onClick={listActual}>{gallery}</Button>
+            <Link to='/filter'><Button className="btn btn-primary" onClick={listActual}>{gallery}</Button></Link>
         )
     }
 
     return (
-        <div>
+        <div className='btn-group'>
             {gallery.map(renderCateg)}
         </div>
     )

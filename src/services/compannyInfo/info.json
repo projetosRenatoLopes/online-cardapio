@@ -6,8 +6,8 @@
             "18:00-23:00",
             "18:00-23:00",
             "18:00-23:00",
-            "18:00-00:00",
-            "18:00-00:00"
+            "18:00-23:00",
+            "18:00-23:00"
         ]
     },
     {
@@ -25,9 +25,7 @@
             "Pix",
             "Dinheiro",
             "Cartão de Crédito",
-            "Cartão de Débito",
-            "Boleto",
-            "TED/DOC"
+            "Cartão de Débito"
         ]
     },
     {
@@ -37,9 +35,8 @@
         "categs": [
             "Sanduiches",
             "Hot-Dog",
-            "Pizza",
-            "Bebidas",
-            "Batata"
+            "Batata",
+            "Bebidas"
         ]
     }
 ]

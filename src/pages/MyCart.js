@@ -3,28 +3,21 @@ import LogoCart from '../components/Cart'
 import CartGalerry from '../components/Card/CartGalerry'
 import listItensCart from '../services/listCart/listCart';
 import Button from '../components/Button';
+import { AiOutlineClose } from 'react-icons/ai'
+import { Link } from 'react-router-dom';
 
-function backHome() {
-  window.location.href = './home'
-}
-function sendOrder() {
-  localStorage.removeItem("listCart")
-  const resp = window.confirm('Deseja enviar o pedido?')
-  if (resp === true) {
-    alert("Pedido enviado com sucesso!")
-    window.location.href = './home'
-  }
-}
+
 const MyCart = () => {
   var products = listItensCart();
   if (products === null) {
     products = [];
   }
 
+
   return (
     <>
       <div className='title-page'>
-        <p>Minha Cesta</p>
+        <div className='title-mycart'><Link to='/home'><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Minha Cesta</p></div>
         <LogoCart />
       </div>
 
@@ -37,8 +30,8 @@ const MyCart = () => {
         <CartGalerry cards={products} />
       </div>
       <div className='bottomArea'>
-        <Button className="btn btn-success" onClick={backHome}>Voltar à pagina principal</Button>
-        <Button className="btn btn-success" onClick={sendOrder} >Enviar pedido</Button>
+        <Link to='/home'><Button className="btn btn-success" >Voltar à pagina principal</Button></Link>
+        <Link to='/checkout'><Button className="btn btn-success" >Enviar pedido</Button></Link>
       </div>
 
     </>
