@@ -30,60 +30,13 @@ body {
     padding-right: 25px;
 }
 
-#Iten-Count p {
+#Iten-Count {
     display: flex;
-    margin-top: 38px;
-    border-radius: 100%;
-    color: #01eb7e;
-    
 }
-.bottomArea{
-    width: 100%;
-    height: 50px;
-    justify-content: space-between;
-    align-items: center;
-    top: 0px;
-    left: 0px;
-    z-index: 999;
-    display: flex;
-    margin-bottom: 20px;
-}
+
 .Cart-Group {
-    align-items: center;
-    top: 0px;
-    left: 0px;
-    z-index: 999;
-    display: flex;
+    margin-top: 16px;
 }
-.img-logo-cart{
-    margin-right: 30px;
-    max-width: 2rem;
-    min-width: 2rem;
-    height: 2rem;
-    color: rgb(255, 255, 255);
-}
-.img-logo-cart:hover{
-    color:#3eca89;
-}
-
-.price-total-order{
-    width: auto;
-    height: 30px;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(150px);
-    --webkit-backdrop-filter: blur(10px);
-    margin-top: 15px;
-    border: 2px solid;
-    border-color: rgb(119, 118, 118);
-    border-radius: 10px;
-    text-align: center;
-}
-.price-total-order p{
-    margin-top: 2px;
-    font-size: 1.3rem;
-    color:rgb(121, 38, 0);
-}
-
 
 .logo-page {
     margin-top: 80px;
@@ -96,14 +49,6 @@ body {
     margin: auto;
     max-width: 30rem;
     min-width: 15rem;
-}
-.Cont-Cards{
-    margin-top: 15px;
-}
-
-.precos{
-    margin-bottom: 5px;
-    text-decoration: solid;
 }
 
 .btn-remove,
@@ -125,7 +70,6 @@ body {
 
 .card {
     width: auto;
-    
 }
 
 .bottom-Card {
@@ -139,8 +83,6 @@ body {
 
 .card-title {
     font-size: 20px;
-    margin-top: 6px;
-    margin-left: 6px;
 }
 
 .companny-info {
@@ -1181,10 +1123,7 @@ fieldset:disabled .btn {
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    /*background-color: #fff;*/
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(150px);
-    --webkit-backdrop-filter: blur(10px);
+    background-color: #fff;
     border: 2px solid rgba(0, 0, 0, 0.525);
     border-radius: .25rem
 }
@@ -1285,12 +1224,7 @@ fieldset:disabled .btn {
 .card-img,
 .card-img-bottom,
 .card-img-top {
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    align-items: baseline;
-   
-    box-shadow: 0 0 1em rgb(0, 0, 0);
+    width: 100%
 }
 
 .card-img,
@@ -1356,8 +1290,9 @@ fieldset:disabled .btn {
     }
 }
 
+
+
 .coments {
-    display: none;
     /* 
 .card {
     position: relative;

@@ -81,7 +81,7 @@ const CartCard = ({ id, nomeprod, preco, img, ingr, count }) => {
     return (
         <>
             <div className="card">
-                <h5 className="card-title"> {id} - {nomeprod}</h5>
+                <h5 className="card-title">{nomeprod}</h5>
                 <div className="img-text">
                     <img src={img} className="card-img-top" alt="img-card"></img>
                     <p className="card-text">{ingr}</p>
