@@ -29,7 +29,6 @@ const CheckOut = () => {
     // dadosPedido
     const dados = JSON.parse(localStorage.getItem('dadosPedido'))
     setTimeout(() => {
-
         document.getElementById('name')["value"] = dados[0].name
         document.getElementById('co-drive')["checked"] = dados[0].drive
         document.getElementById('co-delivery')["checked"] = dados[0].delivery

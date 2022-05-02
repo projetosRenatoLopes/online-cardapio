@@ -31,6 +31,24 @@ const txEntrega = () => {
     }, 500);
     return taxaEntrega
 }
+const dadosPedido = (info) => {
+    var dados = JSON.parse(localStorage.getItem('dadosPedido'));
+    if (info === 'pagamento') {
+        return dados[0].pagamento
+    } else if (info === 'cliente') {
+        return dados[0].name
+    } else if (info === 'endereco') {
+        if (dados[0].delivery === false) {
+            return 'Retirar no local'
+        } else {
+            return `${dados[0].rua} ${dados[0].num} ${dados[0].comp} - ${dados[0].bairro} - ${dados[0].cidade}`
+        }
+    } else if (info === 'obs') {
+        return dados[0].obs
+    } else if (info === 'tel') {
+        return dados[0].tel
+    }
+}
 
 function CupomGallery(props) {
     const { cards } = props
@@ -57,6 +75,9 @@ function CupomGallery(props) {
                     <div ><strong className='cp-companny'>{CompannyName}</strong></div>
                     <div><h4>CUPOM NÃO FISCAL</h4></div>
                 </div>
+                <div id='info-client'><p>Cliente: {dadosPedido('cliente')}</p></div>
+                <div id='info-client'><p>Telefone: {dadosPedido('tel')}</p></div>
+
                 <div className='cp-div'></div>
                 <h5 className="card-title">
                     <div className='cp-nameprod'>
@@ -92,6 +113,10 @@ function CupomGallery(props) {
                     <div>TOTAL:</div>
                     <div id="total-pedido">R$ 0,00</div>
                 </div>
+                <div className='cp-div'></div>
+                <div id='info-client'><p>Forma de Pagamento: {dadosPedido('pagamento')}</p></div>
+                <div id='info-client'><p>Endereço para entrega: {dadosPedido('endereco')} </p></div>
+                <div id='info-client'><p>Observações: {dadosPedido('obs')}</p></div>
                 <br></br>
             </div>
         </div>
