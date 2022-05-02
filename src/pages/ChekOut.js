@@ -21,6 +21,23 @@ const CheckOut = () => {
         products = [];
     }
 
+    // dadosPedido
+    const dados = JSON.parse(localStorage.getItem('dadosPedido'))
+    setTimeout(() => {
+        
+        document.getElementById('name')["value"] = dados[0].name
+        document.getElementById('co-drive')["checked"] = dados[0].drive
+        document.getElementById('co-delivery')["checked"] = dados[0].delivery
+        document.getElementById('tel')["value"] = dados[0].tel
+        document.getElementById('co-input-street')["value"] = dados[0].rua
+        document.getElementById('co-input-num')["value"] = dados[0].num
+        document.getElementById('co-input-complement')["value"] = dados[0].comp
+        document.getElementById('co-input-district')["value"] = dados[0].bairro
+        document.getElementById('co-input-city')["value"] = dados[0].cidade
+        document.getElementById('co-input-sel')["value"] = dados[0].pagamento
+        document.getElementById('co-input-obs')["value"] = dados[0].obs
+    }, 1500);
+
 
     const checkVerify = () => {
         let chkDelivery = document.querySelector('#co-delivery')['checked'];
@@ -128,8 +145,8 @@ const CheckOut = () => {
             localStorage.setItem('dadosPedido', JSON.stringify(infoClient));
             window.location.href = '/cupom'
         } else {
-            if(entrega === true){
-            alert('Por favor, preencha todos com campos.')
+            if (entrega === true) {
+                alert('Por favor, preencha todos com campos.')
             }
         }
 
