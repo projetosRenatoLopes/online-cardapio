@@ -3,10 +3,15 @@ import listItensCart from '../services/listCart/listCart';
 import { AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 import PayementsModes from '../components/PaymentModes'
-import { compare } from '../services/orderById';
 
 
 const CheckOut = () => {
+    var products = listItensCart();
+    if (products === null) {
+        products = [];
+        window.location.href = './home'
+    }
+
     // metodos de pagamento
     const getInfo = require("../services/compannyInfo/info.json")
     const paymentMode = getInfo[2].paymentMethods;
@@ -24,7 +29,7 @@ const CheckOut = () => {
     // dadosPedido
     const dados = JSON.parse(localStorage.getItem('dadosPedido'))
     setTimeout(() => {
-        
+
         document.getElementById('name')["value"] = dados[0].name
         document.getElementById('co-drive')["checked"] = dados[0].drive
         document.getElementById('co-delivery')["checked"] = dados[0].delivery
@@ -36,7 +41,7 @@ const CheckOut = () => {
         document.getElementById('co-input-city')["value"] = dados[0].cidade
         document.getElementById('co-input-sel')["value"] = dados[0].pagamento
         document.getElementById('co-input-obs')["value"] = dados[0].obs
-    }, 1500);
+    }, 1000);
 
 
     const checkVerify = () => {
@@ -60,11 +65,6 @@ const CheckOut = () => {
             inputCity['disabled'] = true;
         }
     }
-
-    const saveInfoCliente = () => {
-
-    }
-
 
     const validInput = (tag) => {
         var name = document.getElementById(tag)["value"];
@@ -193,6 +193,7 @@ const CheckOut = () => {
 
         </>
     )
+
 }
 
 export default CheckOut;

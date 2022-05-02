@@ -23,11 +23,20 @@ function CartGalerry(props) {
         )
     }
 
-    return (
-        <div>
-            {gallery.map(renderCards)}
-        </div>
-    )
+    const itens = JSON.parse(localStorage.getItem('listCart'))
+    if (itens === null) {
+        return (
+            <div>
+                <h3>Cesta vazia.</h3>
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                {gallery.map(renderCards)}
+            </div>
+        )
+    }
 }
 
 export default memo(CartGalerry)

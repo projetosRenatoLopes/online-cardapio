@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import { AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 
+
 function sendOrder() {
     localStorage.removeItem("listCart")
     const resp = window.confirm('Deseja enviar o pedido?')
@@ -13,10 +14,16 @@ function sendOrder() {
         window.location.href = './home'
     }
 }
+
 const Cupom = () => {
     var products = listItensCart();
     if (products === null) {
         products = [];
+        window.location.href = './home'
+    }
+    const dadosPedido = JSON.parse(localStorage.getItem('dadosPedido'))
+    if (dadosPedido === null) {
+        window.location.href = './checkout'
     }
 
 

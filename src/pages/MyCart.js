@@ -7,11 +7,19 @@ import { Link } from 'react-router-dom';
 
 
 const MyCart = () => {
+
   var products = listItensCart();
   if (products === null) {
     products = [];
   }
-
+  const verifyCestEmpty = () => {
+    const itens = JSON.parse(localStorage.getItem('listCart'))
+    if (itens === null) {
+      alert('Cesta vazia. :(\nSelecione pelo menos um item.')
+    } else {
+      window.location.href = './checkout'
+    }
+  }
 
   return (
     <>
@@ -30,7 +38,7 @@ const MyCart = () => {
       </div>
       <div className='bottomArea'>
         <Link to='/home'><button className="btn btn-success" >Voltar</button></Link>
-        <Link to='/checkout'><button className="btn btn-success" >Confirmar</button></Link>
+        <button className="btn btn-success" onClick={verifyCestEmpty}>Confirmar</button>
       </div>
 
     </>
