@@ -2,7 +2,6 @@ import LogoPage from '../components/Logo';
 import LogoCart from '../components/Cart'
 import CartGalerry from '../components/Card/CartGalerry'
 import listItensCart from '../services/listCart/listCart';
-import Button from '../components/Button';
 import { AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 
@@ -30,8 +29,8 @@ const MyCart = () => {
         <CartGalerry cards={products} />
       </div>
       <div className='bottomArea'>
-        <Link to='/home'><Button className="btn btn-success" >Voltar à pagina principal</Button></Link>
-        <Link to='/checkout'><Button className="btn btn-success" >Enviar pedido</Button></Link>
+        <Link to='/home'><button className="btn btn-success" >Voltar</button></Link>
+        <Link to='/checkout'><button className="btn btn-success" >Confirmar</button></Link>
       </div>
 
     </>

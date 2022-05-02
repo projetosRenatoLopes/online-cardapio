@@ -40,12 +40,12 @@ const InfoCompanny = () => {
     return (
         <>
             <div className='companny-info'>
-                <nav class="accordion arrows">
+                <nav className="accordion arrows">
                     <input type="radio" name="accordion" id="cb1" />
-                    <section class="box">
-                        <label class="box-title" for="cb1"><AiFillClockCircle /> {colorDay(showDay, openingHoursRange)}</label>
-                        <label class="box-close" for="acc-close"></label>
-                        <div class="box-content">
+                    <section className="box">
+                        <label className="box-title" htmlFor="cb1"><AiFillClockCircle /> {colorDay(showDay, openingHoursRange)}</label>
+                        <label className="box-close" htmlFor="acc-close"></label>
+                        <div className="box-content">
                             {colorDay(week[0], openingHours[0])}
                             <br></br>
                             {colorDay(week[1], openingHours[1])}
@@ -62,16 +62,16 @@ const InfoCompanny = () => {
                         </div>
                     </section>
                     <input type="radio" name="accordion" id="cb2" />
-                    <section class="box">
-                        <label class="box-title" for="cb2"><SiGooglemaps className='icon-local' /> {address[4]} - {address[5]} </label>
-                        <label class="box-close" for="acc-close"></label>
-                        <div class="box-content">{address[0]}, Nº {address[1]} {address[2]}, {address[3]}, {address[4]} - {address[5]}.</div>
+                    <section className="box">
+                        <label className="box-title" htmlFor="cb2"><SiGooglemaps className='icon-local' /> {address[4]} - {address[5]} </label>
+                        <label className="box-close" htmlFor="acc-close"></label>
+                        <div className="box-content">{address[0]}, Nº {address[1]} {address[2]}, {address[3]}, {address[4]} - {address[5]}.</div>
                     </section>
                     <input type="radio" name="accordion" id="cb3" />
-                    <section class="box">
-                        <label class="box-title" for="cb3"><RiMoneyDollarCircleFill /> Aceitamos: {paymentMethods[0]}, {paymentMethods[1]}...</label>
-                        <label class="box-close" for="acc-close"></label>
-                        <div class="box-content">{paymentMethods.join(', ')}.</div>
+                    <section className="box">
+                        <label className="box-title" htmlFor="cb3"><RiMoneyDollarCircleFill /> Aceitamos: {paymentMethods[0]}, {paymentMethods[1]}...</label>
+                        <label className="box-close" htmlFor="acc-close"></label>
+                        <div className="box-content">{paymentMethods.join(', ')}.</div>
                     </section>
                     <input type="radio" name="accordion" id="acc-close" />
                 </nav>

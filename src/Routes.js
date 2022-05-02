@@ -1,9 +1,11 @@
+// @ts-nocheck
 import React from "react";
 import { Routes, Route } from 'react-router-dom';
 import MyCart from './pages/MyCart'
 import Home from "./pages/Home";
 import Filter from "./pages/Filter";
-import CheckOut from "./pages/CheckOut";
+import CheckOut from "./pages/ChekOut";
+import Cupom from "./pages/Cupom";
 
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -15,6 +17,7 @@ export default () => {
             <Route exact path="mycart" element={<MyCart />} />
             <Route exact path="filter" element={<Filter />} />
             <Route exact path="checkout" element={<CheckOut />} />
+            <Route exact path="cupom" element={<Cupom />} />
             <Route exact index element={<div><Home /></div>} />
         </Routes>
     );

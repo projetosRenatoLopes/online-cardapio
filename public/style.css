@@ -67,7 +67,7 @@ body {
 }
 
 .img-logo-cart:hover {
-    color: #3eca89;
+    color: #636363;
 }
 
 .price-total-order {
@@ -103,9 +103,6 @@ body {
     min-width: 15rem;
 }
 
-.Cont-Cards {
-    margin-top: 15px;
-}
 
 .precos {
     margin-bottom: 5px;
@@ -173,11 +170,23 @@ body {
 }
 
 .btns-categ {
+    margin-top: 30px;
+    height: auto;
     width: auto;
+
+}
+
+.btn-group-categ {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    display: flex;
-    margin-top: 30px;
+}
+
+.btn-group-categ div {
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 4px;
 }
 
 .title-mycart {
@@ -210,6 +219,10 @@ body {
     padding: 0px;
 }
 
+.cp-companny {
+    text-transform: uppercase;
+}
+
 .cp-top div {
     justify-content: center;
     align-items: center;
@@ -218,7 +231,90 @@ body {
     padding: 0px;
 }
 
-/*NOVO ACCORDION*/
+.cp-top h4 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.cp-div {
+    border-bottom: 1px solid #000000;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/* DADOS CHECKOUT */
+.co-addr-div,
+.data-checkout {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#co-input,
+#name,
+#tel,
+#co-input-district,
+#co-input-street,
+#co-input-city {
+    width: 90%;
+    height: 30px;
+    margin-bottom: 15px;
+}
+
+.co-addr-div {
+    width: 92%;
+    justify-content: space-between;
+}
+
+#co-input-num,
+#co-input-complement {
+    width: 47%;
+    height: 30px;
+    margin-bottom: 15px;
+}
+
+.co-chk-drive-delivery {
+    width: 90%;
+    margin-bottom: 15px;
+}
+
+#co-input-obs:hover,
+#name:hover,
+#tel:hover,
+#co-input-street:hover,
+#co-input-num:hover,
+#co-input-complement:hover,
+#co-input-district:hover,
+#co-input-city:hover,
+#co-input-sel:hover {
+    border: 2px solid #05b422;
+}
+
+select:required:invalid {
+    color: gray;
+}
+
+#co-input-sel {
+    width: 91.78%;
+    height: 36px;
+    margin-bottom: 15px;
+}
+
+#co-input-obs {
+    max-width: 90%;
+}
+
+.co-name,
+.co-tel,
+.co-address,
+.co-obs,
+.selPayModes {
+    font-size: 18px;
+}
+
+/* NOVO ACCORDION */
 .box svg {
     padding-right: 5px;
 }
@@ -549,17 +645,17 @@ fieldset:disabled .btn {
 }
 
 .btn-primary:hover {
-    color: #fff;
-    background-color: #0b5ed7;
-    border-color: #0a58ca
+    color: rgb(0, 0, 0);
+    background-color: #ffffff;
+    border-color: #000000
 }
 
 .btn-check:focus+.btn-primary,
 .btn-primary:focus {
     color: #fff;
-    background-color: #0b5ed7;
-    border-color: #0a58ca;
-    box-shadow: 0 0 0 .25rem rgba(49, 132, 253, .5)
+    background-color: #686868;
+    border-color: #686868;
+    box-shadow: 0 0 0 .25rem rgba(150, 150, 150, 0.664)
 }
 
 .btn-check:active+.btn-primary,
@@ -567,9 +663,9 @@ fieldset:disabled .btn {
 .btn-primary.active,
 .btn-primary:active,
 .show>.btn-primary.dropdown-toggle {
-    color: #fff;
-    background-color: #0a58ca;
-    border-color: #0a53be
+    color: rgb(0, 0, 0);
+    background-color: #000000;
+    border-color: #ffffff
 }
 
 .btn-check:active+.btn-primary:focus,
@@ -577,7 +673,7 @@ fieldset:disabled .btn {
 .btn-primary.active:focus,
 .btn-primary:active:focus,
 .show>.btn-primary.dropdown-toggle:focus {
-    box-shadow: 0 0 0 .25rem rgba(49, 132, 253, .5)
+    box-shadow: 0 0 0 .25rem rgba(68, 68, 68, 0.5)
 }
 
 .btn-primary.disabled,

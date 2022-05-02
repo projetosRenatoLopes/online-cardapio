@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import totalCart from '../../services/totalCart';
 
-const Cupom = ({ nomeprod, preco, img, count }) => {
+const Cupom = ({ nomeprod, preco, count }) => {
     //recebndo o valor total dos itens
     let itemCount = 1 * count;
     var [vstatus, setValor] = useState(itemCount)

@@ -24,8 +24,7 @@
         "paymentMethods": [
             "Pix",
             "Dinheiro",
-            "Cartão de Crédito",
-            "Cartão de Débito"
+            "Cartão de Crédito/Débito"
         ]
     },
     {
@@ -34,9 +33,12 @@
     {
         "categs": [
             "Sanduiches",
-            "Hot-Dog",
+            "HotDog",
             "Batata",
             "Bebidas"
         ]
+    },
+    {
+        "txEntrega": "7.0"
     }
 ]

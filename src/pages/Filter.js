@@ -22,11 +22,9 @@ const Filter = () => {
                 <CategGallery categs={myCategs} />
             </div>
             <br></br>
-            <div className="Cont-Cards" id="card">
-                <CardsGalerry cards={products} />
-            </div>
+            <CardsGalerry cards={products} />
             <div className='bottomArea'>
-                <Link to='/home'><Button className="btn btn-success">Voltar à pagina principal</Button></Link>
+                <Link to='/home'><Button onClick={myCategs} className="btn btn-success">Voltar</Button></Link>
             </div>
         </>
     )

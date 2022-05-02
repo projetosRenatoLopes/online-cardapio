@@ -1,4 +1,3 @@
-import LogoPage from '../components/Logo';
 import LogoCart from '../components/Cart'
 import CupomGallery from '../components/Cupom/CupomGallery'
 import listItensCart from '../services/listCart/listCart';
@@ -14,7 +13,7 @@ function sendOrder() {
         window.location.href = './home'
     }
 }
-const CheckOut = () => {
+const Cupom = () => {
     var products = listItensCart();
     if (products === null) {
         products = [];
@@ -40,7 +39,7 @@ const CheckOut = () => {
 
 
             <div className='bottomArea'>
-                <Link to='/home'><Button className="btn btn-success" >Voltar à pagina principal</Button></Link>
+                <Link to='/checkout'><button className="btn btn-success" >Voltar</button></Link>
                 <Button className="btn btn-success" onClick={sendOrder} >Enviar pedido</Button>
             </div>
 
@@ -48,4 +47,4 @@ const CheckOut = () => {
     )
 }
 
-export default CheckOut;
+export default Cupom;

@@ -11,11 +11,25 @@ function totalProducts() {
         totalCart += (parseInt(iCount) * parseFloat(iPrice));
         localStorage.setItem('totalCart', totalCart.toString())
         // eslint-disable-next-line no-loop-func
-        setTimeout(() => {
-            document.getElementById('total-products').innerText = (`${totalCart.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`);
-            document.getElementById('total-pedido').innerText = (`${totalCart.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`);
-        }, 500);
     }
+    const total = (totalCart + txEntrega())
+    setTimeout(() => {
+        document.getElementById('total-products').innerText = (`${totalCart.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`);
+        document.getElementById('total-pedido').innerText = (`${total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`);
+    }, 500);
+}
+
+const txEntrega = () => {
+    var entrega = JSON.parse(localStorage.getItem('dadosPedido'));
+    var taxaEntrega = 0.0;
+    if (entrega[0].delivery === true) {
+        var taxa = require("../../services/compannyInfo/info.json")
+        taxaEntrega = parseFloat(taxa[5].txEntrega)
+    }
+    setTimeout(() => {
+        document.getElementById('taxa-entrega').innerText = (`${taxaEntrega.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`);
+    }, 500);
+    return taxaEntrega
 }
 
 function CupomGallery(props) {
@@ -34,18 +48,19 @@ function CupomGallery(props) {
             />
         )
     }
+    txEntrega()
     totalProducts()
     return (
         <div className='Cupom'>
             <div className="card">
                 <div className='cp-top'>
-                    <div><strong>{CompannyName}</strong></div>
+                    <div ><strong className='cp-companny'>{CompannyName}</strong></div>
                     <div><h4>CUPOM NÃO FISCAL</h4></div>
-                    <div>-----------------------------------------------------------</div>
                 </div>
+                <div className='cp-div'></div>
                 <h5 className="card-title">
                     <div className='cp-nameprod'>
-                        <td>Descrição</td>
+                        <div>Descrição</div>
                     </div>
                     <div className='cp-line-price'>
                         <div>R$ Unit.</div>
@@ -56,9 +71,8 @@ function CupomGallery(props) {
 
                 {gallery.map(renderCards)}
                 <div className='cp-top'>
-                    <div>-----------------------------------------------------------</div>
                 </div>
-                <br></br>
+                <div className='cp-div'></div>
                 <h5 className="card-title">TOTAIS</h5>
                 <div className='cp-line-price'>
                     <div>Produtos:</div>
@@ -73,6 +87,7 @@ function CupomGallery(props) {
                     <div id="desconto">R$ 0,00</div>
                 </div>
                 <br></br>
+                <div className='cp-div'></div>
                 <div className='cp-line-price'>
                     <div>TOTAL:</div>
                     <div id="total-pedido">R$ 0,00</div>

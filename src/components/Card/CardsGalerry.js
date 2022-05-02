@@ -1,12 +1,16 @@
 import React, { memo, useState } from 'react'
 import Card from '.'
 
+
+export var setCards = (set) => {
+  
+}
+
 function CardsGalerry(props) {
   const { cards } = props
-
+  
   // eslint-disable-next-line no-unused-vars
   const [gallery, setGallery] = useState(cards)
-
 
   const renderCards = (gallery, key) => {
     return (
@@ -23,7 +27,7 @@ function CardsGalerry(props) {
   }
 
   return (
-    <div>
+    <div id='gallery'>
       {gallery.map(renderCards)}
     </div>
   )

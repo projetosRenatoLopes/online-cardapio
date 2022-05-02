@@ -2,7 +2,6 @@ import React, { memo, useState } from 'react'
 import Button from '../Button';
 import { Link } from 'react-router-dom';
 
-
 function CategGallery(props) {
     const { categs } = props;
 
@@ -16,15 +15,18 @@ function CategGallery(props) {
             var newArrProduct = arrProduct.filter((item) => item.categ === gallery)
             localStorage.setItem('viewProducts', JSON.stringify(newArrProduct))
             localStorage.setItem('filter', gallery)
+            window.location.href = '/filter'
         }
 
         return (
-            <Link to='/filter'><Button className="btn btn-primary" onClick={listActual}>{gallery}</Button></Link>
+            <div key={gallery}>
+            <Link to='/filter' ><Button className="btn btn-primary" onClick={listActual}>{gallery}</Button></Link>
+            </div>
         )
     }
 
     return (
-        <div className='btn-group'>
+        <div className='btn-group-categ'>
             {gallery.map(renderCateg)}
         </div>
     )

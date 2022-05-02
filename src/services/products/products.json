@@ -36,7 +36,7 @@
     "preco": "9.90",
     "img": "https://www.rbsdirect.com.br/imagesrc/35483374.jpg?w=700",
     "ingr": "Pão, Salsicha, Molho de Tomate, Bata Palha, Milho, Maionese, KetChup, Mostarda, Vinagrete.",
-    "categ": "Hot-Dog"
+    "categ": "HotDog"
   },
   {
     "id": "Cod.06",
@@ -44,7 +44,7 @@
     "preco": "6.90",
     "img": "https://st2.depositphotos.com/1692343/7395/i/450/depositphotos_73953881-stock-photo-barbecue-grilled-hot-dog.jpg",
     "ingr": "Pão, Salsicha, Molho de Tomate, Bata Palha, Milho",
-    "categ": "Hot-Dog"
+    "categ": "HotDog"
   },
   {
     "id": "Cod.07",
