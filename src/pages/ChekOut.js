@@ -56,12 +56,22 @@ const CheckOut = () => {
             inputComplement['disabled'] = false;
             inputDistrict['disabled'] = false;
             inputCity['disabled'] = false;
+            document.getElementById('co-input-street')["value"] = dados[0].rua
+            document.getElementById('co-input-num')["value"] = dados[0].num
+            document.getElementById('co-input-complement')["value"] = dados[0].comp
+            document.getElementById('co-input-district')["value"] = dados[0].bairro
+            document.getElementById('co-input-city')["value"] = dados[0].cidade
         } else {
             inputStreet['disabled'] = true;
             inputNum['disabled'] = true;
             inputComplement['disabled'] = true;
             inputDistrict['disabled'] = true;
             inputCity['disabled'] = true;
+            document.getElementById('co-input-street')["value"] = ''
+            document.getElementById('co-input-num')["value"] = ''
+            document.getElementById('co-input-complement')["value"] = ''
+            document.getElementById('co-input-district')["value"] = ''
+            document.getElementById('co-input-city')["value"] = ''
         }
     }
 
