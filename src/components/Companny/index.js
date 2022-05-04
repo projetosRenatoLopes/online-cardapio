@@ -24,7 +24,6 @@ const InfoCompanny = () => {
     const today = dayWeek.getDay();
     var showDay = week[today];
     var openingHoursRange = openingHours[today]
-    console.log(openingHoursRange.slice(6, 11))
 
     function colorDay(day, hours) {
         if (day === showDay) {
@@ -34,13 +33,9 @@ const InfoCompanny = () => {
             } else {
                 const date = new Date();
                 const hr = String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0')
-                console.log((hours.slice(6, 11) > hr))
-                console.log(hours.slice(6, 11))
-                //const mn = String(date.getMinutes()).padStart(2, '0')
                 if (hours.slice(0, 5) < hr && hours.slice(6, 11) > hr) {
                     localStorage.setItem('ofp', true)
                     return <div style={{ color: '#3eca89' }}>{day}: {hours}</div>
-
                 } else {
                     localStorage.setItem('ofp', false)
                     return <div style={{ color: '#dc3545' }}>{day}: {hours}</div>
