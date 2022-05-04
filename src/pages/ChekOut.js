@@ -174,7 +174,7 @@ const CheckOut = () => {
     return (
         <>
             <div className='title-page'>
-                <div className='title-mycart'><Link to='/home'><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Minha Cesta</p></div>
+                <div className='title-mycart'><Link to='/home'><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Dados do pedido</p></div>
                 <LogoCart />
             </div>
             <br></br>

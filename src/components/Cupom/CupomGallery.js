@@ -78,7 +78,7 @@ function CupomGallery(props) {
             <div className="card">
                 <div className='cp-top'>
                     <div ><strong className='cp-companny'>{CompannyName}</strong></div>
-                    <div><h4>CUPOM NÃO FISCAL</h4></div>
+                    <div><h4>RESUMO DO PEDIDO</h4></div>
                 </div>
                 <div id='info-client'><p>Cliente: {dadosPedido('cliente')}</p></div>
                 <div id='info-client'><p>Telefone: {dadosPedido('tel')}</p></div>
