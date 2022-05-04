@@ -67,7 +67,7 @@ function sendOrder() {
             const npedido = `${ano.slice(2, 4)}${date.getMonth() + 1}${date.getDay() + 1}${date.getHours()}${date.getMinutes()}`
             const msg = `Pedido: *${npedido}* %0ACliente: *${cliente}* %0AForma de Pagamento: *${pagamento}* %0AEndereço para entrega: *${entrega}* %0A%0AProdutos: %0A%0A${produtos}%0ATotal dos Produtos: *${totalProducts('total')}* %0ATaxa da Entrega: *${txEntrega('toString')}* %0ADesconto: *${totalProducts('desconto')}* %0ATotal: *${totalProducts('totalPedido')}*`
 
-            const url = `https://web.whatsapp.com/send?phone=${tel}&text=${msg}`
+            const url = `https://wa.me.com/send?phone=${tel}&text=${msg}`
             window.open(url, '_blank')
 
 
