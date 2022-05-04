@@ -12,8 +12,6 @@ const Cupom = ({ nomeprod, preco, count }) => {
     var [totalPrice, setTotalPrice] = useState(parseFloat(priceTotal.toString()).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }))
     // somando valor total dos itens do carrinho
 
-    totalCart();
-
     return (<>
         <div className='cp-nameprod'>
             <h5 className="card-title">{nomeprod}</h5>

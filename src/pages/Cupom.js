@@ -4,16 +4,26 @@ import listItensCart from '../services/listCart/listCart';
 import Button from '../components/Button';
 import { AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
+import jsPDF from 'jspdf';
 
 
 function sendOrder() {
-    localStorage.removeItem("listCart")
-    const resp = window.confirm('Deseja enviar o pedido?')
-    if (resp === true) {
-        alert("Pedido enviado com sucesso!")
+    const open = localStorage.getItem('ofp')
+
+    if (open === 'true') {
+
+        localStorage.removeItem("listCart")
+        const resp = window.confirm('Deseja enviar o pedido?')
+        if (resp === true) {
+            alert("Pedido enviado com sucesso!")
+            window.location.href = './home'
+        }
+    } else {
+        alert("Estamos fechados no momento!\nConfira nosso hórario de atendimento na página inicial.")
         window.location.href = './home'
     }
 }
+
 
 const Cupom = () => {
     var products = listItensCart();
@@ -26,6 +36,31 @@ const Cupom = () => {
         window.location.href = './checkout'
     }
 
+    const exportPDF = () => {
+        var cupom = document.getElementById('cupom-id').innerHTML;
+        var style = '<style>'
+        style = style + '.Cupom {background: #000000;}';
+        style = style + 'body {max-width: 350px;}';
+        style = style + '#info-client p {margin-left: 10px;margin-bottom: 5px;margin-top: 5px;}';
+        style = style + '.cp-line-price {display: flex;justify-content: space-between;margin-right: 10px;margin-left: 10px;margin-bottom: 3px;margin-top: 3px;}';
+        style = style + '.cp-top p {font-size: 20px;margin-top: 10px;margin-bottom: 10px;padding: 0px;}';
+        style = style + '.cp-companny {text-transform: uppercase;}';
+        style = style + '.cp-top div {justify-content: center;align-items: center;display: flex;margin-top: 0px;padding: 0px;}';
+        style = style + '.cp-top h4 {margin-top: 10px;margin-bottom: 10px;}';
+        style = style + '.cp-div { border-bottom: 1px dashed #000000; margin-left: 5px; margin-right: 5px; }';
+        style = style + '.cp-nameprod h5 {margin-bottom: 1px;}'
+        style = style + '#cp-desconto {margin-bottom: 5px;}'
+        style = style + '.cp-totais {font-size: 16px;margin-bottom: .5rem;margin: 3px 0px 0px 5px;}'
+        style = style + '</style>'
+        var win = window.open(",", 'height=100,width=100');
+        win.document.write('<html><body>');
+        win.document.write(style);
+        win.document.write(cupom);
+        win.document.write('</body></html>');
+        win.document.close();
+
+        win.print();
+    }
 
     return (
         <>
@@ -44,9 +79,9 @@ const Cupom = () => {
 
             <br></br>
 
-
             <div className='bottomArea'>
                 <Link to='/checkout'><button className="btn btn-success" >Voltar</button></Link>
+                <Button className='btn btn-success' onClick={exportPDF}>Imprimir</Button>
                 <Button className="btn btn-success" onClick={sendOrder} >Enviar pedido</Button>
             </div>
 

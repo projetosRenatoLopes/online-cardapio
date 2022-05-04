@@ -217,6 +217,8 @@ body {
     justify-content: space-between;
     margin-right: 10px;
     margin-left: 10px;
+    margin-bottom: 3px;
+    margin-top: 3px;
 }
 
 .cp-top p {
@@ -244,9 +246,23 @@ body {
 }
 
 .cp-div {
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px dashed #000000;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.cp-nameprod h5 {
+    margin-bottom: 1px;
+}
+
+#cp-desconto {
+    margin-bottom: 5px;
+}
+
+.cp-totais {
+    font-size: 16px;
+    margin-bottom: .5rem;
+    margin: 3px 0px 0px 5px;
 }
 
 /* DADOS CHECKOUT */

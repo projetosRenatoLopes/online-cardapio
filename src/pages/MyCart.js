@@ -13,11 +13,19 @@ const MyCart = () => {
     products = [];
   }
   const verifyCestEmpty = () => {
+
+
     const itens = JSON.parse(localStorage.getItem('listCart'))
     if (itens === null) {
       alert('Cesta vazia. :(\nSelecione pelo menos um item.')
     } else {
-      window.location.href = './checkout'
+      const open = localStorage.getItem('ofp')
+      if (open === 'true') {
+        window.location.href = './checkout'
+      } else {
+        alert("Estamos fechados no momento!\nConfira nosso hórario de atendimento na página inicial.")
+        window.location.href = './home'
+      }
     }
   }
 

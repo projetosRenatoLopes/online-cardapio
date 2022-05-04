@@ -50,6 +50,11 @@ const dadosPedido = (info) => {
     }
 }
 
+const dateActual = () => {
+    const date = new Date();
+    return (`${String(date.getDay() + 1).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()} `)
+}
+
 function CupomGallery(props) {
     const { cards } = props
 
@@ -69,7 +74,7 @@ function CupomGallery(props) {
     txEntrega()
     totalProducts()
     return (
-        <div className='Cupom'>
+        <div className='Cupom' id='cupom-id' key='cupom-key'>
             <div className="card">
                 <div className='cp-top'>
                     <div ><strong className='cp-companny'>{CompannyName}</strong></div>
@@ -77,6 +82,7 @@ function CupomGallery(props) {
                 </div>
                 <div id='info-client'><p>Cliente: {dadosPedido('cliente')}</p></div>
                 <div id='info-client'><p>Telefone: {dadosPedido('tel')}</p></div>
+                <div id='info-client'><p>Data: {dateActual()}</p></div>
 
                 <div className='cp-div'></div>
                 <h5 className="card-title">
@@ -94,7 +100,7 @@ function CupomGallery(props) {
                 <div className='cp-top'>
                 </div>
                 <div className='cp-div'></div>
-                <h5 className="card-title">TOTAIS</h5>
+                <h5 className="cp-totais">TOTAIS</h5>
                 <div className='cp-line-price'>
                     <div>Produtos:</div>
                     <div id="total-products">R$ 0,00</div>
@@ -105,9 +111,8 @@ function CupomGallery(props) {
                 </div>
                 <div className='cp-line-price'>
                     <div>Desconto:</div>
-                    <div id="desconto">R$ 0,00</div>
+                    <div id="cp-desconto">R$ 0,00</div>
                 </div>
-                <br></br>
                 <div className='cp-div'></div>
                 <div className='cp-line-price'>
                     <div>TOTAL:</div>

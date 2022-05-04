@@ -126,23 +126,33 @@ const CheckOut = () => {
 
 
         if (nome === true && telefone === true && pagamento === true && entrega === true) {
-            //coletando os dados digitados pelo usuário
-            const name = document.getElementById('name')["value"],
-                tel = document.getElementById('tel')["value"],
-                drive = document.getElementById('co-drive')["checked"],
-                delivery = document.getElementById('co-delivery')["checked"],
-                rua = document.getElementById('co-input-street')["value"],
-                num = document.getElementById('co-input-num')["value"],
-                comp = document.getElementById('co-input-complement')["value"],
-                bairro = document.getElementById('co-input-district')["value"],
-                cidade = document.getElementById('co-input-city')["value"],
-                pagamento = document.getElementById('co-input-sel')["value"],
-                obs = document.getElementById('co-input-obs')["value"];
+            const open = localStorage.getItem('ofp')
 
-            // passando os dados do digitados para uma Array
-            const infoClient = [{ name, tel, drive, delivery, rua, num, comp, bairro, cidade, pagamento, obs }];
-            localStorage.setItem('dadosPedido', JSON.stringify(infoClient));
-            window.location.href = '/cupom'
+            if (open === 'true') {
+
+                //coletando os dados digitados pelo usuário
+                const name = document.getElementById('name')["value"],
+                    tel = document.getElementById('tel')["value"],
+                    drive = document.getElementById('co-drive')["checked"],
+                    delivery = document.getElementById('co-delivery')["checked"],
+                    rua = document.getElementById('co-input-street')["value"],
+                    num = document.getElementById('co-input-num')["value"],
+                    comp = document.getElementById('co-input-complement')["value"],
+                    bairro = document.getElementById('co-input-district')["value"],
+                    cidade = document.getElementById('co-input-city')["value"],
+                    pagamento = document.getElementById('co-input-sel')["value"],
+                    obs = document.getElementById('co-input-obs')["value"];
+
+                // passando os dados do digitados para uma Array
+                const infoClient = [{ name, tel, drive, delivery, rua, num, comp, bairro, cidade, pagamento, obs }];
+                localStorage.setItem('dadosPedido', JSON.stringify(infoClient));
+                window.location.href = '/cupom'
+
+            } else {
+                alert("Estamos fechados no momento!\nConfira nosso hórario de atendimento na página inicial.")
+                window.location.href = './home'
+            }
+
         } else {
             if (entrega === true) {
                 alert('Por favor, preencha todos com campos.')
@@ -167,10 +177,10 @@ const CheckOut = () => {
                 <input type='tel' id='tel' className='co-tel' placeholder='Telefone' pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     required ></input>
                 <div className='co-chk-drive-delivery'>
-                    <input type='radio' className='co-drive' id='co-drive' name='chkradio' value='drive' onClick={checkVerify}></input>
+                    <input type='radio' className='co-drive' id='co-drive' name='chkradio' value='drive' onClick={checkVerify} defaultChecked></input>
                     <label htmlFor='co-drive'>Retirar no local</label>
                     <br></br>
-                    <input type='radio' className='co-delivery' id='co-delivery' name='chkradio' value='delivery' onClick={checkVerify} defaultChecked></input>
+                    <input type='radio' className='co-delivery' id='co-delivery' name='chkradio' value='delivery' onClick={checkVerify} ></input>
                     <label htmlFor='co-delivery'>Receber em casa: (Taxa: {parseFloat(txDelivery.toString()).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })})</label>
                 </div>
 

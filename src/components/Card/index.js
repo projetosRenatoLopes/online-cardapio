@@ -10,23 +10,28 @@ const Card = ({ id, nomeprod, preco, img, ingr }) => {
     var [vstatus, setValor] = useState(0)
 
     function btnshow() {
-        var newListCart;
-        var arrListCart = JSON.parse(localStorage.getItem('listCart'));
-        if (arrListCart !== null) {
-            var listCart = arrListCart;
-            newListCart = listCart.filter((item) => item.id === id);
-            if (newListCart.length !== 0) {
-                vstatus = 1;
+        const open = localStorage.getItem('ofp')
+
+        if (open === 'true') {
+
+            var newListCart;
+            var arrListCart = JSON.parse(localStorage.getItem('listCart'));
+            if (arrListCart !== null) {
+                var listCart = arrListCart;
+                newListCart = listCart.filter((item) => item.id === id);
+                if (newListCart.length !== 0) {
+                    vstatus = 1;
+                }
             }
+
+            if (vstatus === 0) {
+
+                return (<><Button className="btn btn-success" onClick={Adicionar}>Adicionar</Button></>)
+            } else if (vstatus === 1) {
+
+                return (<><Button className="btn btn-danger" onClick={Remover}>Remover</Button></>)
+            };
         }
-
-        if (vstatus === 0) {
-
-            return (<><Button className="btn btn-success" onClick={Adicionar}>Adicionar</Button></>)
-        } else if (vstatus === 1) {
-
-            return (<><Button className="btn btn-danger" onClick={Remover}>Remover</Button></>)
-        };
     }
 
     function Adicionar() {
