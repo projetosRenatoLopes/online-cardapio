@@ -49,7 +49,7 @@ function sendOrder() {
         const resp = window.confirm('Deseja enviar o pedido?')
         if (resp === true) {
             const dados = JSON.parse(localStorage.getItem('dadosPedido')),
-                tel = 5534999508680,
+                tel = 5534999036744,
                 cliente = dados[0].name,
                 pagamento = dados[0].pagamento,
                 delivery = dados[0].delivery;
