@@ -10,9 +10,9 @@ function CartGalerry(props) {
 
     const renderCards = (gallery, key) => {
         return (
-            <div key={gallery.id}>
+            <div key={gallery.uuid}>
                 <CartCard
-                    id={gallery.id}
+                    uuid={gallery.uuid}
                     nomeprod={gallery.nomeprod}
                     preco={gallery.preco}
                     img={gallery.img}
@@ -23,7 +23,7 @@ function CartGalerry(props) {
         )
     }
 
-    const itens = JSON.parse(localStorage.getItem('listCart'))
+    const itens = JSON.parse(sessionStorage.getItem('listCart'))
     if (itens === null) {
         return (
             <div>

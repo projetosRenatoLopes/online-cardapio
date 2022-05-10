@@ -16,9 +16,9 @@ const CheckOut = () => {
     const getInfo = require("../services/compannyInfo/info.json")
     const paymentMode = getInfo[2].paymentMethods;
 
-    // taxa de entrega
-    const getTx = require("../services/compannyInfo/info.json")
-    const txDelivery = getTx[5].txEntrega
+    // taxa de entrega   
+    const getInfoApi = JSON.parse(sessionStorage.getItem('info'))[0]
+    const txDelivery = getInfoApi.txentrega
 
     // list de produtos no carrinho
     var products = listItensCart();
@@ -27,7 +27,7 @@ const CheckOut = () => {
     }
 
     // dadosPedido
-    const dados = JSON.parse(localStorage.getItem('dadosPedido'))
+    const dados = JSON.parse(sessionStorage.getItem('dadosPedido'))
     setTimeout(() => {
         document.getElementById('name')["value"] = dados[0].name
         document.getElementById('co-drive')["checked"] = dados[0].drive
@@ -136,7 +136,7 @@ const CheckOut = () => {
 
 
         if (nome === true && telefone === true && pagamento === true && entrega === true) {
-            const open = localStorage.getItem('ofp')
+            const open = sessionStorage.getItem('ofp')
 
             if (open === 'true') {
 
@@ -155,7 +155,7 @@ const CheckOut = () => {
 
                 // passando os dados do digitados para uma Array
                 const infoClient = [{ name, tel, drive, delivery, rua, num, comp, bairro, cidade, pagamento, obs }];
-                localStorage.setItem('dadosPedido', JSON.stringify(infoClient));
+                sessionStorage.setItem('dadosPedido', JSON.stringify(infoClient));
                 window.location.href = '/cupom'
 
             } else {
@@ -172,7 +172,7 @@ const CheckOut = () => {
     }
 
     const cleanData = () => {
-        localStorage.removeItem('dadosPedido')
+        sessionStorage.removeItem('dadosPedido')
         document.getElementById('name')["value"] = ""
         document.getElementById('co-drive')["checked"] = ""
         document.getElementById('co-delivery')["checked"] = ""

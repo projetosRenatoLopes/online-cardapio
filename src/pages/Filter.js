@@ -8,12 +8,12 @@ import { Link } from 'react-router-dom'
 
 
 const Filter = () => {
-    var arrProduct = JSON.parse(localStorage.getItem('viewProducts'));
+    var arrProduct = JSON.parse(sessionStorage.getItem('viewProducts'));
     var products = arrProduct;
     return (
         <>
             <div className='title-page'>
-                <div className='title-mycart'><Link to='/home'><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Filtro: {localStorage.getItem('filter')} </p></div>
+                <div className='title-mycart'><Link to='/home'><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Filtro: {sessionStorage.getItem('filter')} </p></div>
                 <LogoCart />
             </div>
             <br></br>

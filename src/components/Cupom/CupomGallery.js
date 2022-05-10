@@ -3,13 +3,13 @@ import Cupom from './Cupom'
 import { CompannyName } from '../Companny/index'
 
 function totalProducts() {
-    var arrItensCart = JSON.parse(localStorage.getItem('listCart'));
+    var arrItensCart = JSON.parse(sessionStorage.getItem('listCart'));
     var totalCart = 0;
     for (let i in arrItensCart) {
         let iCount = arrItensCart[i].count;
         let iPrice = arrItensCart[i].preco;
         totalCart += (parseInt(iCount) * parseFloat(iPrice));
-        localStorage.setItem('totalCart', totalCart.toString())
+        sessionStorage.setItem('totalCart', totalCart.toString())
         // eslint-disable-next-line no-loop-func
     }
     const total = (totalCart + txEntrega())
@@ -20,11 +20,11 @@ function totalProducts() {
 }
 
 const txEntrega = () => {
-    var entrega = JSON.parse(localStorage.getItem('dadosPedido'));
+    var entrega = JSON.parse(sessionStorage.getItem('dadosPedido'));
     var taxaEntrega = 0.0;
     if (entrega[0].delivery === true) {
-        var taxa = require("../../services/compannyInfo/info.json")
-        taxaEntrega = parseFloat(taxa[5].txEntrega)
+        const getInfoApi = JSON.parse(sessionStorage.getItem('info'))[0]
+        taxaEntrega = parseFloat(getInfoApi.txentrega)
     }
     setTimeout(() => {
         document.getElementById('taxa-entrega').innerText = (`${taxaEntrega.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`);
@@ -32,7 +32,7 @@ const txEntrega = () => {
     return taxaEntrega
 }
 const dadosPedido = (info) => {
-    var dados = JSON.parse(localStorage.getItem('dadosPedido'));
+    var dados = JSON.parse(sessionStorage.getItem('dadosPedido'));
     if (info === 'pagamento') {
         return dados[0].pagamento
     } else if (info === 'cliente') {

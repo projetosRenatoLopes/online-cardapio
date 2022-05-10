@@ -8,13 +8,13 @@ import renderPedido from '../services/renderPedido';
 import { alertTitleClasses } from '@mui/material';
 
 function totalProducts(opc) {
-    var arrItensCart = JSON.parse(localStorage.getItem('listCart'));
+    var arrItensCart = JSON.parse(sessionStorage.getItem('listCart'));
     var totalCart = 0;
     for (let i in arrItensCart) {
         let iCount = arrItensCart[i].count;
         let iPrice = arrItensCart[i].preco;
         totalCart += (parseInt(iCount) * parseFloat(iPrice));
-        localStorage.setItem('totalCart', totalCart.toString())
+        sessionStorage.setItem('totalCart', totalCart.toString())
         // eslint-disable-next-line no-loop-func
     }
     // @ts-ignore
@@ -30,7 +30,7 @@ function totalProducts(opc) {
 }
 
 const txEntrega = (opc) => {
-    var entrega = JSON.parse(localStorage.getItem('dadosPedido'));
+    var entrega = JSON.parse(sessionStorage.getItem('dadosPedido'));
     var taxaEntrega = 0.0;
     if (entrega[0].delivery === true) {
         var taxa = require("../services/compannyInfo/info.json")
@@ -44,12 +44,12 @@ const txEntrega = (opc) => {
 }
 
 function sendOrder() {
-    const open = localStorage.getItem('ofp')
+    const open = sessionStorage.getItem('ofp')
     if (open === 'true') {
 
         const resp = window.confirm('Deseja enviar o pedido?')
         if (resp === true) {
-            const dados = JSON.parse(localStorage.getItem('dadosPedido')),
+            const dados = JSON.parse(sessionStorage.getItem('dadosPedido')),
                 tel = 5534999036744,
                 cliente = dados[0].name,
                 pagamento = dados[0].pagamento,
@@ -75,7 +75,7 @@ function sendOrder() {
 
             const resp = window.confirm("Seu pedido foi enviado via WhatsApp? \n ('OK' para 'Sim' - 'Cancelar' para 'Não')")
             if (resp === true) {
-                localStorage.removeItem("listCart")
+                sessionStorage.removeItem("listCart")
                 alert("Obrigado, pela Preferência!")
                 window.location.href = './home'
             }
@@ -93,7 +93,7 @@ const Cupom = () => {
         products = [];
         window.location.href = './home'
     }
-    const dadosPedido = JSON.parse(localStorage.getItem('dadosPedido'))
+    const dadosPedido = JSON.parse(sessionStorage.getItem('dadosPedido'))
     if (dadosPedido === null) {
         window.location.href = './checkout'
     }

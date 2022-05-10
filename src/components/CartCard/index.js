@@ -7,7 +7,7 @@ import Button from '../Button';
 
 
 
-const CartCard = ({ id, nomeprod, preco, img, ingr, count }) => {
+const CartCard = ({ uuid, nomeprod, preco, img, ingr, count }) => {
     //recebndo o valor total dos itens
     let itemCount = 1 * count;
     var [vstatus, setValor] = useState(itemCount)
@@ -21,15 +21,15 @@ const CartCard = ({ id, nomeprod, preco, img, ingr, count }) => {
         setValor(vstatus + 1)
         var total = (vstatus + 1) * preco;
         // salvando a quantidade de itens 
-        let arrItems = JSON.parse(localStorage.getItem('listCart'));
+        let arrItems = JSON.parse(sessionStorage.getItem('listCart'));
         if (arrItems !== null) {
             arrItems.forEach(item => {
-                if (item.id === id) {
+                if (item.uuid === uuid) {
                     item.count = (vstatus + 1);
                 }
             })
         }
-        localStorage.setItem('listCart', JSON.stringify(arrItems));
+        sessionStorage.setItem('listCart', JSON.stringify(arrItems));
         setTotalPrice(total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }));
     }
 
@@ -39,15 +39,15 @@ const CartCard = ({ id, nomeprod, preco, img, ingr, count }) => {
             setValor(vstatus - 1)
             var total = (vstatus - 1) * preco;
             // salvando a quantidade de itens 
-            let arrItems = JSON.parse(localStorage.getItem('listCart'));
+            let arrItems = JSON.parse(sessionStorage.getItem('listCart'));
             if (arrItems !== null) {
                 arrItems.forEach(item => {
-                    if (item.id === id) {
+                    if (item.uuid === uuid) {
                         item.count = (vstatus - 1);
                     }
                 })
             }
-            localStorage.setItem('listCart', JSON.stringify(arrItems));
+            sessionStorage.setItem('listCart', JSON.stringify(arrItems));
             setTotalPrice(total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }));
         }
 
@@ -58,15 +58,15 @@ const CartCard = ({ id, nomeprod, preco, img, ingr, count }) => {
         if (resp === true) {
 
 
-            var arrListCart = JSON.parse(localStorage.getItem('listCart'));
+            var arrListCart = JSON.parse(sessionStorage.getItem('listCart'));
             if (arrListCart !== null) {
                 var listCart = arrListCart;
             }
-            var newListCart = listCart.filter((item) => item.id !== id);
+            var newListCart = listCart.filter((item) => item.uuid !== uuid);
             if (arrListCart.length === 1) {
-                localStorage.removeItem('listCart')
+                sessionStorage.removeItem('listCart')
             } else {
-                localStorage.setItem('listCart', JSON.stringify(newListCart));
+                sessionStorage.setItem('listCart', JSON.stringify(newListCart));
             }
             ReactDOM.render(<CountItens />, document.getElementById('Iten-Count'));
             window.location.href = './mycart'

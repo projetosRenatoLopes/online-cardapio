@@ -2,17 +2,19 @@ import React from "react";
 import { SiGooglemaps } from 'react-icons/si'
 import { AiFillClockCircle } from 'react-icons/ai'
 import { RiMoneyDollarCircleFill } from 'react-icons/ri'
+
 const getInfo = require("../../services/compannyInfo/info.json")
 
-// import GetInfoApi from '../../services/api'
-// console.log(GetInfoApi('renato-lanches'))
-
-var openingHours = getInfo[0].openinghour
-var address = getInfo[1].adress
+//dados mocado
 var paymentMethods = getInfo[2].paymentMethods
-var companny = getInfo[3].companny
-
 export var myCategs = () => getInfo[4].categs
+
+//obetnado dados da api
+const getInfoApi = JSON.parse(sessionStorage.getItem('info'))[0]
+var companny = getInfoApi.name
+var openingHours = [getInfoApi.funcdom, getInfoApi.funcseg, getInfoApi.functer, getInfoApi.funcqua, getInfoApi.funcqui, getInfoApi.funcsex, getInfoApi.funcsab]
+var address = [getInfoApi.adrrua, getInfoApi.adrnum, getInfoApi.adrcom, getInfoApi.adrbai, getInfoApi.adrcid, getInfoApi.adrest]
+
 
 export var CompannyName = (
     <>
@@ -32,16 +34,16 @@ const InfoCompanny = () => {
     function colorDay(day, hours) {
         if (day === showDay) {
             if (hours === 'Fechado') {
-                localStorage.setItem('ofp', 'false')
+                sessionStorage.setItem('ofp', 'false')
                 return <div style={{ color: '#dc3545' }}>{day}: {hours}</div>
             } else {
                 const date = new Date();
                 const hr = String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0')
                 if (hours.slice(0, 5) < hr && hours.slice(6, 11) > hr) {
-                    localStorage.setItem('ofp', 'true')
+                    sessionStorage.setItem('ofp', 'true')
                     return <div style={{ color: '#3eca89' }}>{day}: {hours}</div>
                 } else {
-                    localStorage.setItem('ofp', 'false')
+                    sessionStorage.setItem('ofp', 'false')
                     return <div style={{ color: '#dc3545' }}>{day}: {hours}</div>
                 }
             }

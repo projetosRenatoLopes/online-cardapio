@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 
 export var CountItens = () => {
-    var contador = localStorage.getItem('listCart');
+    var contador = sessionStorage.getItem('listCart');
     const [count, setCount] = useState(0);
     useEffect(() => {
         if (contador === null) {
@@ -19,7 +19,7 @@ export var CountItens = () => {
 
 var listItensCart = () => {
 
-    var itensCart = localStorage.getItem('listCart');
+    var itensCart = sessionStorage.getItem('listCart');
     var arrItens = JSON.parse(itensCart);
     return arrItens;
 }
