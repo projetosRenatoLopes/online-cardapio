@@ -176,10 +176,10 @@ const CheckOut = () => {
         document.getElementById('name')["value"] = ""
         document.getElementById('co-drive')["checked"] = ""
         document.getElementById('co-delivery')["checked"] = ""
-        document.getElementById('tel')["value"] =""
+        document.getElementById('tel')["value"] = ""
         document.getElementById('co-input-street')["value"] = ""
         document.getElementById('co-input-num')["value"] = ""
-        document.getElementById('co-input-complement')["value"] =""
+        document.getElementById('co-input-complement')["value"] = ""
         document.getElementById('co-input-district')["value"] = ""
         document.getElementById('co-input-city')["value"] = ""
         document.getElementById('co-input-sel')["value"] = "Forma de Pagamento"
@@ -221,7 +221,7 @@ const CheckOut = () => {
             <br></br>
             <div className='bottomArea'>
                 <Link to='/mycart'><button className="btn btn-success" >Voltar</button></Link>
-            <button className="btn btn-success" onClick={cleanData}>Limpar dados</button>
+                <button className="btn btn-success" onClick={cleanData}>Limpar dados</button>
                 <button className="btn btn-success" onClick={saveInfoClient}>Confirmar</button>
             </div>
 
