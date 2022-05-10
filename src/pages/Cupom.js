@@ -17,6 +17,7 @@ function totalProducts(opc) {
         localStorage.setItem('totalCart', totalCart.toString())
         // eslint-disable-next-line no-loop-func
     }
+    // @ts-ignore
     const total = (totalCart + txEntrega('calc'))
 
     if (opc === 'total') {

@@ -2,8 +2,10 @@ import React from "react";
 import { SiGooglemaps } from 'react-icons/si'
 import { AiFillClockCircle } from 'react-icons/ai'
 import { RiMoneyDollarCircleFill } from 'react-icons/ri'
-
 const getInfo = require("../../services/compannyInfo/info.json")
+
+// import GetInfoApi from '../../services/api'
+// console.log(GetInfoApi('renato-lanches'))
 
 var openingHours = getInfo[0].openinghour
 var address = getInfo[1].adress
@@ -19,6 +21,8 @@ export var CompannyName = (
 );
 
 const InfoCompanny = () => {
+	
+	
     const dayWeek = new Date();
     const week = ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado']
     const today = dayWeek.getDay();
@@ -28,16 +32,16 @@ const InfoCompanny = () => {
     function colorDay(day, hours) {
         if (day === showDay) {
             if (hours === 'Fechado') {
-                localStorage.setItem('ofp', false)
+                localStorage.setItem('ofp', 'false')
                 return <div style={{ color: '#dc3545' }}>{day}: {hours}</div>
             } else {
                 const date = new Date();
                 const hr = String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0')
                 if (hours.slice(0, 5) < hr && hours.slice(6, 11) > hr) {
-                    localStorage.setItem('ofp', true)
+                    localStorage.setItem('ofp', 'true')
                     return <div style={{ color: '#3eca89' }}>{day}: {hours}</div>
                 } else {
-                    localStorage.setItem('ofp', false)
+                    localStorage.setItem('ofp', 'false')
                     return <div style={{ color: '#dc3545' }}>{day}: {hours}</div>
                 }
             }

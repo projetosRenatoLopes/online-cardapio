@@ -169,13 +169,29 @@ body {
 #flush-collapseOne {
     margin-left: 20px;
 }
-
+.quan-prod p{
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 0;
+    margin-top: 0;
+    font-size: 18px;
+}
+.quan-prod{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top:  1px solid #000;
+    border-bottom:  1px solid #000;
+}
 .btns-categ {
     margin-top: 30px;
     height: auto;
     width: auto;
-
 }
+.btn-danger{
+    margin-left: 10px;
+}
+
 
 .btn-group-categ {
     display: flex;

@@ -94,8 +94,9 @@ const CartCard = ({ id, nomeprod, preco, img, ingr, count }) => {
                         </div>
                         <div className='btn-group'>
                             <Button className="btn btn-success" onClick={Adicionar}>+</Button>
-                            <Button className="btn btn-outline-secondary">{vstatus}</Button>
+                            <div className='quan-prod'><p>{vstatus}</p></div>
                             <Button className="btn btn-danger" onClick={Remover}> - </Button>
+                        {/* <div className='obs-prod'><input type='text' placeholder='Obeservação'></input></div> */}
                         </div>
                         <div className="btn-remove">
                             <Button className="btn btn-danger" onClick={Excluir}>x</Button>
