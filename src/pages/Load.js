@@ -5,10 +5,10 @@ const Load = () => {
 
 
   setTimeout(async () => {
-    const products = await api.get('/produtos/renato-lanches')
+    const products = await api.get('/produtos/bruna-pizzas')
     var list = products.data[0].products;
     sessionStorage.setItem('listProduct', JSON.stringify(list))
-    const info = await api.get('/empresa/renato-lanches')
+    const info = await api.get('/empresa/bruna-pizzas')
     sessionStorage.setItem('info', JSON.stringify(info.data.company))
     window.location.href = '/home'
 

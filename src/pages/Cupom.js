@@ -46,11 +46,17 @@ const txEntrega = (opc) => {
 function sendOrder() {
     const open = sessionStorage.getItem('ofp')
     if (open === 'true') {
+        const getInfoApi = JSON.parse(sessionStorage.getItem('info'))
+        var tel;
+        if (getInfoApi === null) {
+            tel = ''
+        } else {
+            tel = getInfoApi[0].tel;
+        }
 
         const resp = window.confirm('Deseja enviar o pedido?')
         if (resp === true) {
             const dados = JSON.parse(sessionStorage.getItem('dadosPedido')),
-                tel = 5534999036744,
                 cliente = dados[0].name,
                 pagamento = dados[0].pagamento,
                 delivery = dados[0].delivery;
