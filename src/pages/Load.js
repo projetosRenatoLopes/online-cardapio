@@ -14,7 +14,7 @@ const Load = () => {
   if (regex.test(companyTag.substring(1)) === false) {
     sessionStorage.setItem('tag', company.pathname)
   } else {
-    window.location.href = `${company.pathname}/notfound`
+    window.location.href = `erro/notfound`
   }
 
   setTimeout(async () => {
@@ -32,9 +32,8 @@ const Load = () => {
       if (info.data.company[0].tag === undefined) {
         sessionStorage.removeItem('tag')
         window.location.href = `${company.pathname}/notfound`
-      } else {
+      } 
 
-      }
       const products = await api.get(`/produtos/${company.pathname}`)
 
       var list = products.data[0].products;
