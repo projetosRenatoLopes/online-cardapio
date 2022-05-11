@@ -1,6 +1,6 @@
 const Erro = () => {
     const reload = () => {
-        window.location.href = '/load'
+        window.location.href = '/'
     }
     return (
         <>
