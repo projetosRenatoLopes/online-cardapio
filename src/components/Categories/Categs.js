@@ -22,7 +22,7 @@ function CategGallery(props) {
 
         return (
             <div key={gallery}>
-            <Link to=`${company}/filter` ><Button className="btn btn-primary" onClick={listActual}>{gallery}</Button></Link>
+            <Link to={`${company}/filter`} ><Button className="btn btn-primary" onClick={listActual}>{gallery}</Button></Link>
             </div>
         )
     }
