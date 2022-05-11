@@ -130,11 +130,6 @@ body {
     width: auto;
 }
 
-.card {
-    width: auto;
-    box-shadow: 0 0 1em rgb(0, 0, 0);
-}
-
 .bottom-Card {
     display: flex;
     justify-content: space-between;
@@ -1459,15 +1454,15 @@ fieldset:disabled .btn {
 .card {
     position: relative;
     display: flex;
+    width: auto;
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    /*background-color: #fff;*/
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(150px);
     --webkit-backdrop-filter: blur(10px);
-
-    border-radius: .25rem
+    box-shadow: 0 0 0.5em rgb(65, 64, 64);
+    border-radius: .90rem
 }
 
 .card>hr {

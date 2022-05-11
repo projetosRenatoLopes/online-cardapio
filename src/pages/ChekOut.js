@@ -6,10 +6,11 @@ import PayementsModes from '../components/PaymentModes'
 
 
 const CheckOut = () => {
+    const company = sessionStorage.getItem('tag')
     var products = listItensCart();
     if (products === null) {
         products = [];
-        window.location.href = './home'
+        window.location.href = `${company}/home`
     }
 
     // metodos de pagamento
@@ -156,11 +157,11 @@ const CheckOut = () => {
                 // passando os dados do digitados para uma Array
                 const infoClient = [{ name, tel, drive, delivery, rua, num, comp, bairro, cidade, pagamento, obs }];
                 sessionStorage.setItem('dadosPedido', JSON.stringify(infoClient));
-                window.location.href = '/cupom'
+                window.location.href = `${company}/cupom`
 
             } else {
                 alert("Estamos fechados no momento!\nConfira nosso hórario de atendimento na página inicial.")
-                window.location.href = './home'
+                window.location.href = `${company}/home`
             }
 
         } else {
@@ -188,7 +189,7 @@ const CheckOut = () => {
     return (
         <>
             <div className='title-page'>
-                <div className='title-mycart'><Link to='/home'><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Dados do pedido</p></div>
+                <div className='title-mycart'><Link to={`${company}/home`}><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Dados do pedido</p></div>
                 <LogoCart />
             </div>
             <br></br>
@@ -220,7 +221,7 @@ const CheckOut = () => {
             </div>
             <br></br>
             <div className='bottomArea'>
-                <Link to='/mycart'><button className="btn btn-success" >Voltar</button></Link>
+                <Link to={`${company}/mycart`}><button className="btn btn-success" >Voltar</button></Link>
                 <button className="btn btn-success" onClick={cleanData}>Limpar dados</button>
                 <button className="btn btn-success" onClick={saveInfoClient}>Confirmar</button>
             </div>

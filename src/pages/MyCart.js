@@ -6,6 +6,7 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 
 const MyCart = () => {
+  const company = sessionStorage.getItem('tag')
 
   var products = listItensCart();
   if (products === null) {
@@ -20,10 +21,10 @@ const MyCart = () => {
     } else {
       const open = sessionStorage.getItem('ofp')
       if (open === 'true') {
-        window.location.href = './checkout'
+        window.location.href = `${company}/checkout`
       } else {
         alert("Estamos fechados no momento!\nConfira nosso hórario de atendimento na página inicial.")
-        window.location.href = './home'
+        window.location.href = `${company}/home`
       }
     }
   }
@@ -31,7 +32,7 @@ const MyCart = () => {
   return (
     <>
       <div className='title-page'>
-        <div className='title-mycart'><Link to='/home'><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Minha Cesta</p></div>
+        <div className='title-mycart'><Link to={`${company}/home`}><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Minha Cesta</p></div>
         <LogoCart />
       </div>
 
@@ -44,7 +45,7 @@ const MyCart = () => {
         <CartGalerry cards={products} />
       </div>
       <div className='bottomArea'>
-        <Link to='/home'><button className="btn btn-success" >Voltar</button></Link>
+        <Link to={`${company}/home`}><button className="btn btn-success" >Voltar</button></Link>
         <button className="btn btn-success" onClick={verifyCestEmpty}>Confirmar</button>
       </div>
 

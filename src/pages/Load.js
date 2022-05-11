@@ -1,20 +1,32 @@
+import React from 'react';
+import { useLocation } from 'react-router-dom'
 import api from '../../src/services/api';
 
 const Load = () => {
 
 
 
+  const company = useLocation()
+  sessionStorage.setItem('tag', company.pathname)
   setTimeout(async () => {
-    const products = await api.get('/produtos/bruna-pizzas')
+    const info = await api.get(`/empresa/${company.pathname}`)
+    console.log(info.data.company[0].tag)
+    if(info.data.company[0].tag === undefined){
+      sessionStorage.removeItem('tag')
+      window.location.href = `${company.pathname}/notfound`
+    } else{
+
+    }
+    const products = await api.get(`/produtos/${company.pathname}`)
+    
     var list = products.data[0].products;
     sessionStorage.setItem('listProduct', JSON.stringify(list))
-    const info = await api.get('/empresa/bruna-pizzas')
     sessionStorage.setItem('info', JSON.stringify(info.data.company))
-    window.location.href = '/home'
+     window.location.href = `${company.pathname}/home`
 
   }, 5000);
 
-  
+
 
 
   return (
@@ -31,3 +43,5 @@ const Load = () => {
 }
 
 export default Load;
+
+

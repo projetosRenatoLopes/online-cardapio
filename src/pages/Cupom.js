@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import { AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 import renderPedido from '../services/renderPedido';
-
+const company = sessionStorage.getItem('tag')
 function totalProducts(opc) {
     var arrItensCart = JSON.parse(sessionStorage.getItem('listCart'));
     var totalCart = 0;
@@ -82,12 +82,12 @@ function sendOrder() {
             if (resp === true) {
                 sessionStorage.removeItem("listCart")
                 alert("Obrigado, pela Preferência!")
-                window.location.href = './home'
+                window.location.href = `${company}/home`
             }
         }
     } else {
         alert("Estamos fechados no momento!\nConfira nosso hórario de atendimento na página inicial.")
-        window.location.href = './home'
+        window.location.href = `${company}/home`
     }
 }
 
@@ -96,11 +96,11 @@ const Cupom = () => {
     var products = listItensCart();
     if (products === null) {
         products = [];
-        window.location.href = './home'
+        window.location.href = `${company}/home`
     }
     const dadosPedido = JSON.parse(sessionStorage.getItem('dadosPedido'))
     if (dadosPedido === null) {
-        window.location.href = './checkout'
+        window.location.href = `${company}/checkout`
     }
 
     const exportPDF = () => {
@@ -132,7 +132,7 @@ const Cupom = () => {
     return (
         <>
             <div className='title-page'>
-                <div className='title-mycart'><Link to='/home'><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Finalizar pedido</p></div>
+                <div className='title-mycart'><Link to={`${company}/home`}><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Finalizar pedido</p></div>
                 <LogoCart />
             </div>
             <br></br>
@@ -147,7 +147,7 @@ const Cupom = () => {
             <br></br>
 
             <div className='bottomArea'>
-                <Link to='/checkout'><button className="btn btn-success" >Voltar</button></Link>
+                <Link to={`${company}/checkout`}><button className="btn btn-success" >Voltar</button></Link>
                 <Button className='btn btn-success' onClick={exportPDF}>Imprimir</Button>
                 <Button className="btn btn-success" onClick={sendOrder} >Enviar pedido</Button>
             </div>

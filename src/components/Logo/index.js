@@ -12,7 +12,6 @@ if (getInfoApi === null) {
 //var compannyLogo = 'https://yourimageshare.com/ib/eLJjfrf5ji.png';
 
 
-
 const LogoPage = () => {
     return (
         <>
