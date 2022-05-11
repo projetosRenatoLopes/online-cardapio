@@ -3,6 +3,7 @@ import Button from '../Button';
 import { Link } from 'react-router-dom';
 
 function CategGallery(props) {
+    const company = sessionStorage.getItem('tag');
     const { categs } = props;
 
     // eslint-disable-next-line no-unused-vars
@@ -21,7 +22,7 @@ function CategGallery(props) {
 
         return (
             <div key={gallery}>
-            <Link to='/filter' ><Button className="btn btn-primary" onClick={listActual}>{gallery}</Button></Link>
+            <Link to=`${company}/filter` ><Button className="btn btn-primary" onClick={listActual}>{gallery}</Button></Link>
             </div>
         )
     }
