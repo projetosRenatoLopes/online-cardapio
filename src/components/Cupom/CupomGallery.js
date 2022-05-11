@@ -52,7 +52,7 @@ const dadosPedido = (info) => {
 
 const dateActual = () => {
     const date = new Date();
-    return (`${String(date.getDay() + 1).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()} `)
+    return (`${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()} `)
 }
 
 function CupomGallery(props) {
