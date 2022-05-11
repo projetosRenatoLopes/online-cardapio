@@ -11,11 +11,12 @@ function CategGallery(props) {
     const renderCateg = (gallery, key) => {
 
         function listActual() {
-            let arrProduct = JSON.parse(localStorage.getItem('listProduct'));
+            let arrProduct = JSON.parse(sessionStorage.getItem('listProduct'));
             var newArrProduct = arrProduct.filter((item) => item.categ === gallery)
-            localStorage.setItem('viewProducts', JSON.stringify(newArrProduct))
-            localStorage.setItem('filter', gallery)
+            sessionStorage.setItem('viewProducts', JSON.stringify(newArrProduct))
+            sessionStorage.setItem('filter', gallery)
             window.location.href = '/filter'
+            
         }
 
         return (

@@ -1,10 +1,9 @@
 import LogoPage from '../components/Logo';
 import LogoCart from '../components/Cart'
-import CartGalerry from '../components/Card/CartGalerry'
+import CartGalerry from '../components/Cart/CartGalerry'
 import listItensCart from '../services/listCart/listCart';
 import { AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
-
 
 const MyCart = () => {
 
@@ -12,14 +11,14 @@ const MyCart = () => {
   if (products === null) {
     products = [];
   }
+
   const verifyCestEmpty = () => {
 
-
-    const itens = JSON.parse(localStorage.getItem('listCart'))
+    const itens = JSON.parse(sessionStorage.getItem('listCart'))
     if (itens === null) {
       alert('Cesta vazia. :(\nSelecione pelo menos um item.')
     } else {
-      const open = localStorage.getItem('ofp')
+      const open = sessionStorage.getItem('ofp')
       if (open === 'true') {
         window.location.href = './checkout'
       } else {

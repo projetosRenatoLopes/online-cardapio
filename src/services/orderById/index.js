@@ -1,7 +1,7 @@
 export function compare(a, b) {
-    if (a.id < b.id)
+    if (a.categ > b.categ)
         return -1;
-    if (a.id > b.id)
+    if (a.categ < b.categ)
         return 1;
     return 0;
 }

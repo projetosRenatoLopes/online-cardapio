@@ -3,20 +3,20 @@ import Card from '.'
 
 
 export var setCards = (set) => {
-  
+
 }
 
 function CardsGalerry(props) {
   const { cards } = props
-  
+
   // eslint-disable-next-line no-unused-vars
   const [gallery, setGallery] = useState(cards)
 
   const renderCards = (gallery, key) => {
     return (
-      <div key={gallery.id}>
+      <div key={gallery.uuid}>
         <Card
-          id={gallery.id}
+          uuid={gallery.uuid}
           nomeprod={gallery.nomeprod}
           preco={gallery.preco}
           img={gallery.img}
@@ -26,11 +26,23 @@ function CardsGalerry(props) {
     )
   }
 
-  return (
-    <div id='gallery'>
-      {gallery.map(renderCards)}
-    </div>
-  )
+
+
+  const itens = JSON.parse(sessionStorage.getItem('listProduct'))
+  if (itens === null) {
+    return (
+      <div>
+      </div>
+    )
+  } else {
+    return (
+      <div id='gallery'>
+        {gallery.map(renderCards)}
+      </div>
+    )
+  }
+
+
 }
 
 export default memo(CardsGalerry)

@@ -1,19 +1,23 @@
 import { compare } from '../orderById';
-import products from './products.json'
-var list =  products;
-localStorage.setItem('listProduct', JSON.stringify(list))
+//import products from './products.json'
+
 
 export function listProducts() {
-    let arrProduct = JSON.parse(localStorage.getItem('listProduct'));
-    localStorage.setItem('viewProducts', JSON.stringify(arrProduct))
 
-    var listProducts = localStorage.getItem('viewProducts');
-    var arrProducts;
-    if (listProducts === null){
-        arrProducts = ""
+    let arrProduct = JSON.parse(sessionStorage.getItem('listProduct'));
+    if (arrProduct === null) {
+        window.location.href = '/erro500'
     } else {
-        arrProducts = JSON.parse(listProducts);
+        sessionStorage.setItem('viewProducts', JSON.stringify(arrProduct))
+
+        var listProducts = sessionStorage.getItem('viewProducts');
+        var arrProducts;
+        if (listProducts === null || listProducts === '{}') {
+            arrProducts = ""
+        } else {
+            arrProducts = JSON.parse(listProducts);
+            arrProducts.sort(compare);
+        }
+        return arrProducts;
     }
-    arrProducts.sort(compare);
-    return arrProducts;
 }

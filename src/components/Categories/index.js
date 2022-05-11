@@ -26,7 +26,6 @@ export var Categorias = () => {
       for (let i in categs) {
           let parentElement = document.getElementById('categories')
           let theFirstChild = parentElement.firstChild
-          console.log(theFirstChild)
           let newElement = document.createElement("button")
           newElement.innerHTML = categs[i];
           parentElement.insertBefore(newElement, theFirstChild)
