@@ -16,7 +16,7 @@ function CategGallery(props) {
             var newArrProduct = arrProduct.filter((item) => item.categ === gallery)
             sessionStorage.setItem('viewProducts', JSON.stringify(newArrProduct))
             sessionStorage.setItem('filter', gallery)
-            window.location.href = '/filter'
+            window.location.href = `${company}/filter`
             
         }
 

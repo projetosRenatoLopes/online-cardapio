@@ -8,12 +8,13 @@ import { Link } from 'react-router-dom'
 
 
 const Filter = () => {
+    const company = sessionStorage.getItem('tag')
     var arrProduct = JSON.parse(sessionStorage.getItem('viewProducts'));
     var products = arrProduct;
     return (
         <>
             <div className='title-page'>
-                <div className='title-mycart'><Link to='/home'><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Filtro: {sessionStorage.getItem('filter')} </p></div>
+                <div className='title-mycart'><Link to={`${company}/home`}><AiOutlineClose style={{ color: '#FFFFFF' }} /></Link><p>Filtro: {sessionStorage.getItem('filter')} </p></div>
                 <LogoCart />
             </div>
             <br></br>
@@ -24,7 +25,7 @@ const Filter = () => {
             <br></br>
             <CardsGalerry cards={products} />
             <div className='bottomArea'>
-                <Link to='/home'><Button onClick={myCategs} className="btn btn-success">Voltar</Button></Link>
+                <Link to={`${company}/home`}><Button onClick={myCategs} className="btn btn-success">Voltar</Button></Link>
             </div>
         </>
     )

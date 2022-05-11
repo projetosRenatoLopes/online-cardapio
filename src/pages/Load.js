@@ -7,23 +7,42 @@ const Load = () => {
 
 
   const company = useLocation()
-  sessionStorage.setItem('tag', company.pathname)
+  const companyTag = company.pathname
+  const regex = /\W|_/;
+
+
+  if (regex.test(companyTag.substring(1)) === false) {
+    sessionStorage.setItem('tag', company.pathname)
+  } else {
+    window.location.href = `${company.pathname}/notfound`
+  }
+
   setTimeout(async () => {
-    const info = await api.get(`/empresa/${company.pathname}`)
-    console.log(info.data.company[0].tag)
-    if(info.data.company[0].tag === undefined){
-      sessionStorage.removeItem('tag')
-      window.location.href = `${company.pathname}/notfound`
-    } else{
+    if (companyTag === '/') {
+      const companies = await api.get('/empresa')
+      if(companies.data.companies === undefined){
+        sessionStorage.setItem('page', JSON.stringify([]))
+      } else {
+        sessionStorage.setItem('page', JSON.stringify(companies.data.companies))
+      }
+      window.location.href = '/clientes'
+    } else {
+
+      const info = await api.get(`/empresa/${company.pathname}`)
+      if (info.data.company[0].tag === undefined) {
+        sessionStorage.removeItem('tag')
+        window.location.href = `${company.pathname}/notfound`
+      } else {
+
+      }
+      const products = await api.get(`/produtos/${company.pathname}`)
+
+      var list = products.data[0].products;
+      sessionStorage.setItem('listProduct', JSON.stringify(list))
+      sessionStorage.setItem('info', JSON.stringify(info.data.company))
+      window.location.href = `${company.pathname}/home`
 
     }
-    const products = await api.get(`/produtos/${company.pathname}`)
-    
-    var list = products.data[0].products;
-    sessionStorage.setItem('listProduct', JSON.stringify(list))
-    sessionStorage.setItem('info', JSON.stringify(info.data.company))
-     window.location.href = `${company.pathname}/home`
-
   }, 5000);
 
 

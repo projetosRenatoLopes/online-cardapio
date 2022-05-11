@@ -2,7 +2,8 @@ import axios from "axios";
 import { useState } from 'react'
 
 const api = axios.create({
-  baseURL: "https://api-cardapio-online.onrender.com/",
+  //baseURL: "https://api-cardapio-online.onrender.com/",
+  baseURL: "http://localhost:8680/",
 });
 
 
