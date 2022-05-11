@@ -10,7 +10,7 @@ const NotFound = () => {
     return (
         <>
             <div className='title-page'>
-                <p>ERRO 404 :( Página não encontrada</p>
+                <p>404 - Página não encontrada</p>
             </div>
 
             <div className='logo-page'>
