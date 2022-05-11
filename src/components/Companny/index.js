@@ -2,24 +2,25 @@ import React from "react";
 import { SiGooglemaps } from 'react-icons/si'
 import { AiFillClockCircle } from 'react-icons/ai'
 import { RiMoneyDollarCircleFill } from 'react-icons/ri'
+
 const getInfo = require("../../services/compannyInfo/info.json")
 const getInfoApi = JSON.parse(sessionStorage.getItem('info'))
 
-
-//dados mocado
 var paymentMethods = getInfo[2].paymentMethods
 export var myCategs = () => getInfo[4].categs
 
+
 var companny = null;
-var openingHours= null;
+var openingHours = null;
 var address = null;
 if (getInfoApi === null) {
 
 } else {
-     companny = getInfoApi[0].name
-     openingHours = [getInfoApi[0].funcdom, getInfoApi[0].funcseg, getInfoApi[0].functer, getInfoApi[0].funcqua, getInfoApi[0].funcqui, getInfoApi[0].funcsex, getInfoApi[0].funcsab]
-     address = [getInfoApi[0].adrrua, getInfoApi[0].adrnum, getInfoApi[0].adrcom, getInfoApi[0].adrbai, getInfoApi[0].adrcid, getInfoApi[0].adrest]
+    companny = getInfoApi[0].name
+    openingHours = [getInfoApi[0].funcdom, getInfoApi[0].funcseg, getInfoApi[0].functer, getInfoApi[0].funcqua, getInfoApi[0].funcqui, getInfoApi[0].funcsex, getInfoApi[0].funcsab]
+    address = [getInfoApi[0].adrrua, getInfoApi[0].adrnum, getInfoApi[0].adrcom, getInfoApi[0].adrbai, getInfoApi[0].adrcid, getInfoApi[0].adrest]
 }
+
 
 export var CompannyName = (
     <>

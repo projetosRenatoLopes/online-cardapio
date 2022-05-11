@@ -3,8 +3,8 @@ import React from "react";
 
 var compannyLogo = null;
 const getInfoApi = JSON.parse(sessionStorage.getItem('info'))
-if(getInfoApi === null) {
-    compannyLogo = '' 
+if (getInfoApi === null) {
+    compannyLogo = ''
 } else {
     compannyLogo = getInfoApi[0].logo;
 }
