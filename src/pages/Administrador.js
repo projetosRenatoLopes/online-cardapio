@@ -63,7 +63,7 @@ const Administrador = () => {
         }
 
         await axios({
-            baseURL: 'http://localhost:8680/',
+            baseURL:  "https://api-cardapio-online.onrender.com/",
             method: 'POST',
             url: '/login',
             data: dadosUser,
@@ -137,7 +137,7 @@ const Administrador = () => {
         //     }
         // })
         axios({
-            baseURL: 'http://localhost:8680/',
+            baseURL:  "https://api-cardapio-online.onrender.com/",
             method: 'POST',
             url: '/cadastro/empresa',
             data: dadosEmpresa,
