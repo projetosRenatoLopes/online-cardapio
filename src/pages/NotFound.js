@@ -1,11 +1,20 @@
+import { useLocation } from "react-router-dom"
+
 const NotFound = () => {
+    const company = useLocation()
+    if (company.pathname.split('/')[2] !== 'notfound') {
+        const tag = `/${company.pathname.split('/')[1]}`;
+        window.location.href = tag
+    }
+
+
     const imgErro = '/img/404.png'
     const reload = () => {
         const company = sessionStorage.getItem('tag')
         if (company === null) {
             window.location.href = '/'
         } else {
-            window.location.href =  `${company}/home`
+            window.location.href = `${company}/home`
         }
     }
     return (

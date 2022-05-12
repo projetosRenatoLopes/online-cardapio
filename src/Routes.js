@@ -24,7 +24,8 @@ export default () => {
             <Route exact path={`${company}/checkout`} element={<CheckOut />} />
             <Route exact path={`${company}/cupom`} element={<Cupom />} />
             <Route exact path={`${company}/erro`} element={<Erro />} />
-            <Route exact path='clientes' element={<CardapioOnline />} />
+            <Route exact path={'/erro'} element={<Erro />} />
+            <Route exact path={'/clientes'} element={<CardapioOnline />} />
             <Route exact path={`:uuid/*`} element={<NotFound />} />
             <Route exact index element={<div><Load /></div>} />
         </Routes>

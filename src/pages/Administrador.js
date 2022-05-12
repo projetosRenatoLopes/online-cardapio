@@ -1,3 +1,4 @@
+import axios from "axios";
 import api from "../services/api.js";
 
 const Administrador = () => {
@@ -113,21 +114,35 @@ const Administrador = () => {
         var resposta;
         const token = process.env.TOKEN
 
-        await api.post('/cadastro/empresa', JSON.stringify(dadosEmpresa), {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-        })
+        // await api.post('/cadastro/empresa', {
+        //     body: dadosEmpresa,
+        //     headers: {
+        //         'Content-Type': 'application/json;charset=UTF-8',
+        //         "Access-Control-Allow-Origin": "*",
+        //     }
+        // })
+        axios({
+            baseURL: 'http://localhost:8680/',            
+            method: 'POST',
+            url: '/cadastro/empresa',
+            data: dadosEmpresa,
+          })
             .then(resp => {
                 resposta = resp.data;
                 document.getElementById('ad-resposta')['value'] = resposta
                 document.getElementById('ad-resposta').style.border = '2px solid blue'
-            }).catch(error =>{
-                resposta = error;
-                document.getElementById('ad-resposta')['value'] = resposta
-                document.getElementById('ad-resposta').style.border = '2px solid red'
+            }).catch(error => {
+                resposta = error.toJSON();
+                console.log(resposta)
+                if(resposta.status === 404){
+                    document.getElementById('ad-resposta')['value'] = 'Erro 404 - Requisição invalida'
+                    document.getElementById('ad-resposta').style.border = '2px solid red'
+                } else{
+                    document.getElementById('ad-resposta')['value'] = `Erro ${resposta.status} - ${resposta.message} `
+                    document.getElementById('ad-resposta').style.border = '2px solid red'
+                }
             })
-        console.log(resposta)
+       
 
     }
 

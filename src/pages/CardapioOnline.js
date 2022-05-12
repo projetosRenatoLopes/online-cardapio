@@ -5,6 +5,9 @@ import api from "../services/api.js";
 const CardapioOnline = () => {
     
         const companies = JSON.parse(sessionStorage.getItem('page'))
+        if(companies === null){
+            window.location.href = '/'
+        }
     return (
         <>
             <div className='title-page'>
