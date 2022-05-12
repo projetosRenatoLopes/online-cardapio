@@ -7,9 +7,8 @@ const Administrador = () => {
         if (admin === null) {
             return (<>
                 <div className="data-checkout">
-                    <h5 style={{ 'width': 'auto', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center' }}>Entrar.</h5>
-                    <input type='text' id="name" placeholder="Login" style={{ 'width': '100%' }}></input>
-                    <input type='password' id="co-input" placeholder="Senha" style={{ 'width': '100%' }}></input>
+                    <input type='text' id="ad-user" placeholder="Login" style={{ 'width': '100%' }}></input>
+                    <input type='password' id="ad-pass" placeholder="Senha" style={{ 'width': '100%' }}></input>
                     <button className="btn btn-success" onClick={login}>Entrar</button>
                 </div>
             </>)
@@ -41,9 +40,11 @@ const Administrador = () => {
                     <input type='text' className="ad-inp" id="ad-com" placeholder="Complemento (opcional)" style={{ 'width': '100%' }}></input>
                     <input type='text' className="ad-inp" id="ad-bai" placeholder="Bairro" style={{ 'width': '100%' }}></input>
                     <input type='text' className="ad-inp" id="ad-cid" placeholder="Cidade" style={{ 'width': '100%' }}></input>
-                    <input type='text' className="ad-inp" id="ad-est" placeholder="UF (Ex: MG)" style={{ 'width': '100%' }}></input>
-
-                    <input type='password' className="ad-inp" id="ad-pas" placeholder="Senha" style={{ 'width': '100%' }}></input>
+                    <input type='text' className="ad-inp" id="ad-est" placeholder="UF (Ex: MG)" style={{ 'width': '100%' }} autoComplete="off"></input>
+                    <div style={{'width':'100%', 'marginBottom':'0' }}>
+                        <p style={{'marginLeft':'4px', 'marginBottom':'4px' }}>Senha para acesso ao painel da empresa:</p>
+                    </div>
+                    <input type='password' className="ad-inp" id="ad-pas" placeholder="Senha" style={{ 'width': '100%' }} autoComplete="off"></input>
 
                     <button className="btn btn-success" onClick={reqServer} style={{ 'marginTop': '15px', 'marginBottom': '30px' }}>Cadastrar empresa</button>
                     <input type='text' className="ad-inp" id='ad-resposta' placeholder="Resposta do servidor >" disabled style={{ 'height': '100px' }}></input>
@@ -53,22 +54,36 @@ const Administrador = () => {
         }
     }
 
-    const login = () => {
-        const user = document.getElementById('name')['value']
-        const pass = document.getElementById('co-input')['value']
-   
-        if (user === 'renato.admin') {
-            if (pass === 'r') {
+    const login = async () => {
+        const user = await document.getElementById('ad-user')['value']
+        const pass = await document.getElementById('ad-pass')['value']
+        const dadosUser = await {
+            "user": user,
+            "password": pass
+        }
+
+        await axios({
+            baseURL: 'http://localhost:8680/',
+            method: 'POST',
+            url: '/login',
+            data: dadosUser,
+        }).then(res => {
+            console.log(res)
+            if (res.status === 204) {
+                document.getElementById('msg')['textContent'] = 'Usuário e/ou senha incorretos'
+                document.getElementById('msg').style.color = 'red'
+            } else if (res.status === 200) {
                 sessionStorage.setItem('token', 'fd98ast4.0fueyqz.v78dsa.q1w')
                 window.location.href = '/admingpco'
-            } else {
-                sessionStorage.setItem('token', 'invalid')
-                window.location.href = '/admingpco'
+                document.getElementById('msg')['textContent'] = res.data
+                document.getElementById('msg').style.color = 'green'
             }
-        } else {
-            sessionStorage.setItem('token', 'invalid')
-            window.location.href = '/admingpco'
-        }
+        }).catch(error => {
+            document.getElementById('msg')['textContent'] = 'Erro ao consultar usuário! Tente novamente.'
+            document.getElementById('msg').style.color = 'red'
+        })
+
+
     }
 
     const reqServer = async () => {
@@ -122,11 +137,11 @@ const Administrador = () => {
         //     }
         // })
         axios({
-            baseURL: 'http://localhost:8680/',            
+            baseURL: 'http://localhost:8680/',
             method: 'POST',
             url: '/cadastro/empresa',
             data: dadosEmpresa,
-          })
+        })
             .then(resp => {
                 resposta = resp.data;
                 document.getElementById('ad-resposta')['value'] = resposta
@@ -134,15 +149,15 @@ const Administrador = () => {
             }).catch(error => {
                 resposta = error.toJSON();
                 console.log(resposta)
-                if(resposta.status === 404){
+                if (resposta.status === 404) {
                     document.getElementById('ad-resposta')['value'] = 'Erro 404 - Requisição invalida'
                     document.getElementById('ad-resposta').style.border = '2px solid red'
-                } else{
+                } else {
                     document.getElementById('ad-resposta')['value'] = `Erro ${resposta.status} - ${resposta.message} `
                     document.getElementById('ad-resposta').style.border = '2px solid red'
                 }
             })
-       
+
 
     }
 
@@ -153,9 +168,9 @@ const Administrador = () => {
             </div>
 
             <div className='logo-page'>
-                <h3>Área do admin</h3>
+                <h3>Área Administrativa</h3>
             </div>
-
+            <h5 id='msg' style={{ 'width': 'auto', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center' }}> </h5>
             {cadastrarEmpresa()}
 
         </>

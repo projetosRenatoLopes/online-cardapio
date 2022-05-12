@@ -164,26 +164,30 @@ body {
 #flush-collapseOne {
     margin-left: 20px;
 }
-.quan-prod p{
+
+.quan-prod p {
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 0;
     margin-top: 0;
     font-size: 18px;
 }
-.quan-prod{
+
+.quan-prod {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top:  1px solid #000;
-    border-bottom:  1px solid #000;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
 }
+
 .btns-categ {
     margin-top: 30px;
     height: auto;
     width: auto;
 }
-.btn-danger{
+
+.btn-danger {
     margin-left: 10px;
 }
 
@@ -275,16 +279,21 @@ body {
     margin-bottom: .5rem;
     margin: 3px 0px 0px 5px;
 }
+
 /* ADMIN */
-.ad-inp{
+.ad-inp,
+#ad-user,
+#ad-pass {
     width: 90%;
     height: 30px;
     margin-bottom: 7px;
     padding-inline-start: 8px;
 }
-.ad-inp:hover{
+
+.ad-inp:hover {
     border: 2px solid #05b422;
 }
+
 /* DADOS CHECKOUT */
 .co-addr-div,
 .data-checkout {
