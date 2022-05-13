@@ -197,7 +197,7 @@ const Administrador = () => {
         }).catch(error => {
             resposta = error.toJSON();
             if (resposta.status === 404) {
-                alert('Erro 404 - Requisição invalida')
+                colorMsg('red', 'Erro 404 - Requisição invalida')
             } else if (resposta.status === 500) {
                 alert(`Erro 500 - ${resposta.message}`)
                 sessionStorage.removeItem('token')
@@ -222,7 +222,7 @@ const Administrador = () => {
         }).catch(error => {
             resposta = error.toJSON();
             if (resposta.status === 404) {
-                alert('Erro 404 - Requisição invalida')
+                colorMsg('red', 'Erro 404 - Requisição invalida')
             } else if (resposta.status === 500) {
                 alert(`Erro 500 - ${resposta.message}`)
                 sessionStorage.removeItem('token')
