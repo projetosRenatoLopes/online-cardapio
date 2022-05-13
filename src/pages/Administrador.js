@@ -134,8 +134,10 @@ const Administrador = () => {
                 document.getElementById('msg').style.color = 'red'
             } else if (res.status === 200) {
                 console.log(res)
-                sessionStorage.setItem('token', res.data.token)
-                sessionStorage.setItem('userId', res.data.id)
+                if(res.data.token !== undefined && res.data.toke !== undefined){
+                    sessionStorage.setItem('token', res.data.token)
+                    sessionStorage.setItem('userId', res.data.id)
+                }
                 window.location.href = '/admingpco'
                 document.getElementById('msg')['textContent'] = res.data.name
                 document.getElementById('msg').style.color = 'green'
@@ -213,7 +215,7 @@ const Administrador = () => {
 
 
                             var resposta;
-                            axios({
+                            await axios({
                                 method: 'POST',
                                 url: 'https://cardapio-online.onrender.com/cadastro/empresa',
                                 headers: {
