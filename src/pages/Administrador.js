@@ -126,7 +126,7 @@ const Administrador = () => {
 
         await axios({
             method: 'POST',
-            url: 'https://cardapio-online.onrender.com/admin/login',
+            url: 'https://api-cardapio-online.onrender.com/admin/login',
             data: dadosUser,
         }).then(res => {
             if (res.status === 204) {
@@ -217,7 +217,7 @@ const Administrador = () => {
                             var resposta;
                             await axios({
                                 method: 'POST',
-                                url: 'https://cardapio-online.onrender.com/cadastro/empresa',
+                                url: 'https://api-cardapio-online.onrender.com/cadastro/empresa',
                                 headers: {
                                     'Content-Type': 'application/json',
                                     Authorization: token
