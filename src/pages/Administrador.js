@@ -1,3 +1,4 @@
+import { Checkbox } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import api from "../services/api.js";
@@ -46,10 +47,16 @@ const Administrador = () => {
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Taxa de entrega:</p>
                             <input type='text' className="ad-inp" id="ad-tax" placeholder="Ex: 7.0" style={{ 'width': '70%' }}></input>
                         </div>
-                        <div style={{ 'width': '100%', 'display': 'flex' }}>
-                            <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Categorias dos produtos:</p>
+                        <p style={{ 'width': '100%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '30px 0 7px 0' }}>Categorias dos produtos:</p>
+                        <div style={{ 'width': '100%', 'display': 'flex', 'alignItems':'center','justifyContent':'center' }}>
                             <CategOptions ></CategOptions>
                         </div>
+
+                        <p style={{ 'width': '100%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '30px 0 7px 0' }}>Modos de pagamento aceitos:</p>
+                        <div style={{ 'width': '100%', 'display': 'flex' }}>
+                            <PayModeOptions ></PayModeOptions>
+                        </div>
+                        
                     </div>
                     <h4>Horário de Funcionamento:</h4>
                     <div style={{ 'width': '100%' }}>
@@ -124,26 +131,53 @@ const Administrador = () => {
     function CategOptions(props) {
         getCategories()
         const categs = JSON.parse(sessionStorage.getItem('categ'))
-        var options = [];
-        categs.forEach(element => {
-        options.push(`${element.desc} - ${element.id}`)
-        });        
+        // var options = [];
+        // categs.forEach(element => {
+        // options.push({"desc":element.desc, "id":element.id})
+        // });        
 
         // eslint-disable-next-line no-unused-vars
-        const [optionsCateg, setGallery] = useState(options)
+        const [optionsCateg, setGallery] = useState(categs)
 
         const renderOptions = (optionsCateg, key) => {
-
+            const label = optionsCateg.desc
             return (
-                <option key={optionsCateg} value={optionsCateg}>{optionsCateg}</option>
+                <div style={{ 'width': '120px','marginBottom':'15px' }}>
+                    <input type={'checkbox'} id={optionsCateg.desc} value={optionsCateg.id}></input>
+                    <label htmlFor={optionsCateg.desc}>{optionsCateg.desc}</label>
+                </div>
             )
         }
 
         return (
-            <select id="co-input-sel" className='selPayModes' multiple required  style={{ 'width': '70%', 'height':'300px' }}>
-                <option value='Categorias' hidden >Categorias</option>
+            <div className='checkCateg' style={{ 'width': '100%', 'display': 'flex', 'alignItems':'center','justifyContent':'center', 'flexWrap': 'wrap' }}>
+
                 {optionsCateg.map(renderOptions)}
-            </select>
+
+            </div>
+        )
+    }
+
+    function PayModeOptions(props) {
+        getPayModes()
+        const payModes = JSON.parse(sessionStorage.getItem('payModes'))
+
+        // eslint-disable-next-line no-unused-vars
+        const [optionsPayModes, setGallery] = useState(payModes)
+
+        const renderOptions = (optionsPayModes, key) => {
+            return (
+                <div style={{ 'width': '120px','marginBottom':'15px' }}>
+                    <input type={'checkbox'} id={optionsPayModes.desc} value={optionsPayModes.id}></input>
+                    <label htmlFor={optionsPayModes.desc}>{optionsPayModes.desc}</label>
+                </div>
+            )
+        }
+
+        return (
+            <div className='checkPayModes' style={{ 'width': '100%', 'display': 'flex', 'alignItems':'center','justifyContent':'center', 'flexWrap': 'wrap' }}>
+                {optionsPayModes.map(renderOptions)}
+            </div>
         )
     }
 
@@ -152,7 +186,7 @@ const Administrador = () => {
         var resposta;
         await api({
             method: 'GET',
-            url: '/categorias',
+            url: '/opcoes/categorias',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: token
@@ -160,6 +194,31 @@ const Administrador = () => {
         }).then(resp => {
             resposta = resp.data;
             sessionStorage.setItem('categ', JSON.stringify(resposta))
+        }).catch(error => {
+            resposta = error.toJSON();
+            if (resposta.status === 404) {
+                alert('Erro 404 - Requisição invalida')
+            } else if (resposta.status === 500) {
+                alert(`Erro 500 - ${resposta.message}`)
+                sessionStorage.removeItem('token')
+                window.location.href = '/admingpco'
+            }
+        })
+    }
+
+    const getPayModes = async () => {
+        const token = sessionStorage.getItem('token')
+        var resposta;
+        await api({
+            method: 'GET',
+            url: '/opcoes/modospagamento',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: token
+            }
+        }).then(resp => {
+            resposta = resp.data;
+            sessionStorage.setItem('payModes', JSON.stringify(resposta))
         }).catch(error => {
             resposta = error.toJSON();
             if (resposta.status === 404) {
