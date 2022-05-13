@@ -48,7 +48,7 @@ const Administrador = () => {
                             <input type='text' className="ad-inp" id="ad-tax" placeholder="Ex: 7.0" style={{ 'width': '70%' }}></input>
                         </div>
                         <p style={{ 'width': '100%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '30px 0 7px 0' }}>Categorias dos produtos:</p>
-                        <div style={{ 'width': '100%', 'display': 'flex', 'alignItems':'center','justifyContent':'center' }}>
+                        <div style={{ 'width': '100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center' }}>
                             <CategOptions ></CategOptions>
                         </div>
 
@@ -56,7 +56,7 @@ const Administrador = () => {
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <PayModeOptions ></PayModeOptions>
                         </div>
-                        
+
                     </div>
                     <h4>Horário de Funcionamento:</h4>
                     <div style={{ 'width': '100%' }}>
@@ -142,7 +142,7 @@ const Administrador = () => {
         const renderOptions = (optionsCateg, key) => {
             const label = optionsCateg.desc
             return (
-                <div style={{ 'width': '120px','marginBottom':'15px' }}>
+                <div style={{ 'width': '120px', 'marginBottom': '15px' }}>
                     <input type={'checkbox'} id={optionsCateg.desc} value={optionsCateg.id}></input>
                     <label htmlFor={optionsCateg.desc}>{optionsCateg.desc}</label>
                 </div>
@@ -150,7 +150,7 @@ const Administrador = () => {
         }
 
         return (
-            <div className='checkCateg' style={{ 'width': '100%', 'display': 'flex', 'alignItems':'center','justifyContent':'center', 'flexWrap': 'wrap' }}>
+            <div className='checkCateg' style={{ 'width': '100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center', 'flexWrap': 'wrap' }}>
 
                 {optionsCateg.map(renderOptions)}
 
@@ -167,7 +167,7 @@ const Administrador = () => {
 
         const renderOptions = (optionsPayModes, key) => {
             return (
-                <div style={{ 'width': '120px','marginBottom':'15px' }}>
+                <div style={{ 'width': '120px', 'marginBottom': '15px' }}>
                     <input type={'checkbox'} id={optionsPayModes.desc} value={optionsPayModes.id}></input>
                     <label htmlFor={optionsPayModes.desc}>{optionsPayModes.desc}</label>
                 </div>
@@ -175,7 +175,7 @@ const Administrador = () => {
         }
 
         return (
-            <div className='checkPayModes' style={{ 'width': '100%', 'display': 'flex', 'alignItems':'center','justifyContent':'center', 'flexWrap': 'wrap' }}>
+            <div className='checkPayModes' style={{ 'width': '100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center', 'flexWrap': 'wrap' }}>
                 {optionsPayModes.map(renderOptions)}
             </div>
         )
@@ -199,7 +199,7 @@ const Administrador = () => {
             if (resposta.status === 404) {
                 colorMsg('red', 'Erro 404 - Requisição invalida')
             } else if (resposta.status === 500) {
-                alert(`Erro 500 - ${resposta.message}`)
+                colorMsg('red', `Erro 500 - ${resposta.message}`)
                 sessionStorage.removeItem('token')
                 window.location.href = '/admingpco'
             }
@@ -224,7 +224,7 @@ const Administrador = () => {
             if (resposta.status === 404) {
                 colorMsg('red', 'Erro 404 - Requisição invalida')
             } else if (resposta.status === 500) {
-                alert(`Erro 500 - ${resposta.message}`)
+                colorMsg('RED', `Erro 500 - ${resposta.message}`)
                 sessionStorage.removeItem('token')
                 window.location.href = '/admingpco'
             }
