@@ -1,10 +1,11 @@
-import { integerPropType } from "@mui/utils";
 import axios from "axios";
+import { useState } from "react";
 import api from "../services/api.js";
 
 const Administrador = () => {
     const cadastrarEmpresa = () => {
         const admin = sessionStorage.getItem('token')
+
         if (admin === null) {
             return (<>
                 <div className="data-checkout">
@@ -16,8 +17,9 @@ const Administrador = () => {
         } else if (admin === 'invalid') {
             return (<>Acesso não autorizado</>)
         } else {
+
             return (<>
-                <div  style={{ 'width': '100%', 'display': 'flex','alignItems': 'center', 'justifyContent': 'center'}}>
+                <div style={{ 'width': '100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center' }}>
                     <button className='btn' onClick={logout}>Sair</button>
                 </div>
                 <div className="data-checkout">
@@ -30,7 +32,7 @@ const Administrador = () => {
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Tag:</p>
-                            <input type='text' className="ad-inp" id="ad-tag" placeholder="Tag para link (Ex: pizzariadoseujoao)" style={{ 'width': '70%' }}></input>
+                            <input type='text' className="ad-inp" id="ad-tag" placeholder="Ex: cardapio-online....com/pizzariadoseujoao)" style={{ 'width': '70%' }}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Link Logo:</p>
@@ -38,42 +40,46 @@ const Administrador = () => {
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>WhatsApp:</p>
-                            <input type='text' className="ad-inp" id="ad-wha" placeholder="WhatsApp (Ex: 5534987654321)" style={{ 'width': '70%' }}></input>
+                            <input type='text' className="ad-inp" id="ad-wha" placeholder="Ex: 5534987654321" style={{ 'width': '70%' }}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Taxa de entrega:</p>
-                            <input type='text' className="ad-inp" id="ad-tax" placeholder="Taxa de Entrega (Ex: 7.0)" style={{ 'width': '70%' }}></input>
+                            <input type='text' className="ad-inp" id="ad-tax" placeholder="Ex: 7.0" style={{ 'width': '70%' }}></input>
+                        </div>
+                        <div style={{ 'width': '100%', 'display': 'flex' }}>
+                            <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Categorias dos produtos:</p>
+                            <CategOptions ></CategOptions>
                         </div>
                     </div>
                     <h4>Horário de Funcionamento:</h4>
                     <div style={{ 'width': '100%' }}>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Domingo:</p>
-                            <input type='text' className="ad-inp" id="ad-dom" placeholder="Fechado" style={{ 'width': '70%' }}></input>
+                            <input type='text' className="ad-inp" id="ad-dom" defaultValue="Fechado" style={{ 'width': '70%' }}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Segunda:</p>
-                            <input type='text' className="ad-inp" id="ad-seg" placeholder="08:00-18:00" style={{ 'width': '70%' }}></input>
+                            <input type='text' className="ad-inp" id="ad-seg" defaultValue="08:00-18:00" style={{ 'width': '70%' }}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Terça:</p>
-                            <input type='text' className="ad-inp" id="ad-ter" placeholder="08:00-18:00" style={{ 'width': '70%' }}></input>
+                            <input type='text' className="ad-inp" id="ad-ter" defaultValue="08:00-18:00" style={{ 'width': '70%' }}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Quarta:</p>
-                            <input type='text' className="ad-inp" id="ad-qua" placeholder="08:00-18:00" style={{ 'width': '70%' }}></input>
+                            <input type='text' className="ad-inp" id="ad-qua" defaultValue="08:00-18:00" style={{ 'width': '70%' }}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Quinta:</p>
-                            <input type='text' className="ad-inp" id="ad-qui" placeholder="08:00-18:00" style={{ 'width': '70%' }}></input>
+                            <input type='text' className="ad-inp" id="ad-qui" defaultValue="08:00-18:00" style={{ 'width': '70%' }}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Sexta:</p>
-                            <input type='text' className="ad-inp" id="ad-sex" placeholder="08:00-18:00" style={{ 'width': '70%' }}></input>
+                            <input type='text' className="ad-inp" id="ad-sex" defaultValue="08:00-18:00" style={{ 'width': '70%' }}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Sábado:</p>
-                            <input type='text' className="ad-inp" id="ad-sab" placeholder="08:00-12:00" style={{ 'width': '70%' }}></input>
+                            <input type='text' className="ad-inp" id="ad-sab" defaultValue="08:00-12:00" style={{ 'width': '70%' }}></input>
                         </div>
                     </div>
 
@@ -101,7 +107,7 @@ const Administrador = () => {
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Estado:</p>
-                            <input type='text' className="ad-inp" id="ad-est" placeholder="UF (Ex: MG)" style={{ 'width': '70%' }} autoComplete="off"></input>
+                            <input type='text' className="ad-inp" id="ad-est" placeholder="UF" style={{ 'width': '70%' }} autoComplete="off"></input>
                         </div>
                     </div>
                     <div style={{ 'width': '100%', 'marginBottom': '0' }}>
@@ -115,34 +121,98 @@ const Administrador = () => {
             </>)
         }
     }
+    function CategOptions(props) {
+        getCategories()
+        const categs = JSON.parse(sessionStorage.getItem('categ'))
+        var options = [];
+        categs.forEach(element => {
+        options.push(`${element.desc} - ${element.id}`)
+        });        
+
+        // eslint-disable-next-line no-unused-vars
+        const [optionsCateg, setGallery] = useState(options)
+
+        const renderOptions = (optionsCateg, key) => {
+
+            return (
+                <option key={optionsCateg} value={optionsCateg}>{optionsCateg}</option>
+            )
+        }
+
+        return (
+            <select id="co-input-sel" className='selPayModes' multiple required  style={{ 'width': '70%', 'height':'300px' }}>
+                <option value='Categorias' hidden >Categorias</option>
+                {optionsCateg.map(renderOptions)}
+            </select>
+        )
+    }
+
+    const getCategories = async () => {
+        const token = sessionStorage.getItem('token')
+        var resposta;
+        await api({
+            method: 'GET',
+            url: '/categorias',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: token
+            }
+        }).then(resp => {
+            resposta = resp.data;
+            sessionStorage.setItem('categ', JSON.stringify(resposta))
+        }).catch(error => {
+            resposta = error.toJSON();
+            if (resposta.status === 404) {
+                alert('Erro 404 - Requisição invalida')
+            } else if (resposta.status === 500) {
+                alert(`Erro 500 - ${resposta.message}`)
+                sessionStorage.removeItem('token')
+                window.location.href = '/admingpco'
+            }
+        })
+    }
 
     const login = async () => {
+        document.getElementById('msg')['textContent'] = 'Entrando...'
+        document.getElementById('msg').style.color = 'blue'
+        document.getElementById('msg').style.animation = 'mynewmove 4s 2'
+        console.log('Coletando dados digitados')
         const user = await document.getElementById('ad-user')['value']
         const pass = await document.getElementById('ad-pass')['value']
+        console.log('Passando dados para objeto')
         const dadosUser = await {
             "user": user,
             "password": pass
         }
-
+        console.log('Entrnado na requisição do login')
         await axios({
             method: 'POST',
             url: 'https://api-cardapio-online.onrender.com/admin/login',
             data: dadosUser,
         }).then(res => {
+            console.log('Entrando na resposta')
             if (res.status === 204) {
+                console.log('STATUS 204')
                 document.getElementById('msg')['textContent'] = 'Usuário e/ou senha incorretos'
                 document.getElementById('msg').style.color = 'red'
             } else if (res.status === 200) {
+                console.log('STATUS 200')
                 console.log(res)
-                if(res.data.token !== undefined && res.data.id !== undefined){
+                if (res.data.token !== undefined && res.data.id !== undefined) {
+                    console.log('TOKEN E ID RECEBIDOS')
                     sessionStorage.setItem('token', res.data.token)
                     sessionStorage.setItem('userId', res.data.id)
                 }
-                window.location.href = '/admingpco'
                 document.getElementById('msg')['textContent'] = res.data.name
                 document.getElementById('msg').style.color = 'green'
+                window.location.href = '/admingpco'
+            } else {
+                console.log('STATUS OUTRO')
+                document.getElementById('msg')['textContent'] = 'Erro ao consultar usuário! Tente novamente.'
+                document.getElementById('msg').style.color = 'red'
             }
         }).catch(error => {
+            console.log('Obteve Erro')
             document.getElementById('msg')['textContent'] = 'Erro ao consultar usuário! Tente novamente.'
             document.getElementById('msg').style.color = 'red'
         })
