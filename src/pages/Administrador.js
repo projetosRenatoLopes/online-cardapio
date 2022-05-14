@@ -1,13 +1,15 @@
-import { Checkbox } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import api from "../services/api.js";
 
 const Administrador = () => {
+
     const cadastrarEmpresa = () => {
+
         const admin = sessionStorage.getItem('token')
 
         if (admin === null) {
+
             return (<>
                 <div className="data-checkout">
                     <input type='text' id="ad-user" placeholder="Login" style={{ 'width': '100%' }}></input>
@@ -15,8 +17,6 @@ const Administrador = () => {
                     <button className="btn btn-success" onClick={login}>Entrar</button>
                 </div>
             </>)
-        } else if (admin === 'invalid') {
-            return (<>Acesso não autorizado</>)
         } else {
 
             return (<>
@@ -117,32 +117,23 @@ const Administrador = () => {
                             <input type='text' className="ad-inp" id="ad-est" placeholder="UF" style={{ 'width': '70%' }} autoComplete="off"></input>
                         </div>
                     </div>
-                    <div style={{ 'width': '100%', 'marginBottom': '0' }}>
-                        <p style={{ 'marginLeft': '4px', 'marginBottom': '4px' }}>Senha para acesso ao painel da empresa:</p>
-                    </div>
-                    <input type='password' className="ad-inp" id="ad-pas" placeholder="Senha" style={{ 'width': '100%' }} autoComplete="off"></input>
-
-                    <button className="btn btn-success" onClick={reqServer} style={{ 'marginTop': '15px', 'marginBottom': '30px' }}>Cadastrar empresa</button>
-                    <textarea className="ad-inp" id='ad-resposta' placeholder="Resposta do servidor >" disabled style={{ 'height': '100px' }}></textarea>
+                   
+                    <button id='btn-cad' className="btn btn-success" onClick={reqServer} style={{ 'marginTop': '15px', 'marginBottom': '30px' }}>Cadastrar empresa</button>
+                    <textarea className="ad-inp" id='ad-resposta' defaultValue="Resposta do servidor >" disabled style={{ 'height': '100px','backgroundColor':'black','color':'white' }}></textarea>
                 </div>
             </>)
         }
     }
-    function CategOptions(props) {
-        getCategories()
-        const categs = JSON.parse(sessionStorage.getItem('categ'))
-        // var options = [];
-        // categs.forEach(element => {
-        // options.push({"desc":element.desc, "id":element.id})
-        // });        
 
+    function CategOptions() {
+
+        const categs = JSON.parse(sessionStorage.getItem('categ'))
         // eslint-disable-next-line no-unused-vars
-        const [optionsCateg, setGallery] = useState(categs)
+        const [optionsCateg, setOptionsCateg] = useState(categs)
 
         const renderOptions = (optionsCateg, key) => {
-            const label = optionsCateg.desc
             return (
-                <div style={{ 'width': '120px', 'marginBottom': '15px' }}>
+                <div key={optionsCateg.desc} style={{ 'width': '120px', 'marginBottom': '15px' }}>
                     <input type={'checkbox'} id={optionsCateg.desc} value={optionsCateg.id}></input>
                     <label htmlFor={optionsCateg.desc}>{optionsCateg.desc}</label>
                 </div>
@@ -151,23 +142,21 @@ const Administrador = () => {
 
         return (
             <div className='checkCateg' style={{ 'width': '100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center', 'flexWrap': 'wrap' }}>
-
                 {optionsCateg.map(renderOptions)}
-
             </div>
         )
     }
 
-    function PayModeOptions(props) {
-        getPayModes()
+    function PayModeOptions() {
+
         const payModes = JSON.parse(sessionStorage.getItem('payModes'))
 
         // eslint-disable-next-line no-unused-vars
-        const [optionsPayModes, setGallery] = useState(payModes)
+        const [optionsPayModes, setOptionsPayModes] = useState(payModes)
 
         const renderOptions = (optionsPayModes, key) => {
             return (
-                <div style={{ 'width': '120px', 'marginBottom': '15px' }}>
+                <div key={optionsPayModes.desc} style={{ 'width': '120px', 'marginBottom': '15px' }}>
                     <input type={'checkbox'} id={optionsPayModes.desc} value={optionsPayModes.id}></input>
                     <label htmlFor={optionsPayModes.desc}>{optionsPayModes.desc}</label>
                 </div>
@@ -219,6 +208,7 @@ const Administrador = () => {
         }).then(resp => {
             resposta = resp.data;
             sessionStorage.setItem('payModes', JSON.stringify(resposta))
+
         }).catch(error => {
             resposta = error.toJSON();
             if (resposta.status === 404) {
@@ -229,49 +219,46 @@ const Administrador = () => {
                 window.location.href = '/admingpco'
             }
         })
+
     }
 
     const login = async () => {
         document.getElementById('msg')['textContent'] = 'Entrando...'
         document.getElementById('msg').style.color = 'blue'
         document.getElementById('msg').style.animation = 'mynewmove 4s 2'
-        console.log('Coletando dados digitados')
+
         const user = await document.getElementById('ad-user')['value']
         const pass = await document.getElementById('ad-pass')['value']
-        console.log('Passando dados para objeto')
+
         const dadosUser = await {
             "user": user,
             "password": pass
         }
-        console.log('Entrnado na requisição do login')
-        await axios({
+
+        await api({
             method: 'POST',
-            url: 'https://api-cardapio-online.onrender.com/admin/login',
+            url: '/admin/login',
             data: dadosUser,
-        }).then(res => {
-            console.log('Entrando na resposta')
+        }).then(async res => {
             if (res.status === 204) {
-                console.log('STATUS 204')
                 document.getElementById('msg')['textContent'] = 'Usuário e/ou senha incorretos'
                 document.getElementById('msg').style.color = 'red'
             } else if (res.status === 200) {
-                console.log('STATUS 200')
                 console.log(res)
                 if (res.data.token !== undefined && res.data.id !== undefined) {
-                    console.log('TOKEN E ID RECEBIDOS')
                     sessionStorage.setItem('token', res.data.token)
                     sessionStorage.setItem('userId', res.data.id)
                 }
                 document.getElementById('msg')['textContent'] = res.data.name
                 document.getElementById('msg').style.color = 'green'
+                await getCategories()
+                await getPayModes()
                 window.location.href = '/admingpco'
             } else {
-                console.log('STATUS OUTRO')
                 document.getElementById('msg')['textContent'] = 'Erro ao consultar usuário! Tente novamente.'
                 document.getElementById('msg').style.color = 'red'
             }
         }).catch(error => {
-            console.log('Obteve Erro')
             document.getElementById('msg')['textContent'] = 'Erro ao consultar usuário! Tente novamente.'
             document.getElementById('msg').style.color = 'red'
         })
@@ -279,13 +266,14 @@ const Administrador = () => {
 
     }
 
-    const logout = async () => {
+    const logout = () => {
         sessionStorage.removeItem('userId')
         sessionStorage.removeItem('token')
         window.location.href = '/admingpco'
     }
 
     const reqServer = async () => {
+        document.getElementById('btn-cad')['disabled'] = true
         const nameEmp = document.getElementById('ad-name')['value'],
             tagEmp = document.getElementById('ad-tag')['value'],
             dom = document.getElementById('ad-dom')['value'],
@@ -304,26 +292,32 @@ const Administrador = () => {
             entrega = document.getElementById('ad-tax')['value'],
             logoEmp = document.getElementById('ad-logo')['value'],
             telEmp = document.getElementById('ad-wha')['value'];
+            const arrCateg = JSON.parse(sessionStorage.getItem('categ'));
+            const arrCategs = veriFyChecks(arrCateg)
+            const arrPayMode = JSON.parse(sessionStorage.getItem('payModes'))
+            const arrPayModes = veriFyChecks(arrPayMode) 
 
         const dadosEmpresa = {
-            name: nameEmp,
-            tag: tagEmp,
-            funcdom: dom,
-            funcseg: seg,
-            functer: ter,
-            funcqua: qua,
-            funcqui: qui,
-            funcsex: sex,
-            funcsab: sab,
-            adrrua: rua,
-            adrnum: num,
-            adrcom: com,
-            adrbai: bai,
-            adrcid: cid,
-            adrest: est,
-            txentrega: entrega,
-            logo: logoEmp,
-            tel: telEmp
+            "empname": nameEmp,
+            "emptag": tagEmp,
+            "empfuncdom": dom,
+            "empfuncseg": seg,
+            "empfuncter": ter,
+            "empfuncqua": qua,
+            "empfuncqui": qui,
+            "empfuncsex": sex,
+            "empfuncsab": sab,
+            "empadrrua": rua,
+            "empadrnum": num,
+            "empadrcom": com,
+            "empadrbai": bai,
+            "empadrcid": cid,
+            "empadrest": est,
+            "emptxentrega": entrega,
+            "emplogo": logoEmp,
+            "emptel": telEmp,
+            "empcategs": arrCategs,
+            "emppaymodes": arrPayModes
         }
 
         let verifyProp = true;
@@ -341,29 +335,35 @@ const Administrador = () => {
                     if (!isNaN(parseFloat(entrega)) && isFinite(entrega)) {
                         const token = sessionStorage.getItem('token')
                         if (token !== undefined) {
+                            const arrCateg = JSON.parse(sessionStorage.getItem('categ'))
+                            if (veriFyChecks(arrCateg) !== "") {
+                                const arrPayMode = JSON.parse(sessionStorage.getItem('payModes'))
+                                if (veriFyChecks(arrPayMode) !== "") {
 
+                                    var resposta;
+                                    await api({
+                                        method: 'POST',
+                                        url: '/cadastro/empresa',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            Authorization: token
+                                        },
+                                        data: dadosEmpresa
+                                    })
+                                        .then(resp => {
+                                            resposta = resp.data;
+                                            colorMsg('Blue', resposta.message)
+                                        }).catch(error => {
+                                            resposta = error.toJSON();
+                                            if (resposta.status === 404) {
+                                                colorMsg('RED', 'Erro 404 - Requisição invalida')
+                                            } else {
+                                                colorMsg('RED', `Erro ${resposta.status} - ${resposta.message}`)
+                                            }
+                                        })
 
-                            var resposta;
-                            await axios({
-                                method: 'POST',
-                                url: 'https://api-cardapio-online.onrender.com/cadastro/empresa',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    Authorization: token
-                                },
-                                data: dadosEmpresa
-                            })
-                                .then(resp => {
-                                    resposta = resp.data;
-                                    colorMsg('Blue', resposta)
-                                }).catch(error => {
-                                    resposta = error.toJSON();
-                                    if (resposta.status === 404) {
-                                        colorMsg('RED', 'Erro 404 - Requisição invalida')
-                                    } else {
-                                        colorMsg('RED', `Erro ${resposta.status} - ${resposta.message}`)
-                                    }
-                                })
+                                } else { colorMsg('red', 'Selecione pelo menos um modo de pagamento.') }
+                            } else { colorMsg('red', 'Selecione pelo menos uma categoria.') }
                         } else {
                             alert('Usuário não autenticado.')
                             window.location.href = '/admingpco'
@@ -373,12 +373,25 @@ const Administrador = () => {
             } else { colorMsg('RED', 'WhatsApp deve conter 13 digitos e somente números') }
         } else { colorMsg('RED', 'Preencha todos os campos...') }
 
-
+        document.getElementById('btn-cad')['disabled'] = false
     }
 
     const colorMsg = (color, msg) => {
         document.getElementById('ad-resposta')['value'] = `${msg}`
         document.getElementById('ad-resposta').style.border = `2px solid ${color}`
+    }
+
+    const veriFyChecks = (obj) => {
+        let categsServer = [];
+        obj.forEach(element => {
+            var checkek = document.getElementById(element.desc)
+            // @ts-ignore
+            if (checkek.checked === true) {
+                categsServer.push(checkek['value'])
+            }
+        });
+        return categsServer.join(',')
+
     }
 
     return (
