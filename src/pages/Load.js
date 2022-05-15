@@ -39,25 +39,49 @@ const Load = () => {
       })
 
     } else {
-      console.log('Inicio')
+      //dados da empresa
       await api.get(`/empresa/${company.pathname}`).then(res => {
-        console.log(res.data.company[0].tag )
         if (res.data.company[0].tag === undefined) {
-          console.log(res.data.company[0].tag + "Deve ser undefined")
           sessionStorage.removeItem('tag')
          window.location.href = `${company.pathname}/notfound`
         } else {
-          console.log(res.data.company[0].tag + "Deve ser renatolanches")
         sessionStorage.setItem('info', JSON.stringify(res.data.company))
         }
       }).catch(error => {
         window.location.href = '/erro'
       })
 
+      //categorias 
+      await api.get(`/opcoes/categorias`).then(res => {
+        if (res.data === undefined) {
+          sessionStorage.removeItem('categDesc')
+        } else {
+        sessionStorage.setItem('categDesc', JSON.stringify(res.data))
+        }
+      }).catch(error => {
+        window.location.href = '/erro'
+      })
+
+      //modos de pagamento
+      await api.get(`/opcoes/modospagamento`).then(res => {
+        if (res.data === undefined) {
+          sessionStorage.removeItem('payModes')
+        } else {
+        sessionStorage.setItem('payModes', JSON.stringify(res.data))
+        }
+      }).catch(error => {
+        window.location.href = '/erro'
+      })
+
+      //produtos da empresa
       await api.get(`/produtos/${company.pathname}`).then(res => {
-        var list = res.data[0].products;
-        sessionStorage.setItem('listProduct', JSON.stringify(list))
-       window.location.href = `${company.pathname}/home`
+       if(res.data[0].length === 0){
+        sessionStorage.setItem('listProduct', JSON.stringify([]))
+       } else {
+         var list = res.data[0].products;
+         sessionStorage.setItem('listProduct', JSON.stringify(list))
+       }
+      window.location.href = `${company.pathname}/home`
       }).catch(error => {
        window.location.href = '/erro'
       })

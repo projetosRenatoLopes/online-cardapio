@@ -11,11 +11,11 @@ const CardapioOnline = () => {
     return (
         <>
             <div className='title-page'>
-                <p>Cardapio Oline</p>
+                <p>Cardapio Online</p>
             </div>
 
             <div className='logo-page'>
-                <h3>Conheça nossos clientes:</h3>
+                {/* <h3>Conheça nossos clientes:</h3> */}
             </div>
 
             <Client companies={companies} />

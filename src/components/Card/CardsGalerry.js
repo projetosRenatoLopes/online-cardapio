@@ -1,11 +1,6 @@
 import React, { memo, useState } from 'react'
 import Card from '.'
 
-
-export var setCards = (set) => {
-
-}
-
 function CardsGalerry(props) {
   const { cards } = props
 
