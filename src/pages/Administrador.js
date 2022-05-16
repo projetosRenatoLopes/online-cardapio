@@ -237,7 +237,7 @@ const Administrador = () => {
 
         await api({
             method: 'POST',
-            url: '/admin/login',
+            url: '/admin',
             data: dadosUser,
         }).then(async res => {
             if (res.status === 204) {
