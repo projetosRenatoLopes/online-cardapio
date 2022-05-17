@@ -7,6 +7,20 @@ function CardsGalerry(props) {
   // eslint-disable-next-line no-unused-vars
   const [gallery, setGallery] = useState(cards)
 
+  function pesquisarProd() {
+    const pesq = document.getElementById('ad-pesq')['value']
+    const listProd = JSON.parse(sessionStorage.getItem('listProduct'))  
+    var newList = [];
+    listProd.forEach(element => {
+        if (element.nomeprod.toLowerCase().includes(pesq.toLowerCase())) {
+            newList.push(element)
+        }
+    });
+    sessionStorage.setItem('viewProducts', JSON.stringify(newList))
+    setGallery(newList)
+}
+
+
   const renderCards = (gallery, key) => {
     return (
       <div key={gallery.uuid}>
@@ -32,6 +46,7 @@ function CardsGalerry(props) {
   } else {
     return (
       <div id='gallery'>
+        <input type='text' className="pesq-prod" id='ad-pesq' placeholder='Pesquisar' onChange={pesquisarProd}></input>
         {gallery.map(renderCards)}
       </div>
     )

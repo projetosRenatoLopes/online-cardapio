@@ -5,8 +5,10 @@ import CardsGalerry from '../components/Card/CardsGalerry'
 import { listProducts } from '../services/products';
 import CategGallery from '../components/Categories/Categs'
 import { myCategs } from "../components/Companny";
+import { useLocation } from 'react-router-dom'
 
 const Home = () => {
+  
   var products = listProducts();
   return (
     <>

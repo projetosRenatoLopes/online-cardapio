@@ -1550,6 +1550,17 @@ fieldset:disabled .btn {
 }
 
 
+/* PESQUISA CARD */
+
+.pesq-prod{
+    width: 96%;
+    height: 30px;
+    margin-bottom: 15px;
+    padding-inline-start: 8px;
+    border: 0;
+    box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
+}
+
 /* Cards Fonte: Bootstrap */
 .card {
     position: relative;
@@ -1561,7 +1572,7 @@ fieldset:disabled .btn {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(150px);
     --webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 0 0.5em rgb(65, 64, 64);
+    box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
     border-radius: .90rem
 }
 
@@ -1682,7 +1693,7 @@ fieldset:disabled .btn {
     margin-left: 10px;
     margin-top: 5px;
     align-items: baseline;
-    border: 2px solid rgba(0, 0, 0, 0.525);
+    box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
 }
 
 .card-img,

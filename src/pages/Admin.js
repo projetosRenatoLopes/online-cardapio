@@ -3,10 +3,80 @@ import { useState } from "react";
 import { CompannyName } from "../components/Companny/index.js";
 import api from "../services/api.js";
 import LogoPage from '../components/Logo/index.js';
+import { useLocation } from 'react-router-dom';
 
 const Admin = () => {
+    const company = useLocation()
+    const companyTag = company.pathname.split('/')[2]
+    sessionStorage.setItem('tag', companyTag)
 
     const Page = () => {
+        const info = JSON.parse(sessionStorage.getItem('info'))
+        if (info === null) {
+
+
+            setTimeout(async () => {
+                //categorias 
+                await api.get(`/opcoes/categorias`).then(res => {
+                    if (res.data === undefined) {
+                        sessionStorage.removeItem('categDesc')
+                    } else {
+                        sessionStorage.setItem('categDesc', JSON.stringify(res.data))
+                    }
+                }).catch(error => {
+                    window.location.href = '/erro'
+                })
+
+                //modos de pagamento
+                await api.get(`/opcoes/modospagamento`).then(res => {
+                    if (res.data === undefined) {
+                        sessionStorage.removeItem('payModes')
+                    } else {
+                        sessionStorage.setItem('payModes', JSON.stringify(res.data))
+                    }
+                }).catch(error => {
+                    window.location.href = '/erro'
+                })
+
+                //dados empresa
+                await api.get(`/empresa/${companyTag}`).then(res => {
+                    if (res.data.company[0].tag === undefined) {
+                        sessionStorage.removeItem('tag')
+                        window.location.href = `${companyTag}/notfound`
+                    } else {
+                        sessionStorage.setItem('info', JSON.stringify(res.data.company))
+                    }
+                }).catch(error => {
+                    window.location.href = '/erro'
+                })
+
+                //produtos da empresa
+                await api.get(`/produtos/${companyTag}`).then(res => {
+                    if (res.data[0].length === 0) {
+                        sessionStorage.setItem('listProduct', JSON.stringify([]))
+                    } else {
+                        var list = res.data[0].products;
+                        sessionStorage.setItem('listProduct', JSON.stringify(list))
+                        sessionStorage.setItem('viewProducts', JSON.stringify(list))
+                    }
+
+                    window.location.href = `/admin/${companyTag}`
+                }).catch(error => {
+                    window.location.href = '/erro'
+                })
+
+            }, 5000);
+
+            return (
+                <>
+                    <div className='logo-page'>
+                        <img src='https://acegif.com/wp-content/uploads/loading-23.gif' className="img-logo-page" alt="img-logo" style={{ 'maxWidth': '20rem', 'minWidth': '16rem' }}></img>
+                    </div>
+                </>
+            )
+        }
+
+
         const admin = sessionStorage.getItem('token')
         const screen = sessionStorage.getItem('screen')
         if (admin === null) {
@@ -48,6 +118,7 @@ const Admin = () => {
                     </div>
                 </div>
 
+
                 <p style={{ 'width': '100%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '30px 0 7px 0' }}>Modos de pagamento aceitos:</p>
                 <div style={{ 'width': '100%', 'display': 'flex' }}>
                     <PayModeOptions ></PayModeOptions>
@@ -87,80 +158,166 @@ const Admin = () => {
                     </div>
                 </div>
                 <button id='btn-cad' className="btn btn-success" onClick={updateInfo} style={{ 'marginTop': '15px', 'marginBottom': '30px' }}>Salvar Dados</button>
-                <textarea className="ad-inp" id='ad-resposta' defaultValue="Resposta do servidor >" disabled style={{ 'height': '100px', 'backgroundColor': 'black', 'color': 'white' }}></textarea>
+                <textarea className="ad-inp" id='ad-resposta' defaultValue="Resposta do servidor >" disabled style={{ 'width': '97%', 'height': '100px', 'backgroundColor': 'white', 'color': 'black', 'resize': 'none' }}></textarea>
             </>
             )
         } else if (screen === 'Produtos') {
 
             return (<>
                 <div className="data-checkout">
-                    <h4>Adicionar produto:</h4>
-                    <br></br>
                     <div style={{ 'width': '100%' }}>
-                        <div style={{ 'width': '100%', 'display': 'flex' }}>
-                            <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Nome:</p>
-                            <input type='text' className="ad-inp" id="ad-name" style={{ 'width': '70%' }}></input>
-                        </div>
-                        <div style={{ 'width': '100%', 'display': 'flex' }}>
-                            <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Descição:</p>
-                            <input type='text' className="ad-inp" id="ad-desc" style={{ 'width': '70%' }} ></input>
-                        </div>
-                        <div style={{ 'width': '100%', 'display': 'flex' }}>
-                            <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Link da imagem:</p>
-                            <input type='text' className="ad-inp" id="ad-img" style={{ 'width': '70%' }}></input>
-                        </div>
-                        <div style={{ 'width': '100%', 'display': 'flex' }}>
-                            <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Preço:</p>
-                            <input type='number' className="ad-inp" id="ad-price" style={{ 'width': '70%' }}></input>
-                        </div>
-                        <div style={{ 'width': '100%', 'display': 'flex' }}>
-                            <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Categoria:</p>
-                            <CategSelect ></CategSelect>
-                        </div>
+                        <h4>Produtos:</h4>
                     </div>
-                </div>
 
-                <button id='btn-cad' className="btn btn-success" onClick={reqServer} style={{ 'marginTop': '15px', 'marginBottom': '30px' }}>Salvar Produto</button>
-                <textarea className="ad-inp" id='ad-resposta' defaultValue="Resposta do servidor >" disabled style={{ 'height': '100px', 'backgroundColor': 'black', 'color': 'white' }}></textarea>
+                    <nav className="accordion arrows" style={{ 'marginBottom': '15px', 'width': '100%' }}>
+                        <input type="radio" name="accordion" id="cb1" />
+                        <section className="box">
+                            <label className="box-title" id='title-cb1' htmlFor="cb1">Adicionar produto</label>
+                            <label className="box-close" htmlFor="acc-close"></label>
+                            <div className="box-content">
+                                <div style={{ 'width': '100%' }}>
+                                    <p style={{ 'margin': '0 0 1px 0' }}>Nome:</p>
+                                    <div style={{ 'width': '100%', 'display': 'flex' }}>
+                                        <textarea className="ad-inp" id="ad-name" style={{ 'width': '100%', 'resize': 'none', 'padding': '8px 0 0 5px' }}></textarea>
+                                    </div>
+                                    <p style={{ 'margin': '0 0 1px 0' }}>Descrição:</p>
+                                    <div style={{ 'width': '100%', 'display': 'flex' }}>
+                                        <textarea className="ad-inp" id="ad-desc" style={{ 'width': '100%', 'resize': 'none', 'padding': '8px 0 0 5px' }} ></textarea>
+                                    </div>
+                                    <p style={{ 'margin': '0 0 1px 0' }}>Link imagem:</p>
+                                    <div style={{ 'width': '100%', 'display': 'flex' }}>
+                                        <textarea className="ad-inp" id="ad-img" style={{ 'width': '100%', 'resize': 'none', 'padding': '8px 0 0 5px' }}></textarea>
+                                    </div>
+                                    <p style={{ 'margin': '0 0 1px 0' }} >Preço:</p>
+                                    <div style={{ 'width': '100%', 'display': 'flex' }}>
+                                        <textarea className="ad-inp" id="ad-price" style={{ 'width': '100%', 'resize': 'none', 'padding': '8px 0 0 5px' }}></textarea>
+                                    </div>
+                                    <p style={{ 'margin': '0 0 1px 0' }}>Categoria:</p>
+                                    <div style={{ 'width': '100%', 'display': 'flex' }}>
+                                        <CategSelect ></CategSelect>
+                                    </div>
+                                    <br></br>
+                                </div>
+                                <button id='btn-cad' className="btn  btn-success" onClick={reqServer} style={{ 'marginTop': '15px', 'marginBottom': '30px' }}>Registrar Produto</button>
+                                <textarea className="ad-inp" id='ad-resposta' defaultValue="Resposta do servidor >" disabled style={{ 'width': '97%', 'height': '100px', 'backgroundColor': 'white', 'color': 'black', 'resize': 'none' }}></textarea>
+                            </div>
+                        </section>
+                        <input type="radio" name="accordion" id="acc-close" />
+                    </nav>
+
+                    <br></br>
+                    <div id='pesq' style={{ 'width': '100%', 'display': 'flex' }}>
+                        <ListProducts ></ListProducts>
+                    </div>
+                </div >
             </>
             )
         } else if (screen === 'Horario') {
             const data = JSON.parse(sessionStorage.getItem('info'))
+            var domRadOp = true, domRadCl = false, segRadOp = true, segRadCl = false, terRadOp = true, terRadCl = false, quaRadOp = true, quaRadCl = false, quiRadOp = true, quiRadCl = false, sexRadOp = true, sexRadCl = false, sabRadOp = true, sabRadCl = false;
+            if (data[0].funcdom.slice(0, 5) === 'Fecha') { domRadOp = false; domRadCl = true; }
+            if (data[0].funcseg.slice(0, 5) === 'Fecha') { segRadOp = false; segRadCl = true; }
+            if (data[0].functer.slice(0, 5) === 'Fecha') { terRadOp = false; terRadCl = true; }
+            if (data[0].funcqua.slice(0, 5) === 'Fecha') { quaRadOp = false; quaRadCl = true; }
+            if (data[0].funcqui.slice(0, 5) === 'Fecha') { quiRadOp = false; quiRadCl = true; }
+            if (data[0].funcsex.slice(0, 5) === 'Fecha') { sexRadOp = false; sexRadCl = true; }
+            if (data[0].funcsab.slice(0, 5) === 'Fecha') { sabRadOp = false; sabRadCl = true; }
+
+            function verifyRadioCheck(day) {
+                const elementOp = document.getElementById(`rd-${day}-closed`)['checked']
+                if (elementOp === false) {
+                    document.getElementById(`ad-${day}-open`)['disabled'] = false
+                    document.getElementById(`ad-${day}-closed`)['disabled'] = false
+                } else {
+                    document.getElementById(`ad-${day}-open`)['disabled'] = true
+                    document.getElementById(`ad-${day}-closed`)['disabled'] = true
+                }
+            }
             return (
                 <>
                     <h4>Horário de Funcionamento:</h4>
+
                     <div style={{ 'width': '100%' }}>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Domingo:</p>
-                            <input type='text' className="ad-inp" id="ad-dom" defaultValue={data[0].funcdom} style={{ 'width': '70%' }}></input>
+                            <div style={{ 'display': 'flex', 'alignItems': 'center', 'marginRight': '3px', 'marginBottom': '7px' }}>
+                                <input type='radio' id='rd-dom-closed' name='chk-dom' value='closed' defaultChecked={domRadCl} onChange={() => verifyRadioCheck('dom')}></input>
+                                <label htmlFor='rd-dom-closed'>Fechado</label>
+                                <input type='radio' id='rd-dom-open' name='chk-dom' value='open' defaultChecked={domRadOp} onChange={() => verifyRadioCheck('dom')}></input>
+                                <label htmlFor='rd-dom-open'>Definir: </label>
+                            </div>
+                            <input type='time' className="ad-inp" id="ad-dom-open" defaultValue={data[0].funcdom.slice(0, 5)} style={{ 'width': '17%' }} disabled={domRadCl}></input>
+                            <input type='time' className="ad-inp" id="ad-dom-closed" defaultValue={data[0].funcdom.slice(6, 11)} style={{ 'width': '17%' }} disabled={domRadCl}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Segunda:</p>
-                            <input type='text' className="ad-inp" id="ad-seg" defaultValue={data[0].funcseg} style={{ 'width': '70%' }}></input>
+                            <div style={{ 'display': 'flex', 'alignItems': 'center', 'marginRight': '3px', 'marginBottom': '7px' }}>
+                                <input type='radio' id='rd-seg-closed' name='chk-seg' value='closed' defaultChecked={segRadCl} onChange={() => verifyRadioCheck('seg')}></input>
+                                <label htmlFor='rd-seg-closed'>Fechado</label>
+                                <input type='radio' id='rd-seg-open' name='chk-seg' value='open' defaultChecked={segRadOp} onChange={() => verifyRadioCheck('seg')}></input>
+                                <label htmlFor='rd-seg-open'>Definir: </label>
+                            </div>
+                            <input type='time' className="ad-inp" id="ad-seg-open" defaultValue={data[0].funcseg.slice(0, 5)} style={{ 'width': '17%' }} disabled={segRadCl}></input>
+                            <input type='time' className="ad-inp" id="ad-seg-closed" defaultValue={data[0].funcseg.slice(6, 11)} style={{ 'width': '17%' }} disabled={segRadCl}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Terça:</p>
-                            <input type='text' className="ad-inp" id="ad-ter" defaultValue={data[0].functer} style={{ 'width': '70%' }}></input>
+                            <div style={{ 'display': 'flex', 'alignItems': 'center', 'marginRight': '3px', 'marginBottom': '7px' }}>
+                                <input type='radio' id='rd-ter-closed' name='chk-ter' value='closed' defaultChecked={terRadCl} onChange={() => verifyRadioCheck('ter')}></input>
+                                <label htmlFor='rd-ter-closed'>Fechado</label>
+                                <input type='radio' id='rd-ter-open' name='chk-ter' value='open' defaultChecked={terRadOp} onChange={() => verifyRadioCheck('ter')}></input>
+                                <label htmlFor='rd-ter-open'>Definir: </label>
+                            </div>
+                            <input type='time' className="ad-inp" id="ad-ter-open" defaultValue={data[0].functer.slice(0, 5)} style={{ 'width': '17%' }} disabled={terRadCl}></input>
+                            <input type='time' className="ad-inp" id="ad-ter-closed" defaultValue={data[0].functer.slice(6, 11)} style={{ 'width': '17%' }} disabled={terRadCl}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Quarta:</p>
-                            <input type='text' className="ad-inp" id="ad-qua" defaultValue={data[0].funcqua} style={{ 'width': '70%' }}></input>
+                            <div style={{ 'display': 'flex', 'alignItems': 'center', 'marginRight': '3px', 'marginBottom': '7px' }}>
+                                <input type='radio' id='rd-qua-closed' name='chk-qua' value='closed' defaultChecked={quaRadCl} onChange={() => verifyRadioCheck('qua')} ></input>
+                                <label htmlFor='rd-qua-closed'>Fechado</label>
+                                <input type='radio' id='rd-qua-open' name='chk-qua' value='open' defaultChecked={quaRadOp} onChange={() => verifyRadioCheck('qua')}></input>
+                                <label htmlFor='rd-qua-open'>Definir: </label>
+                            </div>
+                            <input type='time' className="ad-inp" id="ad-qua-open" defaultValue={data[0].funcqua.slice(0, 5)} style={{ 'width': '17%' }} disabled={quaRadCl}></input>
+                            <input type='time' className="ad-inp" id="ad-qua-closed" defaultValue={data[0].funcqua.slice(6, 11)} style={{ 'width': '17%' }} disabled={quaRadCl}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Quinta:</p>
-                            <input type='text' className="ad-inp" id="ad-qui" defaultValue={data[0].funcqui} style={{ 'width': '70%' }}></input>
+                            <div style={{ 'display': 'flex', 'alignItems': 'center', 'marginRight': '3px', 'marginBottom': '7px' }}>
+                                <input type='radio' id='rd-qui-closed' name='chk-qui' value='closed' defaultChecked={quiRadCl} onChange={() => verifyRadioCheck('qui')}></input>
+                                <label htmlFor='rd-qui-closed'>Fechado</label>
+                                <input type='radio' id='rd-qui-open' name='chk-qui' value='open' defaultChecked={quiRadOp} onChange={() => verifyRadioCheck('qui')}></input>
+                                <label htmlFor='rd-qui-open'>Definir: </label>
+                            </div>
+                            <input type='time' className="ad-inp" id="ad-qui-open" defaultValue={data[0].funcqui.slice(0, 5)} style={{ 'width': '17%' }} disabled={quiRadCl}></input>
+                            <input type='time' className="ad-inp" id="ad-qui-closed" defaultValue={data[0].funcqui.slice(6, 11)} style={{ 'width': '17%' }} disabled={quiRadCl}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Sexta:</p>
-                            <input type='text' className="ad-inp" id="ad-sex" defaultValue={data[0].funcsex} style={{ 'width': '70%' }}></input>
+                            <div style={{ 'display': 'flex', 'alignItems': 'center', 'marginRight': '3px', 'marginBottom': '7px' }}>
+                                <input type='radio' id='rd-sex-closed' name='chk-sex' value='closed' defaultChecked={sexRadCl} onChange={() => verifyRadioCheck('sex')}></input>
+                                <label htmlFor='rd-sex-closed'>Fechado</label>
+                                <input type='radio' id='rd-sex-open' name='chk-sex' value='open' defaultChecked={sexRadOp} onChange={() => verifyRadioCheck('sex')}></input>
+                                <label htmlFor='rd-sex-open'>Definir: </label>
+                            </div>
+                            <input type='time' className="ad-inp" id="ad-sex-open" defaultValue={data[0].funcsex.slice(0, 5)} style={{ 'width': '17%' }} disabled={sexRadCl}></input>
+                            <input type='time' className="ad-inp" id="ad-sex-closed" defaultValue={data[0].funcsex.slice(6, 11)} style={{ 'width': '17%' }} disabled={sexRadCl}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'flex' }}>
                             <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Sábado:</p>
-                            <input type='text' className="ad-inp" id="ad-sab" defaultValue={data[0].funcsab} style={{ 'width': '70%' }}></input>
+                            <div style={{ 'display': 'flex', 'alignItems': 'center', 'marginRight': '3px', 'marginBottom': '7px' }}>
+                                <input type='radio' id='rd-sab-closed' name='chk-sab' value='closed' defaultChecked={sabRadCl} onChange={() => verifyRadioCheck('sab')}></input>
+                                <label htmlFor='rd-sab-closed'>Fechado</label>
+                                <input type='radio' id='rd-sab-open' name='chk-sab' value='open' defaultChecked={sabRadOp} onChange={() => verifyRadioCheck('sab')}></input>
+                                <label htmlFor='rd-sab-open'>Definir: </label>
+                            </div>
+                            <input type='time' className="ad-inp" id="ad-sab-open" defaultValue={data[0].funcsab.slice(0, 5)} style={{ 'width': '17%' }} disabled={sabRadCl}></input>
+                            <input type='time' className="ad-inp" id="ad-sab-closed" defaultValue={data[0].funcsab.slice(6, 11)} style={{ 'width': '17%' }} disabled={sabRadCl}></input>
                         </div>
                     </div>
                     <button id='btn-cad' className="btn btn-success" onClick={updateHours} style={{ 'marginTop': '15px', 'marginBottom': '30px' }}>Salvar Dados</button>
-                    <textarea className="ad-inp" id='ad-resposta' defaultValue="Resposta do servidor >" disabled style={{ 'height': '100px', 'backgroundColor': 'black', 'color': 'white' }}></textarea>
+                    <textarea className="ad-inp" id='ad-resposta' defaultValue="Resposta do servidor >" disabled style={{ 'width': '97%', 'height': '100px', 'backgroundColor': 'white', 'color': 'black', 'resize': 'none' }}></textarea>
                 </>
             )
         } else {
@@ -170,25 +327,113 @@ const Admin = () => {
         }
     }
 
-    function reqServer() {
+
+    function ListProducts() {
+
+        // eslint-disable-next-line no-unused-vars
+        var list = [];
+        const products = JSON.parse(sessionStorage.getItem('viewProducts'))
+
+        const [product, setProduct] = useState(products)
+
+        function pesquisarProd() {
+            const pesq = document.getElementById('ad-pesq')['value']
+            const listProd = JSON.parse(sessionStorage.getItem('listProduct'))
+            var newList = [];
+            listProd.forEach(element => {
+                if (element.nomeprod.toLowerCase().includes(pesq.toLowerCase())) {
+                    newList.push(element)
+                }
+            });
+            sessionStorage.setItem('viewProducts', JSON.stringify(newList))
+            setProduct(newList)
+        }
+
+        const renderOptions = (product, key) => {
+            return (
+                <div id='prod' style={{ 'boxShadow': '0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24)', 'marginBottom': '10px' }}>
+                    <div key={product.id} style={{ 'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'center' }}>
+                        <div style={{ 'margin': '5px 0 5px 5px' }}>{product.nomeprod}</div>
+                        <div style={{ 'margin': '5px 5px 5px 0' }}>{parseFloat(product.preco).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</div>
+                    </div>
+                    <div key={product.id} style={{ 'display': 'flex', 'justifyContent': 'space-between', 'marginBottom': '5px' }}>
+                        <img src={product.img} alt={product.nomeprod} style={{ 'width': '60px', 'height': '60px', 'boxShadow': '0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24)', 'margin': '0 0 5px 5px' }}></img>
+                        <div style={{ 'display': 'flex', 'alignItems': 'center', 'width': '100%' }}>
+                            <div style={{ 'margin': '0 5px 0 5px' }}>{product.ingr}</div>
+                        </div>
+                    </div>
+                </div >
+            )
+        }
+
+        return (
+            <div className="list-prod" id='list-prod' style={{ 'width': '100%', 'fontSize': '15px' }}>
+                <input type='text' className="pesq-prod" id='ad-pesq' placeholder='Pesquisar' onChange={pesquisarProd} style={{ 'marginBottom': '20px', 'width': '97%' }}></input>
+                {product.map(renderOptions)}
+            </div>
+        )
+    }
+
+    async function reqServer() {
+        colorMsg('yellow', 'Aguardando reposta do servidor')
         const nameProd = document.getElementById('ad-name')['value'],
             descPro = document.getElementById('ad-desc')['value'],
             imgPro = document.getElementById('ad-img')['value'],
             pricePro = document.getElementById('ad-price')['value'],
             categPro = document.getElementById('sel-categ')['value'];
-            if(nameProd !== ''){
-                if(descPro !== ''){
-                    if(imgPro !== ''){
-                        if(pricePro !== ''){
-                            const regex = /\d|_/;
-                            if (regex.test(pricePro) === true) {
-                                colorMsg('GREEN', `${nameProd} ${descPro} ${imgPro} ${pricePro} ${categPro}`)
-                
-                        } else {colorMsg('RED', 'Preencha corretamente o campo Preço.')}
-                        } else {colorMsg('RED', 'Preencha o campo Preço.')}
-                    } else {colorMsg('RED', 'Preencha o campo Link da Imagem.')}
-                } else {colorMsg('RED', 'Preencha o campo Descrição.')}
-            } else {colorMsg('RED', 'Preencha o campo nome.')}
+
+        const data = JSON.parse(sessionStorage.getItem('info'))
+        const tag = data[0].tag
+
+        const product = [{ "nameprod": nameProd, "priceprod": pricePro, "imgprod": imgPro, "descprod": descPro, "categprod": categPro, "tagprod": tag }]
+        if (nameProd !== '') {
+            if (descPro !== '') {
+                if (imgPro !== '') {
+                    if (pricePro !== '') {
+                        const regex = /\d|_/;
+                        if (regex.test(pricePro) === true) {
+                            const token = sessionStorage.getItem('token')
+                            if (token !== undefined) {
+                                var resposta;
+                                await api({
+                                    method: 'POST',
+                                    url: `/cadastro/produto`,
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        Authorization: token
+                                    },
+                                    data: product
+                                })
+                                    .then(resp => {
+                                        resposta = resp.data;
+                                        colorMsg('GREEN', resposta.message)
+
+                                        api.get(`/produtos/${data[0].tag}`).then(res => {
+                                            console.log(res)
+                                            if (res.data[0].products === undefined) {
+                                                sessionStorage.setItem('listProduct', JSON.stringify([]))
+                                                colorMsg('yellow', 'Produto Inserido! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
+                                            } else {
+                                                sessionStorage.setItem('listProduct', JSON.stringify(res.data[0].products))
+                                                sessionStorage.setItem('viewProducts', JSON.stringify(res.data[0].products))
+                                                window.location.href = `/admin/${companyTag}`
+                                            }
+                                        }).catch(error => {
+                                            colorMsg('yellow', 'Produto Inserido! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
+                                        })
+
+                                    }).catch(error => {
+                                        resposta = error.toJSON();
+                                        if (resposta.status === 404) {
+                                            colorMsg('RED', 'Erro 404 - Requisição invalida')
+                                        } else { colorMsg('RED', `Erro ${resposta.status} - ${resposta.message}`) }
+                                    })
+                            } else { colorMsg('RED', 'Usuário não autenticado.'); window.location.href = `/admin/${companyTag}` }
+                        } else { colorMsg('RED', 'Preencha corretamente o campo Preço.') }
+                    } else { colorMsg('RED', 'Preencha o campo Preço.') }
+                } else { colorMsg('RED', 'Preencha o campo Link da Imagem.') }
+            } else { colorMsg('RED', 'Preencha o campo Descrição.') }
+        } else { colorMsg('RED', 'Preencha o campo nome.') }
 
     }
 
@@ -201,7 +446,6 @@ const Admin = () => {
         const categ = data[0].categs.split(',')
         categ.forEach(categItem => {
             descCategs.forEach(categPay => {
-                console.log(categPay.id + " " + categItem)
                 if (categItem === categPay.id) {
                     categsSel.push(categPay)
                 }
@@ -306,8 +550,7 @@ const Admin = () => {
             } else if (resposta.status === 500) {
                 colorMsg('red', `Erro 500 - ${resposta.message}`)
                 sessionStorage.removeItem('token')
-                const company = sessionStorage.getItem('tag')
-                window.location.href = `${company}/admin`
+                window.location.href = `/admin/${companyTag}`
             }
         })
     }
@@ -333,8 +576,7 @@ const Admin = () => {
             } else if (resposta.status === 500) {
                 colorMsg('RED', `Erro 500 - ${resposta.message}`)
                 sessionStorage.removeItem('token')
-                const company = sessionStorage.getItem('tag')
-                window.location.href = `${company}/admin`
+                window.location.href = `/admin/${companyTag}`
             }
         })
 
@@ -343,13 +585,14 @@ const Admin = () => {
     const login = async () => {
         document.getElementById('msg')['textContent'] = 'Entrando...'
         document.getElementById('msg').style.color = 'blue'
-
+        const company = JSON.parse(sessionStorage.getItem('info'))
         const user = await document.getElementById('ad-user')['value']
         const pass = await document.getElementById('ad-pass')['value']
 
         const dadosUser = await {
             "user": user,
-            "password": pass
+            "password": pass,
+            "page": company[0].tag
         }
 
         await api({
@@ -361,35 +604,40 @@ const Admin = () => {
                 document.getElementById('msg')['textContent'] = 'Usuário e/ou senha incorretos'
                 document.getElementById('msg').style.color = 'red'
             } else if (res.status === 200) {
-                console.log(res)
                 if (res.data.token !== undefined && res.data.id !== undefined) {
                     sessionStorage.setItem('token', res.data.token)
                     sessionStorage.setItem('userId', res.data.id)
+                    sessionStorage.setItem('userAdmin', res.data.name)
                 }
                 document.getElementById('msg')['textContent'] = res.data.name
                 document.getElementById('msg').style.color = 'green'
                 await getCategories()
                 await getPayModes()
-                const company = sessionStorage.getItem('tag')
-                window.location.href = `${company}/admin`
+                window.location.href = `/admin/${companyTag}`
             } else {
                 document.getElementById('msg')['textContent'] = 'Erro ao consultar usuário! Tente novamente.'
                 document.getElementById('msg').style.color = 'red'
             }
-        }).catch(error => {
-            document.getElementById('msg')['textContent'] = 'Erro ao consultar usuário! Tente novamente.'
-            document.getElementById('msg').style.color = 'red'
+        }).catch((error) => {
+            if (error.message === 'Request failed with status code 401') {
+                document.getElementById('msg')['textContent'] = `${error.name} - Você não tem permissão para entrar nesta página.`
+                document.getElementById('msg').style.color = 'red'
+            } else {
+                document.getElementById('msg')['textContent'] = 'Erro ao consultar usuário! Tente novamente.'
+                document.getElementById('msg').style.color = 'red'
+            }
         })
 
 
     }
 
     const logout = () => {
-        const company = sessionStorage.getItem('tag')
         sessionStorage.removeItem('userId')
         sessionStorage.removeItem('token')
         sessionStorage.removeItem('screen')
-        window.location.href = `${company}/admin`
+        sessionStorage.removeItem('userAdmin')
+
+        window.location.href = `/admin/${companyTag}`
     }
 
     const colorMsg = (color, msg) => {
@@ -428,32 +676,53 @@ const Admin = () => {
 
     const pageProduct = () => {
         sessionStorage.setItem('screen', 'Produtos')
-        const company = sessionStorage.getItem('tag')
-        window.location.href = `${company}/admin`
+        window.location.href = `/admin/${companyTag}`
     }
 
     const pageInfo = () => {
         sessionStorage.setItem('screen', 'Informacoes')
-        const company = sessionStorage.getItem('tag')
-        window.location.href = `${company}/admin`
+        window.location.href = `/admin/${companyTag}`
     }
 
     const pageHora = () => {
         sessionStorage.setItem('screen', 'Horario')
-        const company = sessionStorage.getItem('tag')
-        window.location.href = `${company}/admin`
+        window.location.href = `/admin/${companyTag}`
     }
 
 
     const updateHours = async () => {
         document.getElementById('btn-cad')['disabled'] = true
-        const dom = document.getElementById('ad-dom')['value'],
-            seg = document.getElementById('ad-seg')['value'],
-            ter = document.getElementById('ad-ter')['value'],
-            qua = document.getElementById('ad-qua')['value'],
-            qui = document.getElementById('ad-qui')['value'],
-            sex = document.getElementById('ad-sex')['value'],
-            sab = document.getElementById('ad-sab')['value'];
+
+        function verifyHoursOpCl(day, dayWeek) {
+            const elementCl = document.getElementById(`rd-${day}-closed`)['checked']
+            if (elementCl === true) {
+                return 'Fechado'
+            } else {
+                var horaInicio = document.getElementById(`ad-${day}-open`)['value']
+                var horaFim = document.getElementById(`ad-${day}-closed`)['value']
+                if (`${horaInicio}-${horaFim}` === '-' || `${horaInicio}-${horaFim}`.length < 11) {
+                    alert(`Verifique se preencheu corretamente os campos de ${dayWeek}`)
+                    return ""
+                } else {
+                    if (horaFim < horaInicio) {
+                        alert(`A hora final de ${dayWeek} é menor que a hora de inicio.`)
+                        return ""
+                    } else {
+                        return `${horaInicio}-${horaFim}`
+                    }
+                }
+            }
+        }
+
+        const dom = verifyHoursOpCl('dom', 'Domingo'),
+            seg = verifyHoursOpCl('seg', 'Segunda'),
+            ter = verifyHoursOpCl('ter', 'Terça'),
+            qua = verifyHoursOpCl('qua', 'Quarta'),
+            qui = verifyHoursOpCl('qui', 'Quinta'),
+            sex = verifyHoursOpCl('sex', 'Sexta'),
+            sab = verifyHoursOpCl('sab', 'Sábado');
+
+
 
         const data = JSON.parse(sessionStorage.getItem('info'))
         const dadosEmpresa = {
@@ -534,7 +803,6 @@ const Admin = () => {
                             } else { colorMsg('red', 'Erro ao enviar dados. Recarregue a página e tente novamente.') }
                         } else {
                             alert('Usuário não autenticado.')
-                            window.location.href = '/admingpco'
                         }
                     } else { colorMsg('RED', 'Erro ao enviar dados. Recarregue a página e tente novamente.') }
                 } else { colorMsg('RED', 'Erro ao enviar dados. Recarregue a página e tente novamente.') }
@@ -643,7 +911,7 @@ const Admin = () => {
                             } else { colorMsg('red', 'Erro ao enviar dados. Recarregue a página e tente novamente.') }
                         } else {
                             alert('Usuário não autenticado.')
-                            window.location.href = '/admingpco'
+                            window.location.href = `/admin/${companyTag}`
                         }
                     } else { colorMsg('RED', 'Erro ao enviar dados. Recarregue a página e tente novamente.') }
                 } else { colorMsg('RED', 'Erro ao enviar dados. Recarregue a página e tente novamente.') }
@@ -653,10 +921,20 @@ const Admin = () => {
 
         document.getElementById('btn-cad')['disabled'] = false
     }
+
+    const userAdmin = sessionStorage.getItem('userAdmin')
+    var user;
+    if (userAdmin === undefined) {
+        user = ''
+    } else {
+        user = userAdmin
+    }
+
     return (
         <>
             <div id='menu' className='menu' style={{ 'display': 'none' }}>
                 <div className='itens-menu'>
+                    <div>{user}</div>
                     <div onClick={pageInfo}>Informações</div>
                     <div onClick={pageProduct}>Produtos</div>
                     <div onClick={pageHora}>Horário</div>

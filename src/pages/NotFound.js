@@ -5,6 +5,8 @@ const NotFound = () => {
     if (company.pathname.split('/')[2] !== 'notfound') {
         const tag = `/${company.pathname.split('/')[1]}`;
         window.location.href = tag
+    } else if (company.pathname.split('/')[2] === 'admin') {
+        window.location.href = company.pathname
     }
 
 

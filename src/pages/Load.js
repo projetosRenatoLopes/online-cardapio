@@ -2,9 +2,11 @@ import React from 'react';
 import { useLocation } from 'react-router-dom'
 import api from '../../src/services/api';
 
-const Load = () => {
+const Load = (page) => {
   const company = useLocation()
-  const companyTag = company.pathname
+  const companyTag = company.pathname.split('/')[1]
+  const isAdmin = company.pathname.split('/')[2]
+
   const regex = /\W|_/;
 
   if(companyTag === '/clientes'){
@@ -13,10 +15,11 @@ const Load = () => {
   }
   
   if (regex.test(companyTag.substring(1)) === false) {
-    sessionStorage.setItem('tag', company.pathname)
+    sessionStorage.setItem('tag', `/${companyTag}`)
   } else {
-    sessionStorage.removeItem('tag')
-    window.location.href = `erro/notfound`
+    sessionStorage.setItem('tags', companyTag)
+    //sessionStorage.removeItem('tag')
+    //window.location.href = `erro/notfound`
   }
   
   if(companyTag === '/erro' || companyTag === '/null'){
@@ -40,10 +43,10 @@ const Load = () => {
 
     } else {
       //dados da empresa
-      await api.get(`/empresa/${company.pathname}`).then(res => {
+      await api.get(`/empresa/${companyTag}`).then(res => {
         if (res.data.company[0].tag === undefined) {
           sessionStorage.removeItem('tag')
-         window.location.href = `${company.pathname}/notfound`
+         window.location.href = `${companyTag}/notfound`
         } else {
         sessionStorage.setItem('info', JSON.stringify(res.data.company))
         }
@@ -74,14 +77,20 @@ const Load = () => {
       })
 
       //produtos da empresa
-      await api.get(`/produtos/${company.pathname}`).then(res => {
+      await api.get(`/produtos/${companyTag}`).then(res => {
        if(res.data[0].length === 0){
         sessionStorage.setItem('listProduct', JSON.stringify([]))
        } else {
          var list = res.data[0].products;
          sessionStorage.setItem('listProduct', JSON.stringify(list))
+       }    
+
+       if(isAdmin === 'admin'){
+        window.location.href = `/${companyTag}/administrador`
+       } else {
+         window.location.href = `${companyTag}/home`      
        }
-      window.location.href = `${company.pathname}/home`
+
       }).catch(error => {
        window.location.href = '/erro'
       })
