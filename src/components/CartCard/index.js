@@ -1,14 +1,12 @@
-// @ts-nocheck
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { CountItens } from '../../services/listCart';
 import totalCart from '../../services/totalCart';
 import Button from '../Button';
 
-
-
 const CartCard = ({ uuid, nomeprod, preco, img, ingr, count }) => {
-    //recebndo o valor total dos itens
+
+    //recebendo o valor total dos itens
     let itemCount = 1 * count;
     var [vstatus, setValor] = useState(itemCount)
     //Calculo do valor total do iten (quantiade X valor)

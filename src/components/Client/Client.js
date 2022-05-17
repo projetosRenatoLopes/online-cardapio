@@ -11,7 +11,7 @@ function Client(props) {
 
 
         return (
-            <div key={gallery}>
+            <div key={gallery.name}>
                 <div className="card">
                     <h5 className="card-title">{gallery.name}</h5>
                     <div className="img-text">

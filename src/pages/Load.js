@@ -2,10 +2,9 @@ import React from 'react';
 import { useLocation } from 'react-router-dom'
 import api from '../../src/services/api';
 
-const Load = (page) => {
+const Load = () => {
   const company = useLocation()
-  const companyTag = company.pathname.split('/')[1]
-  const isAdmin = company.pathname.split('/')[2]
+  const companyTag = company.pathname
 
   const regex = /\W|_/;
 
@@ -15,11 +14,10 @@ const Load = (page) => {
   }
   
   if (regex.test(companyTag.substring(1)) === false) {
-    sessionStorage.setItem('tag', `/${companyTag}`)
+    sessionStorage.setItem('tag', `${companyTag}`)
   } else {
-    sessionStorage.setItem('tags', companyTag)
-    //sessionStorage.removeItem('tag')
-    //window.location.href = `erro/notfound`
+    sessionStorage.removeItem('tag')
+    window.location.href = `erro/notfound`
   }
   
   if(companyTag === '/erro' || companyTag === '/null'){
@@ -84,21 +82,13 @@ const Load = (page) => {
          var list = res.data[0].products;
          sessionStorage.setItem('listProduct', JSON.stringify(list))
        }    
-
-       if(isAdmin === 'admin'){
-        window.location.href = `/${companyTag}/administrador`
-       } else {
-         window.location.href = `${companyTag}/home`      
-       }
-
+       window.location.href = `${companyTag}/home`
       }).catch(error => {
        window.location.href = '/erro'
       })
 
     }
   }, 5000);
-
-
 
 
   return (

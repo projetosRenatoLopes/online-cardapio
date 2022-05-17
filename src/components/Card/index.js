@@ -7,7 +7,9 @@ import { compare } from '../../services/orderById'
 const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
 
     var [vstatus, setValor] = useState(0)
-
+    let priceTotal = vstatus * preco;
+    var [totalPrice, setTotalPrice] = useState(parseFloat(preco.toString()).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }))
+   
     function btnshow() {
         const open = sessionStorage.getItem('ofp')
         if (open === 'true') {
@@ -35,10 +37,13 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
                 return (<>
                     <div className='btns-cards-add-rem'>
                         <div className='btn-group'>
-                            <Button className="btn btn-success" onClick={Add}>+</Button>
+                        <div className='price' style={{'margin':'5px 5px 0 0'}}>                            
+                            <strong>{totalPrice}</strong>
+                        </div>
+                            <Button className="btn-co btn-l" onClick={Add}><strong>+</strong></Button>
                             {/* <button className="btn btn-outline-secondary">{vstatus}</button> */}
                             <div className='quan-prod'><p>{vstatus}</p></div>
-                            <Button className="btn btn-danger" onClick={Rem}> - </Button>
+                            <Button className="btn-co btn-r" onClick={Rem}><strong>-</strong></Button>
                         </div>
                         <Button className="btn btn-danger" onClick={Remover}>Remover</Button>
                     </div>
@@ -69,6 +74,7 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
         }
         ReactDOM.render(<CountItens />, document.getElementById('Iten-Count'));
     }
+    
 
     function Remover() {
         const resp = window.confirm(`Deseja remover ${nomeprod} da cesta?`)
@@ -93,6 +99,7 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
 
     function Add() {
         setValor(vstatus + 1)
+        var total = (vstatus + 1) * preco;
         // salvando a quantidade de itens 
         let arrItems = JSON.parse(sessionStorage.getItem('listCart'));
         if (arrItems !== null) {
@@ -103,12 +110,14 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
             })
         }
         sessionStorage.setItem('listCart', JSON.stringify(arrItems));
+        setTotalPrice(total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }));
     }
 
     function Rem() {
         if (vstatus === 1) {
         } else {
             setValor(vstatus - 1)
+            var total = (vstatus - 1) * preco;
             // salvando a quantuuidade de itens 
             let arrItems = JSON.parse(sessionStorage.getItem('listCart'));
             if (arrItems !== null) {
@@ -119,6 +128,7 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
                 })
             }
             sessionStorage.setItem('listCart', JSON.stringify(arrItems));
+            setTotalPrice(total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }));
         }
     }
 

@@ -12,6 +12,8 @@ const Admin = () => {
 
     const Page = () => {
         const info = JSON.parse(sessionStorage.getItem('info'))
+
+        //LOAD ATÉ CARREGAR OS DADOS
         if (info === null) {
 
 
@@ -349,20 +351,35 @@ const Admin = () => {
             setProduct(newList)
         }
 
+
         const renderOptions = (product, key) => {
-            return (
-                <div id='prod' style={{ 'boxShadow': '0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24)', 'marginBottom': '10px' }}>
+            function delProd() {
+                var resp = window.confirm(`Deseja exlcuir ${product.nomeprod}\nAtenção: Isso não poderá ser desfeito.`)
+                if (resp === true) {
+                    alert(`${product.nomeprod} excluido.`)
+                }
+            }
+            
+
+
+            return (<>
+                <div id='prod' style={{ 'boxShadow': '0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24)', 'marginBottom': '10px', 'height': 'auto' }}>
                     <div key={product.id} style={{ 'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'center' }}>
-                        <div style={{ 'margin': '5px 0 5px 5px' }}>{product.nomeprod}</div>
-                        <div style={{ 'margin': '5px 5px 5px 0' }}>{parseFloat(product.preco).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</div>
+                        <div style={{ 'margin': '5px 0 5px 5px' }}><strong>{product.nomeprod}</strong></div>
+                        <div style={{ 'margin': '5px 5px 5px 0' }}><strong>{parseFloat(product.preco).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</strong></div>
                     </div>
                     <div key={product.id} style={{ 'display': 'flex', 'justifyContent': 'space-between', 'marginBottom': '5px' }}>
-                        <img src={product.img} alt={product.nomeprod} style={{ 'width': '60px', 'height': '60px', 'boxShadow': '0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24)', 'margin': '0 0 5px 5px' }}></img>
+                        <img src={product.img} alt={product.nomeprod} style={{ 'width': '70px', 'height': '70px', 'boxShadow': '0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24)', 'margin': '0 0 5px 5px' }}></img>
                         <div style={{ 'display': 'flex', 'alignItems': 'center', 'width': '100%' }}>
-                            <div style={{ 'margin': '0 5px 0 5px' }}>{product.ingr}</div>
+                            <div style={{ 'padding': '0 5px 0 5px' }}>{product.ingr}</div>
                         </div>
                     </div>
+                    <div style={{ 'width': '98%', 'marginBottom': '5px', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'flex-end', 'padding': '5px' }}>
+                        <button className="btn-co btn-l">Editar</button>
+                        <button className="btn-co btn-r" onClick={delProd}>Excluir</button>
+                    </div>
                 </div >
+            </>
             )
         }
 
