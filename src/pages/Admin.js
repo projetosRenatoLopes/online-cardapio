@@ -4,10 +4,13 @@ import { CompannyName } from "../components/Companny/index.js";
 import api from "../services/api.js";
 import LogoPage from '../components/Logo/index.js';
 import { useLocation } from 'react-router-dom';
-import Modal from '@mui/material/Modal';
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import * as React from 'react';
+
+
+
 
 const Admin = () => {
     const company = useLocation()
@@ -91,7 +94,7 @@ const Admin = () => {
                 <div className="data-checkout">
                     <input type='text' id="ad-user" placeholder="Login" style={{ 'width': '100%' }}></input>
                     <input type='password' id="ad-pass" placeholder="Senha" style={{ 'width': '100%' }}></input>
-                    <button className="btn btn-success" onClick={login}>Entrar</button>
+                    <button type='submit' className="btn btn-success" onClick={login}>Entrar</button>
                 </div>
             </>)
         } else if (screen === 'Informacoes') {
@@ -354,11 +357,9 @@ const Admin = () => {
             setProduct(newList)
         }
 
-        
+
         const RenderOptions = (product, key) => {
-             const [open, setOpen] = useState(false);
-            const handleOpen = () => setOpen(true);
-            const handleClose = () => setOpen(false);
+
 
             function delProd() {
                 var resp = window.confirm(`Deseja exlcuir ${product.nomeprod}\nAtenção: Isso não poderá ser desfeito.`)
@@ -370,14 +371,14 @@ const Admin = () => {
             function verifyEditProd() {
                 const data = JSON.parse(sessionStorage.getItem('info'))
                 const id = product.uuid,
-                    nameProd = document.getElementById('name-edit')['value'],
-                    descPro = document.getElementById('desc-edit')['value'],
-                    imgPro = document.getElementById('img-edit')['value'],
-                    pricePro = document.getElementById('price-edit')['value'],
-                    categPro = document.getElementById('edit-sel')['value'],
+                    nameProd = document.getElementById(`nome-${product.uuid}`)['value'],
+                    descPro = document.getElementById(`desc-${product.uuid}`)['value'],
+                    imgPro = document.getElementById(`img-${product.uuid}`)['value'],
+                    pricePro = document.getElementById(`preco-${product.uuid}`)['value'],
+                    categPro = document.getElementById(`selCateg-${product.uuid}`)['value'],
+                    situacao = document.getElementById(`selAtivo-${product.uuid}`)['value'],
                     tag = data[0].tag;
-                const productData = [{ "id": id, "nameprod": nameProd, "priceprod": pricePro, "imgprod": imgPro, "descprod": descPro, "categprod": categPro, "tagprod": tag }]
-                console.log(categPro)
+                const productData = [{ "id": id, "nameprod": nameProd, "priceprod": pricePro, "imgprod": imgPro, "descprod": descPro, "categprod": categPro, "sit": situacao, "tagprod": tag }]
                 if (nameProd !== '') {
                     if (descPro !== '') {
                         if (imgPro !== '') {
@@ -395,85 +396,80 @@ const Admin = () => {
 
             }
 
-            const style = {
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: 400,
-                bgcolor: 'background.paper',
-                border: '2px solid #000',
-                boxShadow: 24,
-                p: 4,
-            };
+
 
 
             return (<div key={product.nomeprod}>
 
-                <div id='prod' style={{ 'boxShadow': '0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24)', 'marginBottom': '10px', 'height': 'auto' }}>
-                    <div style={{ 'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'center' }}>
-                        <div style={{ 'margin': '5px 0 5px 5px' }}><strong>{product.nomeprod}</strong></div>
-                        <div style={{ 'margin': '5px 5px 5px 0' }}><strong>{parseFloat(product.preco).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</strong></div>
-                    </div>
-                    <div key={product.id} style={{ 'display': 'flex', 'justifyContent': 'space-between', 'marginBottom': '5px' }}>
-                        <img src={product.img} alt={product.nomeprod} style={{ 'width': '70px', 'height': '70px', 'boxShadow': '0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24)', 'margin': '0 0 5px 5px' }}></img>
-                        <div style={{ 'display': 'flex', 'alignItems': 'center', 'width': '100%' }}>
-                            <div style={{ 'padding': '0 5px 0 5px' }}>{product.ingr}</div>
-                        </div>
-                    </div>
-                    <div style={{ 'width': '98%', 'marginBottom': '5px', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'flex-end', 'padding': '5px' }}>
-                        <button className="btn-co btn-l" onClick={handleOpen}>Editar</button>
-                        <button className="btn-co btn-r" onClick={delProd}>Excluir</button>
-                    </div>
-                </div >
 
+                <nav className="accordion arrows" style={{ 'marginBottom': '15px', 'width': '100%' }}>
+                    <input type="radio" name="accordion" id={`open${product.uuid}`} />
+                    <section className="box-edit">
 
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            <strong>Editar: {product.nomeprod}</strong>
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        <div id='prod' style={{ 'marginBottom': '10px', 'height': 'auto' }}>
+                            <div style={{ 'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'center' }}>
+                                <div style={{ 'margin': '5px 0 5px 5px' }}><strong>{product.nomeprod}</strong></div>
+                                <div style={{ 'margin': '5px 5px 5px 0' }}><strong>{parseFloat(product.preco).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</strong></div>
+                            </div>
+                            <div key={product.id} style={{ 'display': 'flex', 'justifyContent': 'space-between', 'marginBottom': '5px' }}>
+                                <img src={product.img} alt={product.nomeprod} onClick={() => openModal(product.img)} style={{ 'width': '70px', 'height': '70px', 'boxShadow': '0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24)', 'margin': '0 0 5px 5px' }}></img>
+                                <div style={{ 'display': 'flex', 'alignItems': 'center', 'width': '100%' }}>
+                                    <div style={{ 'padding': '0 5px 0 5px' }}>{product.ingr}</div>
+                                </div>
+                            </div>
+                            <div style={{ 'width': '98%', 'marginBottom': '5px', 'display': 'flex', 'alignItems': 'center', 'justifyContent':'space-between', 'padding': '5px' }}>
+                                <div style={{ 'margin': '5px 0 5px 5px' }}><strong>{product.status}</strong></div>
+                                <div>
+                                    <label className="btn-co btn-l" htmlFor={`open${product.uuid}`}>Editar</label>
+                                    <button className="btn-co btn-r" onClick={delProd}>Excluir</button>
+                                </div>
+                            </div>
+                        </div >
+
+                        <label className="box-close" htmlFor='acc-close'></label>
+                        <div className="box-content">
                             <div style={{ 'width': '100%' }}>
-                                <div style={{ 'width': '100%', 'display': 'inline' }}>
-                                    <p style={{ 'margin': '0 0 1px 0' }}>Nome:</p>
-                                    <input defaultValue={product.nomeprod} className="editprod ad-inp" id="name-edit" style={{ 'width': '100%', 'padding': '0 0 0 8px' }}></input>
+                                <p style={{ 'margin': '0 0 1px 0' }}>Nome:</p>
+                                <div style={{ 'width': '100%', 'display': 'flex' }}>
+                                    <textarea className="ad-inp" defaultValue={product.nomeprod} id={`nome-${product.uuid}`} style={{ 'width': '100%', 'resize': 'none', 'padding': '8px 0 0 5px' }}></textarea>
                                 </div>
-                                <div style={{ 'width': '100%', 'display': 'inline' }}>
-                                    <p style={{ 'margin': '0 0 1px 0' }}>Descrição:</p>
-                                    <input defaultValue={product.ingr} className="editprod ad-inp" id="desc-edit" style={{ 'width': '100%', 'padding': '0 0 0 8px' }} ></input>
+                                <p style={{ 'margin': '0 0 1px 0' }}>Descrição:</p>
+                                <div style={{ 'width': '100%', 'display': 'flex' }}>
+                                    <textarea className="ad-inp" defaultValue={product.ingr} id={`desc-${product.uuid}`} style={{ 'width': '100%', 'height': '40px', 'resize': 'none', 'padding': '8px 0 0 5px' }} ></textarea>
                                 </div>
-                                <div style={{ 'width': '100%', 'display': 'inline' }}>
-                                    <p style={{ 'margin': '0 0 1px 0' }}>Link imagem:</p>
-                                    <input defaultValue={product.img} className="editprod ad-inp" id="img-edit" style={{ 'width': '100%', 'padding': '0 0 0 8px' }}></input>
+                                <p style={{ 'margin': '0 0 1px 0' }}>Link imagem:</p>
+                                <div style={{ 'width': '100%', 'display': 'flex' }}>
+                                    <textarea className="ad-inp" defaultValue={product.img} id={`img-${product.uuid}`} style={{ 'width': '100%', 'resize': 'none', 'padding': '8px 0 0 5px' }}></textarea>
                                 </div>
-                                <div style={{ 'width': '100%', 'display': 'inline' }}>
-                                    <p style={{ 'margin': '0 0 1px 0' }} >Preço:</p>
-                                    <input defaultValue={product.preco} className="editprod ad-inp" id="price-edit" style={{ 'width': '100%', 'padding': '0 0 0 8px' }}></input>
+                                <p style={{ 'margin': '0 0 1px 0' }} >Preço:</p>
+                                <div style={{ 'width': '100%', 'display': 'flex' }}>
+                                    <textarea className="ad-inp" defaultValue={product.preco} id={`preco-${product.uuid}`} style={{ 'width': '100%', 'resize': 'none', 'padding': '8px 0 0 5px' }}></textarea>
                                 </div>
-                                <div style={{ 'width': '100%', 'display': 'inline' }}>
-                                    <p style={{ 'margin': '0 0 1px 0' }}>Categoria:</p>
-                                    <CategSelect select={`${product.categ}`} idSel={'edit-sel'} />
+                                <p style={{ 'margin': '0 0 1px 0' }}>Categoria:</p>
+                                <div style={{ 'width': '100%', 'display': 'flex' }}>
+                                    <CategSelect idSel={`selCateg-${product.uuid}`} select={product.categ}></CategSelect>
                                 </div>
+                                <label htmlFor={`sel-${product.uuid}`} >Situação:</label>
+                                <div style={{ 'width': '100%', 'display': 'flex' }}>
+                                    <select className="editprod ad-inp" id={`selAtivo-${product.uuid}`} defaultValue={product.status} style={{ 'width': '50%', 'height': '36px', 'fontSize': '15px' }}>
+                                        <option value='Ativo'>Ativo</option>
+                                        <option value='Desativado'>Desativado</option>
+                                    </select>
+                                </div>
+                                <br></br>
                             </div>
-                            <div style={{ 'display': 'flex', 'justifyContent': 'flex-end' }}>
-                                <button id='btn-cad' className="btn  btn-success" onClick={verifyEditProd} style={{ 'marginTop': '15px', 'marginBottom': '30px' }}>Salvar</button>
+                            <div style={{ 'width': '100%', 'justifyContent': 'flex-end', 'display': 'flex' }}>
+                                <button id='btn-cad' className="btn-co btn-l" onClick={verifyEditProd} style={{ 'marginTop': '15px', 'marginBottom': '30px' }}>Salvar</button>
+                                <label className="btn-co btn-r" htmlFor='acc-close' style={{ 'marginTop': '15px', 'marginBottom': '30px' }}>Cancelar</label>
                             </div>
-                            <textarea className="editpod ad-inp" id='edit-resposta' defaultValue="Resposta do servidor >" disabled style={{ 'width': '97%', 'height': '100px', 'backgroundColor': 'white', 'color': 'black', 'resize': 'none' }}></textarea>
-                        </Typography>
-                    </Box>
-                </Modal>
-
-
+                            <textarea className="ad-inp" id={`resp-${product.uuid}`} defaultValue="Resposta do servidor >" disabled style={{ 'width': '97%', 'height': '100px', 'backgroundColor': 'white', 'color': 'black', 'resize': 'none' }}></textarea>
+                        </div>
+                    </section>
+                    <input type="radio" name="accordion-edit" id='acc-close' />
+                </nav>
             </div>
+
             )
-
-
         }
 
 
@@ -481,7 +477,7 @@ const Admin = () => {
 
         return (
             <div className="list-prod" id='list-prod' style={{ 'width': '100%', 'fontSize': '15px' }}>
-                {/* <input type='text' className="pesq-prod" id='prod-pesq' placeholder='Pesquisar' onChange={pesquisarProd} style={{ 'marginBottom': '20px', 'width': '97%' }}></input> */}
+                <input type='text' className="pesq-prod" id='prod-pesq' placeholder='Pesquisar' onChange={pesquisarProd} style={{ 'marginBottom': '20px', 'width': '97%' }}></input>
                 {product.map(RenderOptions)}
             </div>
         )
@@ -522,7 +518,6 @@ const Admin = () => {
                                         colorMsg('GREEN', resposta.message)
 
                                         api.get(`/produtos/${data[0].tag}`).then(res => {
-                                            console.log(res)
                                             if (res.data[0].products === undefined) {
                                                 sessionStorage.setItem('listProduct', JSON.stringify([]))
                                                 colorMsg('yellow', 'Produto Inserido! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
@@ -551,7 +546,8 @@ const Admin = () => {
     }
 
     async function editProd(productEdit) {
-        colorMsgEdit('yellow', 'Aguardando reposta do servidor')
+        console.log(productEdit[0].id)
+        colorMsgEdit('yellow', `resp-${productEdit[0].id}`, 'Aguardando reposta do servidor')
         const data = JSON.parse(sessionStorage.getItem('info'))
 
 
@@ -572,29 +568,28 @@ const Admin = () => {
             })
                 .then(resp => {
                     resposta = resp.data;
-                    colorMsgEdit('GREEN', resposta.message)
+                    colorMsgEdit('GREEN', `resp-${productEdit[0].id}`, resposta.message)
 
                     api.get(`/produtos/${data[0].tag}`).then(res => {
-                        console.log(res)
                         if (res.data[0].products === undefined) {
                             sessionStorage.setItem('listProduct', JSON.stringify([]))
-                            colorMsgEdit('yellow', 'Produto Inserido! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
+                            colorMsgEdit('yellow', `resp-${productEdit[0].id}`, 'Produto Inserido! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
                         } else {
                             sessionStorage.setItem('listProduct', JSON.stringify(res.data[0].products))
                             sessionStorage.setItem('viewProducts', JSON.stringify(res.data[0].products))
                             window.location.href = `/admin/${companyTag}`
                         }
                     }).catch(error => {
-                        colorMsgEdit('yellow', 'Produto Inserido! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
+                        colorMsgEdit('yellow', `resp-${productEdit[0].id}`, 'Produto Inserido! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
                     })
 
                 }).catch(error => {
                     resposta = error.toJSON();
                     if (resposta.status === 404) {
-                        colorMsgEdit('RED', 'Erro 404 - Requisição invalida')
-                    } else { colorMsgEdit('RED', `Erro ${resposta.status} - ${resposta.message}`) }
+                        colorMsgEdit('RED', `resp-${productEdit[0].id}`, 'Erro 404 - Requisição invalida')
+                    } else { colorMsgEdit('RED', `resp-${productEdit[0].id}`, `Erro ${resposta.status} - ${resposta.message}`) }
                 })
-        } else { colorMsgEdit('RED', 'Usuário não autenticado.'); window.location.href = `/admin/${companyTag}` }
+        } else { colorMsgEdit('RED', `resp-${productEdit[0].id}`, 'Usuário não autenticado.'); window.location.href = `/admin/${companyTag}` }
 
 
     }
@@ -808,9 +803,10 @@ const Admin = () => {
         document.getElementById('ad-resposta').style.boxShadow = `4px solid ${color}`
     }
 
-    const colorMsgEdit = (color, msg) => {
-        document.getElementById('edit-resposta')['value'] = `${msg}`
-        document.getElementById('edit-resposta').style.boxShadow = `0 -1px 0 ${color}, 0 0 2px ${color}, 0 2px 4px ${color}`
+    const colorMsgEdit = (color, id, msg) => {
+        console.log(id)
+        document.getElementById(id)['value'] = `${msg}`
+        document.getElementById(id).style.boxShadow = `0 -1px 0 ${color}, 0 0 2px ${color}, 0 2px 4px ${color}`
     }
 
     function veriFyChecks(obj) {
@@ -1098,6 +1094,26 @@ const Admin = () => {
         user = userAdmin
     }
 
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(false);
+    const handleClose = () => setOpen(false);
+    const [img, setImg] = useState(undefined);
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '70%',
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+    function openModal(imgView) {
+        setImg(imgView);
+        setOpen(true)
+    }
+
     return (
         <>
             <div id='menu' className='menu' style={{ 'display': 'none' }}>
@@ -1125,6 +1141,27 @@ const Admin = () => {
             </div>
 
             <Page />
+
+            <div>
+
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            {/* <strong>Editar: {product.nomeprod}</strong> */}
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            <div style={{ 'justifyContent': 'center', 'display': 'flex' }}>
+                                <img src={img} alt='img-load-error' style={{ 'width': '100%' }}></img>
+                            </div>
+                        </Typography>
+                    </Box>
+                </Modal >
+            </div >
         </>
     )
 

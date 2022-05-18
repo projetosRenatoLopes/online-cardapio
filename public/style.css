@@ -179,6 +179,7 @@ body {
     justify-content: center;
     box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgb(0 0 0 / 12%), 0 2px 4px rgb(0 0 0 / 24%);
     border: 0px solid #202020;
+    background-color: rgba(255, 255, 255, 0.781);
 }
 
 .btns-categ {
@@ -438,7 +439,14 @@ select:required:invalid {
 }
 
 /* NOVO ACCORDION */
+.box-content div div textarea{
+    font-size: 15px;
+    font-family: Verdana, sans-serif;
+}
 .box svg {
+    padding-right: 5px;
+}
+.box-edit svg {
     padding-right: 5px;
 }
 
@@ -457,6 +465,12 @@ select:required:invalid {
     height: 64px;
     transition: all .15s ease-in-out;
 }
+.box-edit {
+    position: relative;
+    background: white;
+    height: auto;
+    transition: all .15s ease-in-out;
+}
 
 .box::before {
     content: '';
@@ -470,7 +484,26 @@ select:required:invalid {
     box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
 }
 
+.box-edit::before {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
+}
+
 header.box {
+    background: #00BCD4;
+    z-index: 100;
+    cursor: initial;
+    box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px -2px rgba(0, 0, 0, .12), 0 2px 4px -4px rgba(0, 0, 0, .24);
+}
+
+header.box-edit {
     background: #00BCD4;
     z-index: 100;
     cursor: initial;
@@ -532,13 +565,26 @@ input:checked+.box {
     margin: 16px 0;
     box-shadow: 0 0 6px rgba(0, 0, 0, .16), 0 6px 12px rgba(0, 0, 0, .32);
 }
+input:checked+.box-edit {
+    height: auto;
+    margin: 16px 0;
+    box-shadow: 0 0 6px rgba(0, 0, 0, .16), 0 6px 12px rgba(0, 0, 0, .32);
+}
 
 input:checked+.box .box-title {
+    border-bottom: 1px solid rgba(0, 0, 0, .18);
+}
+input:checked+.box-edit .box-title {
     border-bottom: 1px solid rgba(0, 0, 0, .18);
 }
 
 input:checked+.box .box-content,
 input:checked+.box .box-close {
+    display: inline-block;
+}
+
+input:checked+.box-edit .box-content,
+input:checked+.box-edit .box-close {
     display: inline-block;
 }
 
@@ -562,6 +608,10 @@ input:checked+section.box .box-title:before {
     transform: rotate(90deg);
 }
 
+input:checked+section.box-edit .box-title:before {
+    transform: rotate(90deg);
+}
+
 /* NOVO ACCORDION*/
 
 
@@ -578,7 +628,7 @@ input:checked+section.box .box-title:before {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    background-color: transparent;
+    background-color: #FFFF;
     box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgb(0 0 0 / 12%), 0 2px 4px rgb(0 0 0 / 24%);
     border: 0px solid #202020;
     padding: .375rem .75rem;
@@ -594,6 +644,11 @@ input:checked+section.box .box-title:before {
 .btn-l {
     border-radius: 8px 0 0 8px;
     color: #198754;
+}
+
+.btn-g{
+    border-radius: 8px 8px 8px 8px;
+    margin: 0 3px 0 5px;
 }
 
 .btn-r:hover {
@@ -1448,7 +1503,7 @@ fieldset:disabled .btn {
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(243, 243, 243, 0.7);
     backdrop-filter: blur(150px);
     --webkit-backdrop-filter: blur(10px);
     box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);

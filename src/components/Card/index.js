@@ -3,13 +3,21 @@ import Button from '../Button';
 import { CountItens } from '../../services/listCart';
 import ReactDOM from 'react-dom';
 import { compare } from '../../services/orderById'
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import * as React from 'react';
+import Box from '@mui/material/Box';
 
 const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(false);
+    const handleClose = () => setOpen(false);
+    const [imgModal, setImg] = useState(undefined);
 
     var [vstatus, setValor] = useState(0)
     let priceTotal = vstatus * preco;
     var [totalPrice, setTotalPrice] = useState(parseFloat(preco.toString()).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }))
-   
+
     function btnshow() {
         const open = sessionStorage.getItem('ofp')
         if (open === 'true') {
@@ -20,9 +28,9 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
                 var listCart = arrListCart;
                 newListCart = listCart.filter((item) => item.uuid === uuid);
                 if (newListCart.length !== 0) {
-                    if (newListCart[0].count === null || newListCart[0].count === 0 ) {
+                    if (newListCart[0].count === null || newListCart[0].count === 0) {
                         vstatus = 0;
-                    } else {         
+                    } else {
                         vstatus = newListCart[0].count;
                     }
                 } else {
@@ -32,20 +40,20 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
                 vstatus = 0;
             }
             if (vstatus === 0 || vstatus === null) {
-                return (<><Button className="btn btn-success" onClick={Adicionar}>Adicionar</Button></>)
+                return (<><Button className="btn-co btn-l btn-g" onClick={Adicionar}>Adicionar</Button></>)
             } else if (vstatus >= 1) {
                 return (<>
                     <div className='btns-cards-add-rem'>
                         <div className='btn-group'>
-                        <div className='price' style={{'margin':'5px 5px 0 0'}}>                            
-                            <strong>{totalPrice}</strong>
-                        </div>
+                            <div className='price' style={{ 'margin': '5px 5px 0 0' }}>
+                               Total: {totalPrice}
+                            </div>
                             <Button className="btn-co btn-l" onClick={Add}><strong>+</strong></Button>
                             {/* <button className="btn btn-outline-secondary">{vstatus}</button> */}
                             <div className='quan-prod'><p>{vstatus}</p></div>
                             <Button className="btn-co btn-r" onClick={Rem}><strong>-</strong></Button>
                         </div>
-                        <Button className="btn btn-danger" onClick={Remover}>Remover</Button>
+                        <Button className="btn-co btn-r btn-g" onClick={Remover}>Remover</Button>
                     </div>
                 </>)
             };
@@ -74,7 +82,7 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
         }
         ReactDOM.render(<CountItens />, document.getElementById('Iten-Count'));
     }
-    
+
 
     function Remover() {
         const resp = window.confirm(`Deseja remover ${nomeprod} da cesta?`)
@@ -133,22 +141,39 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
     }
 
 
-
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '70%',
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+    function openModal(imgView) {
+        console.log(imgView)
+        setImg(imgView);
+        setOpen(true)
+    }
     return (
         <>
             <div className="card">
-                <h5 className="card-title">{nomeprod}</h5>
+                <div style={{'display':'flex','justifyContent':'space-between','margin':'0 7px 0 0'}}>
+                    <h5 className="card-title">{nomeprod}</h5>
+                    <div className='price'>
+                        <strong>{parseFloat(preco).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</strong>
+                    </div>
+                </div>
                 <div className="img-text">
-                    <img src={img} className="card-img-top" alt='img-card'></img>
+                    <img onClick={() => openModal(img)} src={img} className="card-img-top" alt='img-card'></img>
                     <div className="card-text">
                         <p >{ingr}</p>
                     </div>
                 </div>
-                <div className="card-body">
+                <div className="card-body" style={{'display':'flex','justifyContent':'flex-end'}}>
                     <div className="bottom-Card">
-                        <div className='price'>
-                            <strong>{parseFloat(preco).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</strong>
-                        </div>
                         <div className="add-remove-item">
                             {btnshow()}
                         </div>
@@ -156,6 +181,26 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
                 </div>
             </div>
             <br></br>
+            <div>
+
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2" style={{ 'display': 'flex', 'justifyContent': 'center' }}>
+                            <strong>{nomeprod}</strong>
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            <div style={{ 'justifyContent': 'center', 'display': 'flex' }}>
+                                <img src={img} alt='img-load-error' style={{ 'width': '100%' }}></img>
+                            </div>
+                        </Typography>
+                    </Box>
+                </Modal >
+            </div >
         </>
     )
 }

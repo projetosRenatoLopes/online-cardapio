@@ -1,7 +1,10 @@
-import React, { memo, useState } from 'react'
+import { memo, useState } from 'react'
 import Card from '.'
+import * as React from 'react';
+
 
 function CardsGalerry(props) {
+  
   const { cards } = props
 
   // eslint-disable-next-line no-unused-vars
@@ -44,10 +47,13 @@ function CardsGalerry(props) {
       </div>
     )
   } else {
+    
+    
     return (
       <div id='gallery'>
         <input type='text' className="pesq-prod" id='ad-pesq' placeholder='Pesquisar' onChange={pesquisarProd}></input>
         {gallery.map(renderCards)}
+       
       </div>
     )
   }

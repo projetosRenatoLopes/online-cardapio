@@ -91,13 +91,13 @@ const CartCard = ({ uuid, nomeprod, preco, img, ingr, count }) => {
                             <div className="preco">Total: {totalPrice}</div>
                         </div>
                         <div className='btn-group'>
-                            <Button className="btn btn-success" onClick={Adicionar}>+</Button>
+                            <Button className="btn-co btn-l" onClick={Adicionar}><strong>+</strong></Button>
                             <div className='quan-prod'><p>{vstatus}</p></div>
-                            <Button className="btn btn-danger" onClick={Remover}> - </Button>
-                        {/* <div className='obs-prod'><input type='text' placeholder='Obeservação'></input></div> */}
+                            <Button className="btn-co btn-r" onClick={Remover}><strong>-</strong></Button>
+                            {/* <div className='obs-prod'><input type='text' placeholder='Obeservação'></input></div> */}
                         </div>
                         <div className="btn-remove">
-                            <Button className="btn btn-danger" onClick={Excluir}>x</Button>
+                            <Button className="btn-co btn-r btn-g" onClick={Excluir}>x</Button>
                         </div>
                     </div>
                 </div>
