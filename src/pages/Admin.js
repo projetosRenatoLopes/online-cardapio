@@ -4,6 +4,10 @@ import { CompannyName } from "../components/Companny/index.js";
 import api from "../services/api.js";
 import LogoPage from '../components/Logo/index.js';
 import { useLocation } from 'react-router-dom';
+import Modal from '@mui/material/Modal';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 const Admin = () => {
     const company = useLocation()
@@ -164,7 +168,6 @@ const Admin = () => {
             </>
             )
         } else if (screen === 'Produtos') {
-
             return (<>
                 <div className="data-checkout">
                     <div style={{ 'width': '100%' }}>
@@ -196,7 +199,7 @@ const Admin = () => {
                                     </div>
                                     <p style={{ 'margin': '0 0 1px 0' }}>Categoria:</p>
                                     <div style={{ 'width': '100%', 'display': 'flex' }}>
-                                        <CategSelect ></CategSelect>
+                                        <CategSelect idSel='sel-categ'></CategSelect>
                                     </div>
                                     <br></br>
                                 </div>
@@ -338,8 +341,8 @@ const Admin = () => {
 
         const [product, setProduct] = useState(products)
 
-        function pesquisarProd() {
-            const pesq = document.getElementById('ad-pesq')['value']
+        async function pesquisarProd() {
+            const pesq = document.getElementById('prod-pesq')['value']
             const listProd = JSON.parse(sessionStorage.getItem('listProduct'))
             var newList = [];
             listProd.forEach(element => {
@@ -351,20 +354,64 @@ const Admin = () => {
             setProduct(newList)
         }
 
+        
+        const RenderOptions = (product, key) => {
+             const [open, setOpen] = useState(false);
+            const handleOpen = () => setOpen(true);
+            const handleClose = () => setOpen(false);
 
-        const renderOptions = (product, key) => {
             function delProd() {
                 var resp = window.confirm(`Deseja exlcuir ${product.nomeprod}\nAtenção: Isso não poderá ser desfeito.`)
                 if (resp === true) {
                     alert(`${product.nomeprod} excluido.`)
                 }
             }
-            
+
+            function verifyEditProd() {
+                const data = JSON.parse(sessionStorage.getItem('info'))
+                const id = product.uuid,
+                    nameProd = document.getElementById('name-edit')['value'],
+                    descPro = document.getElementById('desc-edit')['value'],
+                    imgPro = document.getElementById('img-edit')['value'],
+                    pricePro = document.getElementById('price-edit')['value'],
+                    categPro = document.getElementById('edit-sel')['value'],
+                    tag = data[0].tag;
+                const productData = [{ "id": id, "nameprod": nameProd, "priceprod": pricePro, "imgprod": imgPro, "descprod": descPro, "categprod": categPro, "tagprod": tag }]
+                console.log(categPro)
+                if (nameProd !== '') {
+                    if (descPro !== '') {
+                        if (imgPro !== '') {
+                            if (pricePro !== '') {
+                                const regex = /\d|_/;
+                                if (regex.test(pricePro) === true) {
+                                    if (categPro !== "") {
+                                        editProd(productData)
+                                    } else { alert('Selecione uma categoria.') }
+                                } else { alert('Preencha corretamente o campo Preço.') }
+                            } else { alert('Preencha o campo Preço.') }
+                        } else { alert('Preencha o campo Link da Imagem.') }
+                    } else { alert('Preencha o campo Descrição.') }
+                } else { alert('Preencha o campo nome.') }
+
+            }
+
+            const style = {
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 400,
+                bgcolor: 'background.paper',
+                border: '2px solid #000',
+                boxShadow: 24,
+                p: 4,
+            };
 
 
-            return (<>
+            return (<div key={product.nomeprod}>
+
                 <div id='prod' style={{ 'boxShadow': '0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24)', 'marginBottom': '10px', 'height': 'auto' }}>
-                    <div key={product.id} style={{ 'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'center' }}>
+                    <div style={{ 'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'center' }}>
                         <div style={{ 'margin': '5px 0 5px 5px' }}><strong>{product.nomeprod}</strong></div>
                         <div style={{ 'margin': '5px 5px 5px 0' }}><strong>{parseFloat(product.preco).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</strong></div>
                     </div>
@@ -375,18 +422,67 @@ const Admin = () => {
                         </div>
                     </div>
                     <div style={{ 'width': '98%', 'marginBottom': '5px', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'flex-end', 'padding': '5px' }}>
-                        <button className="btn-co btn-l">Editar</button>
+                        <button className="btn-co btn-l" onClick={handleOpen}>Editar</button>
                         <button className="btn-co btn-r" onClick={delProd}>Excluir</button>
                     </div>
                 </div >
-            </>
+
+
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            <strong>Editar: {product.nomeprod}</strong>
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            <div style={{ 'width': '100%' }}>
+                                <div style={{ 'width': '100%', 'display': 'inline' }}>
+                                    <p style={{ 'margin': '0 0 1px 0' }}>Nome:</p>
+                                    <input defaultValue={product.nomeprod} className="editprod ad-inp" id="name-edit" style={{ 'width': '100%', 'padding': '0 0 0 8px' }}></input>
+                                </div>
+                                <div style={{ 'width': '100%', 'display': 'inline' }}>
+                                    <p style={{ 'margin': '0 0 1px 0' }}>Descrição:</p>
+                                    <input defaultValue={product.ingr} className="editprod ad-inp" id="desc-edit" style={{ 'width': '100%', 'padding': '0 0 0 8px' }} ></input>
+                                </div>
+                                <div style={{ 'width': '100%', 'display': 'inline' }}>
+                                    <p style={{ 'margin': '0 0 1px 0' }}>Link imagem:</p>
+                                    <input defaultValue={product.img} className="editprod ad-inp" id="img-edit" style={{ 'width': '100%', 'padding': '0 0 0 8px' }}></input>
+                                </div>
+                                <div style={{ 'width': '100%', 'display': 'inline' }}>
+                                    <p style={{ 'margin': '0 0 1px 0' }} >Preço:</p>
+                                    <input defaultValue={product.preco} className="editprod ad-inp" id="price-edit" style={{ 'width': '100%', 'padding': '0 0 0 8px' }}></input>
+                                </div>
+                                <div style={{ 'width': '100%', 'display': 'inline' }}>
+                                    <p style={{ 'margin': '0 0 1px 0' }}>Categoria:</p>
+                                    <CategSelect select={`${product.categ}`} idSel={'edit-sel'} />
+                                </div>
+                            </div>
+                            <div style={{ 'display': 'flex', 'justifyContent': 'flex-end' }}>
+                                <button id='btn-cad' className="btn  btn-success" onClick={verifyEditProd} style={{ 'marginTop': '15px', 'marginBottom': '30px' }}>Salvar</button>
+                            </div>
+                            <textarea className="editpod ad-inp" id='edit-resposta' defaultValue="Resposta do servidor >" disabled style={{ 'width': '97%', 'height': '100px', 'backgroundColor': 'white', 'color': 'black', 'resize': 'none' }}></textarea>
+                        </Typography>
+                    </Box>
+                </Modal>
+
+
+            </div>
             )
+
+
         }
+
+
+
 
         return (
             <div className="list-prod" id='list-prod' style={{ 'width': '100%', 'fontSize': '15px' }}>
-                <input type='text' className="pesq-prod" id='ad-pesq' placeholder='Pesquisar' onChange={pesquisarProd} style={{ 'marginBottom': '20px', 'width': '97%' }}></input>
-                {product.map(renderOptions)}
+                {/* <input type='text' className="pesq-prod" id='prod-pesq' placeholder='Pesquisar' onChange={pesquisarProd} style={{ 'marginBottom': '20px', 'width': '97%' }}></input> */}
+                {product.map(RenderOptions)}
             </div>
         )
     }
@@ -454,7 +550,56 @@ const Admin = () => {
 
     }
 
-    function CategSelect() {
+    async function editProd(productEdit) {
+        colorMsgEdit('yellow', 'Aguardando reposta do servidor')
+        const data = JSON.parse(sessionStorage.getItem('info'))
+
+
+
+
+        const product = productEdit;
+        const token = sessionStorage.getItem('token')
+        if (token !== undefined) {
+            var resposta;
+            await api({
+                method: 'PUT',
+                url: `/produtos/alterar`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                },
+                data: product
+            })
+                .then(resp => {
+                    resposta = resp.data;
+                    colorMsgEdit('GREEN', resposta.message)
+
+                    api.get(`/produtos/${data[0].tag}`).then(res => {
+                        console.log(res)
+                        if (res.data[0].products === undefined) {
+                            sessionStorage.setItem('listProduct', JSON.stringify([]))
+                            colorMsgEdit('yellow', 'Produto Inserido! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
+                        } else {
+                            sessionStorage.setItem('listProduct', JSON.stringify(res.data[0].products))
+                            sessionStorage.setItem('viewProducts', JSON.stringify(res.data[0].products))
+                            window.location.href = `/admin/${companyTag}`
+                        }
+                    }).catch(error => {
+                        colorMsgEdit('yellow', 'Produto Inserido! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
+                    })
+
+                }).catch(error => {
+                    resposta = error.toJSON();
+                    if (resposta.status === 404) {
+                        colorMsgEdit('RED', 'Erro 404 - Requisição invalida')
+                    } else { colorMsgEdit('RED', `Erro ${resposta.status} - ${resposta.message}`) }
+                })
+        } else { colorMsgEdit('RED', 'Usuário não autenticado.'); window.location.href = `/admin/${companyTag}` }
+
+
+    }
+
+    function CategSelect(props) {
 
         // eslint-disable-next-line no-unused-vars
         var categsSel = [];
@@ -480,7 +625,8 @@ const Admin = () => {
         }
 
         return (
-            <select className="ad-inp" id='sel-categ' style={{ 'width': '73%', 'height': '36px', 'fontSize': '15px' }}>
+            <select className="editprod ad-inp" id={props.idSel} defaultValue={props.select} style={{ 'width': '73%', 'height': '36px', 'fontSize': '15px' }}>
+                <option value='' hidden ></option>
                 {optionsCateg.map(renderOptions)}
             </select>
         )
@@ -659,7 +805,12 @@ const Admin = () => {
 
     const colorMsg = (color, msg) => {
         document.getElementById('ad-resposta')['value'] = `${msg}`
-        document.getElementById('ad-resposta').style.border = `4px solid ${color}`
+        document.getElementById('ad-resposta').style.boxShadow = `4px solid ${color}`
+    }
+
+    const colorMsgEdit = (color, msg) => {
+        document.getElementById('edit-resposta')['value'] = `${msg}`
+        document.getElementById('edit-resposta').style.boxShadow = `0 -1px 0 ${color}, 0 0 2px ${color}, 0 2px 4px ${color}`
     }
 
     function veriFyChecks(obj) {

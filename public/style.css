@@ -176,7 +176,7 @@ body {
 .quan-prod {
     display: flex;
     align-items: center;
-    justify-content: center;    
+    justify-content: center;
     box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgb(0 0 0 / 12%), 0 2px 4px rgb(0 0 0 / 24%);
     border: 0px solid #202020;
 }
@@ -312,8 +312,9 @@ body {
     right: 0px;
     display: inline;
     animation-duration: 1s;
-    animation-name: slidein;    
+    animation-name: slidein;
 }
+
 .itens-menu div {
     display: flex;
     align-items: center;
@@ -337,7 +338,7 @@ body {
 }
 
 @keyframes slidein {
-    from {       
+    from {
         width: 0%
     }
 
@@ -346,6 +347,10 @@ body {
     }
 }
 
+.editprod {
+    border: 0;
+    box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
+}
 
 .ad-inp,
 #ad-user,
@@ -357,7 +362,7 @@ body {
 }
 
 .ad-inp:hover {
-    border: 2px solid #05b422;
+    box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, 0.685), 0 2px 4px rgba(0, 0, 0, 0.562);
 }
 
 /* DADOS CHECKOUT */
@@ -580,22 +585,27 @@ input:checked+section.box .box-title:before {
     font-size: 1rem;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
-.btn-r{
+
+.btn-r {
     border-radius: 0 8px 8px 0;
     color: #dc3545;
 }
-.btn-l{
+
+.btn-l {
     border-radius: 8px 0 0 8px;
     color: #198754;
 }
-.btn-r:hover{
+
+.btn-r:hover {
     background-color: #dc3545;
     color: #FFFF;
 }
-.btn-l:hover{
+
+.btn-l:hover {
     background-color: #198754;
     color: #FFFF;
 }
+
 /* Botões Fonte: Bootstrap */
 .btn {
     display: inline-block;
@@ -1421,7 +1431,7 @@ fieldset:disabled .btn {
 
 /* PESQUISA CARD */
 
-.pesq-prod{
+.pesq-prod {
     width: 96%;
     height: 30px;
     margin-bottom: 15px;
