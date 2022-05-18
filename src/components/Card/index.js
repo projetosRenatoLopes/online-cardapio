@@ -14,8 +14,7 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
     const handleClose = () => setOpen(false);
     const [imgModal, setImg] = useState(undefined);
 
-    var [vstatus, setValor] = useState(0)
-    let priceTotal = vstatus * preco;
+    var [vstatus, setValor] = useState(0);
     var [totalPrice, setTotalPrice] = useState(parseFloat(preco.toString()).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }))
 
     function btnshow() {
