@@ -1,6 +1,6 @@
 import { RiMenuLine, RiMenuUnfoldFill } from 'react-icons/ri'
 import { useState } from "react";
-import { CompannyName } from "../components/Companny/index.js";
+import InfoCompanny, { CompannyName } from "../components/Companny/index.js";
 import api from "../services/api.js";
 import LogoPage from '../components/Logo/index.js';
 import { useLocation } from 'react-router-dom';
@@ -8,7 +8,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import * as React from 'react';
-
+import InputEmail from "../components/InputEmail";
+import InputPass from "../components/InputPass";
 
 
 
@@ -90,11 +91,17 @@ const Admin = () => {
         const screen = sessionStorage.getItem('screen')
         if (admin === null) {
             return (<>
+                <div className='logo-page'>
+                    <img src={info[0].logo} alt='logo' style={{ 'width': '300px' }}></img>
+                </div>
                 <h5 id='msg' style={{ 'width': 'auto', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center' }}> </h5>
                 <div className="field-login">
-                    <input type='text' id="ad-user" placeholder="Login" style={{ 'width': '50%' }}></input>
-                    <input type='password' id="ad-pass" placeholder="Senha" style={{ 'width': '50%' }}></input>
-                    <button type='submit' className="btn-co btn-l btn-g" onClick={login}>Entrar</button>
+
+                    {/* <input type='text'  placeholder="Login" style={{ 'width': '50%' }}></input>
+                    <input type='password' placeholder="Senha" style={{ 'width': '50%' }}></input> */}
+                    <InputEmail className='input-user' placeholder='Usuário' />
+                    <InputPass className='input-pass' placeholder='Senha' />
+                    <button type='submit' className="btn-co btn-l btn-g" onClick={login} style={{ 'marginTop': '15px', 'width': '150px' }}>Entrar</button>
                 </div>
             </>)
         } else if (screen === 'Informacoes') {
@@ -118,7 +125,7 @@ const Admin = () => {
                         </div>
                         <div style={{ 'width': '100%', 'display': 'inline' }}>
                             <p style={{ 'width': '100%', 'display': 'flex', 'margin': '0 0 7px 0' }} >Cor de fundo da página:</p>
-                            <input type='color' className="ad-inp" id="ad-color" defaultValue={data[0].backcolor} style={{ 'width': '30%','padding':'0 5px 0 5px' }} onChange={()=>document.body.style.backgroundColor = (document.getElementById('ad-color')['value'])} onBlur={()=>document.body.style.backgroundColor ='#FFFFFF'}></input>
+                            <input type='color' className="ad-inp" id="ad-color" defaultValue={data[0].backcolor} style={{ 'width': '30%', 'padding': '0 5px 0 5px' }} onChange={() => document.body.style.backgroundColor = (document.getElementById('ad-color')['value'])} onBlur={() => document.body.style.backgroundColor = '#FFFFFF'}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'inline' }}>
                             <p style={{ 'width': '100%', 'display': 'flex', 'margin': '0 0 7px 0' }}>WhatsApp:</p>
@@ -333,8 +340,16 @@ const Admin = () => {
                 </>
             )
         } else {
+            const products = JSON.parse(sessionStorage.getItem('listProduct'))
+            const info = JSON.parse(sessionStorage.getItem('info'))
             return (<>
-                <LogoPage />
+                <div className='logo-page'>
+                    <LogoPage />
+                </div>
+                <InfoCompanny></InfoCompanny>
+                <h4>Total de Produtos: {products.length} </h4>
+                
+                
             </>)
         }
     }
@@ -421,7 +436,7 @@ const Admin = () => {
                                     <div style={{ 'padding': '0 5px 0 5px' }}>{product.ingr}</div>
                                 </div>
                             </div>
-                            <div style={{ 'width': '98%', 'marginBottom': '5px', 'display': 'flex', 'alignItems': 'center', 'justifyContent':'space-between', 'padding': '5px' }}>
+                            <div style={{ 'width': '98%', 'marginBottom': '5px', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'space-between', 'padding': '5px' }}>
                                 <div style={{ 'margin': '5px 0 5px 5px' }}><strong>{product.status}</strong></div>
                                 <div>
                                     <label className="btn-co btn-l" htmlFor={`open${product.uuid}`}>Editar</label>
@@ -749,8 +764,8 @@ const Admin = () => {
         document.getElementById('msg')['textContent'] = 'Entrando...'
         document.getElementById('msg').style.color = 'blue'
         const company = JSON.parse(sessionStorage.getItem('info'))
-        const user = await document.getElementById('ad-user')['value']
-        const pass = await document.getElementById('ad-pass')['value']
+        const user = await document.getElementById('user')['value']
+        const pass = await document.getElementById('pass')['value']
 
         const dadosUser = await {
             "user": user,
@@ -850,6 +865,10 @@ const Admin = () => {
 
     const pageInfo = () => {
         sessionStorage.setItem('screen', 'Informacoes')
+        window.location.href = `/admin/${companyTag}`
+    }
+    const pageHome = () => {
+        sessionStorage.setItem('screen', '')
         window.location.href = `/admin/${companyTag}`
     }
 
@@ -1026,7 +1045,7 @@ const Admin = () => {
             "emptag": tagEmp,
             "emptel": telEmp,
             "emptxentrega": entrega,
-            "backcolor":colorBack
+            "backcolor": colorBack
         }
 
         let verifyProp = true;
@@ -1128,6 +1147,7 @@ const Admin = () => {
             <div id='menu' className='menu' style={{ 'display': 'none' }}>
                 <div className='itens-menu'>
                     <div>{user}</div>
+                    <div onClick={pageHome}>Inicio</div>
                     <div onClick={pageInfo}>Informações</div>
                     <div onClick={pageProduct}>Produtos</div>
                     <div onClick={pageHora}>Horário</div>
@@ -1144,9 +1164,6 @@ const Admin = () => {
                 <div id='icon-menu-open' style={{ 'display': 'none' }}>
                     <RiMenuUnfoldFill onClick={menuOpen} />
                 </div>
-            </div>
-            <div className='logo-page'>
-                <h3>Área Administrativa</h3>
             </div>
 
             <Page />
