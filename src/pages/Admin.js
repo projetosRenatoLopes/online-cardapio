@@ -90,7 +90,23 @@ const Admin = () => {
         const admin = sessionStorage.getItem('token')
         const screen = sessionStorage.getItem('screen')
         if (admin === null) {
+
             return (<>
+                <div id='menu' className='menu' style={{ 'display': 'none' }}>
+                    <div className='itens-menu'>
+                        <div>{user}</div>
+                        <div onClick={pageHome}>Inicio</div>
+                        <div onClick={pageInfo}>Informações</div>
+                        <div onClick={pageProduct}>Produtos</div>
+                        <div onClick={pageHora}>Horário</div>
+                        <div onClick={logout}>Sair</div>
+                    </div>
+                </div>
+                <div className='title-page'>
+                    <div>
+                        {CompannyName}
+                    </div>
+                </div>
                 <div className='logo-page'>
                     <img src={info[0].logo} alt='logo' style={{ 'width': '300px' }}></img>
                 </div>
@@ -107,6 +123,27 @@ const Admin = () => {
         } else if (screen === 'Informacoes') {
             const data = JSON.parse(sessionStorage.getItem('info'))
             return (<>
+                <div id='menu' className='menu' style={{ 'display': 'none' }}>
+                    <div className='itens-menu'>
+                        <div>{user}</div>
+                        <div onClick={pageHome}>Inicio</div>
+                        <div onClick={pageInfo}>Informações</div>
+                        <div onClick={pageProduct}>Produtos</div>
+                        <div onClick={pageHora}>Horário</div>
+                        <div onClick={logout}>Sair</div>
+                    </div>
+                </div>
+                <div className='title-page'>
+                    <div>
+                        {CompannyName}
+                    </div>
+                    <div id='icon-menu' style={{ 'display': 'flex' }}>
+                        <RiMenuLine onClick={menuOpen} />
+                    </div>
+                    <div id='icon-menu-open' style={{ 'display': 'none' }}>
+                        <RiMenuUnfoldFill onClick={menuOpen} />
+                    </div>
+                </div>
                 <div className="data-checkout">
                     <h4>Informações:</h4>
                     <br></br>
@@ -183,6 +220,27 @@ const Admin = () => {
             )
         } else if (screen === 'Produtos') {
             return (<>
+                <div id='menu' className='menu' style={{ 'display': 'none' }}>
+                    <div className='itens-menu'>
+                        <div>{user}</div>
+                        <div onClick={pageHome}>Inicio</div>
+                        <div onClick={pageInfo}>Informações</div>
+                        <div onClick={pageProduct}>Produtos</div>
+                        <div onClick={pageHora}>Horário</div>
+                        <div onClick={logout}>Sair</div>
+                    </div>
+                </div>
+                <div className='title-page'>
+                    <div>
+                        {CompannyName}
+                    </div>
+                    <div id='icon-menu' style={{ 'display': 'flex' }}>
+                        <RiMenuLine onClick={menuOpen} />
+                    </div>
+                    <div id='icon-menu-open' style={{ 'display': 'none' }}>
+                        <RiMenuUnfoldFill onClick={menuOpen} />
+                    </div>
+                </div>
                 <div className="data-checkout">
                     <div style={{ 'width': '100%' }}>
                         <h4>Produtos:</h4>
@@ -254,6 +312,28 @@ const Admin = () => {
             }
             return (
                 <>
+                    <div id='menu' className='menu' style={{ 'display': 'none' }}>
+                        <div className='itens-menu'>
+                            <div>{user}</div>
+                            <div onClick={pageHome}>Inicio</div>
+                            <div onClick={pageInfo}>Informações</div>
+                            <div onClick={pageProduct}>Produtos</div>
+                            <div onClick={pageHora}>Horário</div>
+                            <div onClick={logout}>Sair</div>
+                        </div>
+                    </div>
+                    <div className='title-page'>
+                        <div>
+                            {CompannyName}
+                        </div>
+                        <div id='icon-menu' style={{ 'display': 'flex' }}>
+                            <RiMenuLine onClick={menuOpen} />
+                        </div>
+                        <div id='icon-menu-open' style={{ 'display': 'none' }}>
+                            <RiMenuUnfoldFill onClick={menuOpen} />
+                        </div>
+                    </div>
+
                     <h4>Horário de Funcionamento:</h4>
 
                     <div style={{ 'width': '100%' }}>
@@ -343,13 +423,34 @@ const Admin = () => {
             const products = JSON.parse(sessionStorage.getItem('listProduct'))
             const info = JSON.parse(sessionStorage.getItem('info'))
             return (<>
+                <div id='menu' className='menu' style={{ 'display': 'none' }}>
+                    <div className='itens-menu'>
+                        <div>{user}</div>
+                        <div onClick={pageHome}>Inicio</div>
+                        <div onClick={pageInfo}>Informações</div>
+                        <div onClick={pageProduct}>Produtos</div>
+                        <div onClick={pageHora}>Horário</div>
+                        <div onClick={logout}>Sair</div>
+                    </div>
+                </div>
+                <div className='title-page'>
+                    <div>
+                        {CompannyName}
+                    </div>
+                    <div id='icon-menu' style={{ 'display': 'flex' }}>
+                        <RiMenuLine onClick={menuOpen} />
+                    </div>
+                    <div id='icon-menu-open' style={{ 'display': 'none' }}>
+                        <RiMenuUnfoldFill onClick={menuOpen} />
+                    </div>
+                </div>
                 <div className='logo-page'>
                     <LogoPage />
                 </div>
                 <InfoCompanny></InfoCompanny>
                 <h4>Total de Produtos: {products.length} </h4>
-                
-                
+
+
             </>)
         }
     }
@@ -1144,27 +1245,7 @@ const Admin = () => {
 
     return (
         <>
-            <div id='menu' className='menu' style={{ 'display': 'none' }}>
-                <div className='itens-menu'>
-                    <div>{user}</div>
-                    <div onClick={pageHome}>Inicio</div>
-                    <div onClick={pageInfo}>Informações</div>
-                    <div onClick={pageProduct}>Produtos</div>
-                    <div onClick={pageHora}>Horário</div>
-                    <div onClick={logout}>Sair</div>
-                </div>
-            </div>
-            <div className='title-page'>
-                <div>
-                    {CompannyName}
-                </div>
-                <div id='icon-menu' style={{ 'display': 'flex' }}>
-                    <RiMenuLine onClick={menuOpen} />
-                </div>
-                <div id='icon-menu-open' style={{ 'display': 'none' }}>
-                    <RiMenuUnfoldFill onClick={menuOpen} />
-                </div>
-            </div>
+
 
             <Page />
 
