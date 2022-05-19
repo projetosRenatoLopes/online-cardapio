@@ -6,15 +6,16 @@ import { RiMoneyDollarCircleFill } from 'react-icons/ri'
 const getInfo = require("../../services/compannyInfo/info.json")
 const getInfoApi = JSON.parse(sessionStorage.getItem('info'))
 
+
 var paymentMethods = [];
-if(getInfoApi === undefined || getInfoApi ===  null){
+if (getInfoApi === undefined || getInfoApi === null) {
     paymentMethods = getInfo[2].paymentMethods;
 } else {
     const descPayModes = JSON.parse(sessionStorage.getItem('payModes'))
     const pay = getInfoApi[0].paymodes.split(',')
     pay.forEach(payItem => {
         descPayModes.forEach(descPay => {
-            if(payItem === descPay.id){
+            if (payItem === descPay.id) {
                 paymentMethods.push(descPay.desc)
             }
         });
@@ -22,14 +23,14 @@ if(getInfoApi === undefined || getInfoApi ===  null){
 }
 
 var categApi = [];
-if(getInfoApi === undefined || getInfoApi ===  null){
+if (getInfoApi === undefined || getInfoApi === null) {
     categApi = getInfo[4].paymentMethods;
 } else {
     const descCategs = JSON.parse(sessionStorage.getItem('categDesc'))
     const categ = getInfoApi[0].categs.split(',')
     categ.forEach(categItem => {
         descCategs.forEach(categPay => {
-            if(categItem === categPay.id){
+            if (categItem === categPay.id) {
                 categApi.push(categPay.desc)
             }
         });
@@ -89,7 +90,7 @@ const InfoCompanny = () => {
 
     return (
         <>
-            <div className='companny-info'>
+            <div className='companny-info' >
                 <nav className="accordion arrows">
                     <input type="radio" name="accordion" id="cb1" />
                     <section className="box">
@@ -113,7 +114,7 @@ const InfoCompanny = () => {
                     </section>
                     <input type="radio" name="accordion" id="cb2" />
                     <section className="box">
-                        <label className="box-title" htmlFor="cb2"><SiGooglemaps className='icon-local'/>{address[4]} - {address[5]}</label>
+                        <label className="box-title" htmlFor="cb2"><SiGooglemaps className='icon-local' />{address[4]} - {address[5]}</label>
                         <label className="box-close" htmlFor="acc-close"></label>
                         <div className="box-content">{address[0]}, Nº {address[1]} {address[2]}, {address[3]}, {address[4]} - {address[5]}.</div>
                     </section>

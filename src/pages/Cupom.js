@@ -5,7 +5,11 @@ import Button from '../components/Button';
 import { AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 import renderPedido from '../services/renderPedido';
+import { useEffect } from 'react';
+import refreshData from '../utils/refreshData';
+
 const company = sessionStorage.getItem('tag')
+
 function totalProducts(opc) {
     var arrItensCart = JSON.parse(sessionStorage.getItem('listCart'));
     var totalCart = 0;
@@ -93,6 +97,14 @@ function sendOrder() {
 
 
 const Cupom = () => {
+    useEffect(() => {
+        const interval = setInterval(() => {
+          refreshData()
+        }, 10000);
+        return () => clearInterval(interval)
+      }, []);
+
+
     var products = listItensCart();
     if (products === null) {
         products = [];

@@ -1,8 +1,10 @@
 import React, { memo, useState } from 'react'
 import Cupom from './Cupom'
 import { CompannyName } from '../Companny/index'
+import backcolor from '../../utils/backColor'
 
 function totalProducts() {
+    backcolor()
     var arrItensCart = JSON.parse(sessionStorage.getItem('listCart'));
     var totalCart = 0;
     for (let i in arrItensCart) {
@@ -75,7 +77,7 @@ function CupomGallery(props) {
     totalProducts()
     return (
         <div className='Cupom' id='cupom-id' key='cupom-key'>
-            <div className="card">
+            <div className="card-cp">
                 <div className='cp-top'>
                     <div ><strong className='cp-companny'>{CompannyName}</strong></div>
                     <div><h4>RESUMO DO PEDIDO</h4></div>

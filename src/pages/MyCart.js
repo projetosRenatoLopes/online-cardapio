@@ -3,9 +3,19 @@ import LogoCart from '../components/Cart'
 import CartGalerry from '../components/Cart/CartGalerry'
 import listItensCart from '../services/listCart/listCart';
 import { AiOutlineClose } from 'react-icons/ai'
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import refreshData from '../utils/refreshData';
 
 const MyCart = () => {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshData()
+    }, 10000);
+    return () => clearInterval(interval)
+  }, []);
+
+
   const company = sessionStorage.getItem('tag')
 
   var products = listItensCart();
@@ -21,10 +31,13 @@ const MyCart = () => {
     } else {
       const open = sessionStorage.getItem('ofp')
       if (open === 'true') {
-        window.location.href = `${company}/checkout`
+       return (`${company}/checkout`)
+        //window.location.href = `${company}/checkout`
       } else {
         alert("Estamos fechados no momento!\nConfira nosso hórario de atendimento na página inicial.")
-        window.location.href = `${company}/home`
+       
+        return (`${company}/home`)
+        //window.location.href = `${company}/home`
       }
     }
   }
@@ -46,7 +59,7 @@ const MyCart = () => {
       </div>
       <div className='bottomArea'>
         <Link to={`${company}/home`}><button className="btn btn-success" >Voltar</button></Link>
-        <button className="btn btn-success" onClick={verifyCestEmpty}>Confirmar</button>
+        <Link to={verifyCestEmpty()} ><button className="btn btn-success" >Confirmar</button></Link>
       </div>
 
     </>

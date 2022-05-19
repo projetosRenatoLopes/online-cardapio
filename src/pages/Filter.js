@@ -5,9 +5,20 @@ import CategGallery from '../components/Categories/Categs'
 import { myCategs } from "../components/Companny";
 import Button from '../components/Button';
 import { Link } from 'react-router-dom'
-
+import { useEffect } from 'react';
+import refreshData from '../utils/refreshData';
+import backcolor from '../utils/backColor'
 
 const Filter = () => {
+    backcolor()
+    useEffect(() => {
+        const interval = setInterval(() => {
+          refreshData()
+        }, 10000);
+        return () => clearInterval(interval)
+      }, []);
+
+
     const company = sessionStorage.getItem('tag')
     var arrProduct = JSON.parse(sessionStorage.getItem('viewProducts'));
     var products = arrProduct;

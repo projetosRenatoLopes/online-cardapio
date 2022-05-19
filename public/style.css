@@ -72,22 +72,22 @@ body {
 
 .price-total-order {
     width: auto;
-    height: 30px;
+    height: 35px;
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(150px);
     --webkit-backdrop-filter: blur(10px);
     margin-top: 15px;
     margin-bottom: 20px;
-    border: 2px solid;
-    border-color: rgb(119, 118, 118);
+    box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgb(0 0 0 / 12%), 0 2px 4px rgb(0 0 0 / 24%);
     border-radius: 10px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .price-total-order p {
-    margin-top: 2px;
     font-size: 1.3rem;
-    color: rgb(121, 38, 0);
+    color: rgb(0, 0, 0);
 }
 
 
@@ -100,7 +100,7 @@ body {
 
 #root {
     margin: auto;
-    max-width: 30rem;
+    max-width: 60rem;
     min-width: 15rem;
 }
 
@@ -219,7 +219,7 @@ body {
 /* CUPOM */
 
 .Cupom {
-    background: #b9b37b;
+    margin-top: 25px;
 }
 
 #info-client p {
@@ -360,6 +360,8 @@ body {
     height: 30px;
     margin-bottom: 7px;
     padding-inline-start: 8px;
+    border: 0;
+    box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
 }
 
 .ad-inp:hover {
@@ -367,6 +369,13 @@ body {
 }
 
 /* DADOS CHECKOUT */
+.field-login{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 .co-addr-div,
 .data-checkout {
     width: 100%;
@@ -1495,6 +1504,21 @@ fieldset:disabled .btn {
     box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
 }
 
+.card-cp {
+    position: relative;
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    
+    background: rgb(255, 255, 255);
+    backdrop-filter: blur(150px);
+    --webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
+    border-radius: .90rem
+}
+
 /* Cards Fonte: Bootstrap */
 .card {
     position: relative;
@@ -1508,6 +1532,10 @@ fieldset:disabled .btn {
     --webkit-backdrop-filter: blur(10px);
     box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
     border-radius: .90rem
+}
+
+.card:hover{
+background-color: #fff;
 }
 
 .card>hr {
@@ -1539,7 +1567,7 @@ fieldset:disabled .btn {
 
 .card-body {
     flex: 1 1 auto;
-    padding: 0.7rem 0.7rem
+    padding: 0.2rem 0.2rem;
 }
 
 .card-title {

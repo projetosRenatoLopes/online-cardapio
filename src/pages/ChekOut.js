@@ -3,9 +3,10 @@ import listItensCart from '../services/listCart/listCart';
 import { AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 import PayementsModes from '../components/PaymentModes'
-
+import backcolor from '../utils/backColor'
 
 const CheckOut = () => {
+    backcolor()
     const company = sessionStorage.getItem('tag')
     var products = listItensCart();
     if (products === null) {
@@ -20,12 +21,6 @@ const CheckOut = () => {
     // taxa de entrega   
     const getInfoApi = JSON.parse(sessionStorage.getItem('info'))[0]
     const txDelivery = getInfoApi.txentrega
-
-    // list de produtos no carrinho
-    var products = listItensCart();
-    if (products === null) {
-        products = [];
-    }
 
     // dadosPedido
     const dados = JSON.parse(sessionStorage.getItem('dadosPedido'))

@@ -45,7 +45,7 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
                     <div className='btns-cards-add-rem'>
                         <div className='btn-group'>
                             <div className='price' style={{ 'margin': '5px 5px 0 0' }}>
-                               Total: {totalPrice}
+                                Total: {totalPrice}
                             </div>
                             <Button className="btn-co btn-l" onClick={Add}><strong>+</strong></Button>
                             {/* <button className="btn btn-outline-secondary">{vstatus}</button> */}
@@ -159,7 +159,7 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
     return (
         <>
             <div className="card">
-                <div style={{'display':'flex','justifyContent':'space-between','margin':'0 7px 0 0'}}>
+                <div style={{ 'display': 'flex', 'justifyContent': 'space-between', 'margin': '0 7px 0 0' }}>
                     <h5 className="card-title">{nomeprod}</h5>
                     <div className='price'>
                         <strong>{parseFloat(preco).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</strong>
@@ -167,11 +167,12 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
                 </div>
                 <div className="img-text">
                     <img onClick={() => openModal(img)} src={img} className="card-img-top" alt='img-card'></img>
-                    <div className="card-text">
-                        <p >{ingr}</p>
+                    <div className="card-text" style={{ 'display': 'flex', 'alignItems': 'center', 'width': '100%' }}>
+                        <div style={{ 'padding': '0 5px 0 5px' }}>{ingr}</div>
                     </div>
+
                 </div>
-                <div className="card-body" style={{'display':'flex','justifyContent':'flex-end'}}>
+                <div className="card-body" style={{ 'display': 'flex', 'justifyContent': 'flex-end' }}>
                     <div className="bottom-Card">
                         <div className="add-remove-item">
                             {btnshow()}
@@ -183,6 +184,7 @@ const Card = ({ uuid, nomeprod, preco, img, ingr }) => {
             <div>
 
                 <Modal
+
                     open={open}
                     onClose={handleClose}
                     aria-labelledby="modal-modal-title"

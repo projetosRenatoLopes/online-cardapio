@@ -91,10 +91,10 @@ const Admin = () => {
         if (admin === null) {
             return (<>
                 <h5 id='msg' style={{ 'width': 'auto', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center' }}> </h5>
-                <div className="data-checkout">
-                    <input type='text' id="ad-user" placeholder="Login" style={{ 'width': '100%' }}></input>
-                    <input type='password' id="ad-pass" placeholder="Senha" style={{ 'width': '100%' }}></input>
-                    <button type='submit' className="btn btn-success" onClick={login}>Entrar</button>
+                <div className="field-login">
+                    <input type='text' id="ad-user" placeholder="Login" style={{ 'width': '50%' }}></input>
+                    <input type='password' id="ad-pass" placeholder="Senha" style={{ 'width': '50%' }}></input>
+                    <button type='submit' className="btn-co btn-l btn-g" onClick={login}>Entrar</button>
                 </div>
             </>)
         } else if (screen === 'Informacoes') {
@@ -104,25 +104,29 @@ const Admin = () => {
                     <h4>Informações:</h4>
                     <br></br>
                     <div style={{ 'width': '100%' }}>
-                        <div style={{ 'width': '100%', 'display': 'flex' }}>
-                            <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Empresa:</p>
-                            <input type='text' className="ad-inp" id="ad-name" defaultValue={data[0].name} style={{ 'width': '70%' }}></input>
+                        <div style={{ 'width': '100%', 'display': 'inline' }}>
+                            <p style={{ 'width': '100%', 'display': 'flex', 'margin': '0 0 7px 0' }}>Empresa:</p>
+                            <input type='text' className="ad-inp" id="ad-name" defaultValue={data[0].name} style={{ 'width': '100%' }}></input>
                         </div>
-                        <div style={{ 'width': '100%', 'display': 'flex' }}>
-                            <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Tag:</p>
-                            <input type='text' className="ad-inp" id="ad-tag" defaultValue={data[0].tag} style={{ 'width': '70%' }} disabled></input>
+                        <div style={{ 'width': '100%', 'display': 'inline' }}>
+                            <p style={{ 'width': '100%', 'display': 'flex', 'margin': '0 0 7px 0' }}>Tag:</p>
+                            <input type='text' className="ad-inp" id="ad-tag" defaultValue={data[0].tag} style={{ 'width': '100%' }} disabled></input>
                         </div>
-                        <div style={{ 'width': '100%', 'display': 'flex' }}>
-                            <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Link Logo:</p>
-                            <input type='text' className="ad-inp" id="ad-logo" defaultValue={data[0].logo} style={{ 'width': '70%' }}></input>
+                        <div style={{ 'width': '100%', 'display': 'inline' }}>
+                            <p style={{ 'width': '100%', 'display': 'flex', 'margin': '0 0 7px 0' }}>Link Logo:</p>
+                            <input type='text' className="ad-inp" id="ad-logo" defaultValue={data[0].logo} style={{ 'width': '100%' }}></input>
                         </div>
-                        <div style={{ 'width': '100%', 'display': 'flex' }}>
-                            <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>WhatsApp:</p>
-                            <input type='text' className="ad-inp" id="ad-wha" defaultValue={data[0].tel} style={{ 'width': '70%' }}></input>
+                        <div style={{ 'width': '100%', 'display': 'inline' }}>
+                            <p style={{ 'width': '100%', 'display': 'flex', 'margin': '0 0 7px 0' }} >Cor de fundo da página:</p>
+                            <input type='color' className="ad-inp" id="ad-color" defaultValue={data[0].backcolor} style={{ 'width': '30%','padding':'0 5px 0 5px' }} onChange={()=>document.body.style.backgroundColor = (document.getElementById('ad-color')['value'])} onBlur={()=>document.body.style.backgroundColor ='#FFFFFF'}></input>
                         </div>
-                        <div style={{ 'width': '100%', 'display': 'flex' }}>
-                            <p style={{ 'width': '20%', 'alignItems': 'center', 'justifyContent': 'center', 'display': 'flex', 'margin': '0 0 7px 0' }}>Taxa de entrega:</p>
-                            <input type='text' className="ad-inp" id="ad-tax" defaultValue={data[0].txentrega} style={{ 'width': '70%' }}></input>
+                        <div style={{ 'width': '100%', 'display': 'inline' }}>
+                            <p style={{ 'width': '100%', 'display': 'flex', 'margin': '0 0 7px 0' }}>WhatsApp:</p>
+                            <input type='text' className="ad-inp" id="ad-wha" defaultValue={data[0].tel} style={{ 'width': '100%' }}></input>
+                        </div>
+                        <div style={{ 'width': '100%', 'display': 'inline' }}>
+                            <p style={{ 'width': '100%', 'margin': '0 0 7px 0' }}>Taxa de entrega:</p>
+                            <input type='text' className="ad-inp" id="ad-tax" defaultValue={data[0].txentrega} style={{ 'width': '100%' }}></input>
                         </div>
                     </div>
                 </div>
@@ -573,14 +577,14 @@ const Admin = () => {
                     api.get(`/produtos/${data[0].tag}`).then(res => {
                         if (res.data[0].products === undefined) {
                             sessionStorage.setItem('listProduct', JSON.stringify([]))
-                            colorMsgEdit('yellow', `resp-${productEdit[0].id}`, 'Produto Inserido! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
+                            colorMsgEdit('yellow', `resp-${productEdit[0].id}`, 'Produto atualizado! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
                         } else {
                             sessionStorage.setItem('listProduct', JSON.stringify(res.data[0].products))
                             sessionStorage.setItem('viewProducts', JSON.stringify(res.data[0].products))
                             window.location.href = `/admin/${companyTag}`
                         }
                     }).catch(error => {
-                        colorMsgEdit('yellow', `resp-${productEdit[0].id}`, 'Produto Inserido! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
+                        colorMsgEdit('yellow', `resp-${productEdit[0].id}`, 'Produto atualizado! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
                     })
 
                 }).catch(error => {
@@ -609,6 +613,7 @@ const Admin = () => {
             });
         });
 
+        // @ts-ignore
         const [optionsCateg, setOptionsCateg] = useState(categsSel)
 
 
@@ -800,7 +805,7 @@ const Admin = () => {
 
     const colorMsg = (color, msg) => {
         document.getElementById('ad-resposta')['value'] = `${msg}`
-        document.getElementById('ad-resposta').style.boxShadow = `4px solid ${color}`
+        document.getElementById('ad-resposta').style.boxShadow = `0 -1px 0 ${color}, 0 0 2px ${color}, 0 2px 4px ${color}`
     }
 
     const colorMsgEdit = (color, id, msg) => {
@@ -909,7 +914,8 @@ const Admin = () => {
             "emppaymodes": data[0].paymodes,
             "emptag": data[0].tag,
             "emptel": data[0].tel,
-            "emptxentrega": data[0].txentrega
+            "emptxentrega": data[0].txentrega,
+            "backcolor": data[0].backcolor
         }
 
         let verifyProp = true;
@@ -978,6 +984,7 @@ const Admin = () => {
     }
 
     const updateInfo = async () => {
+        colorMsg('yellow', 'Aguardando resposta...')
         document.getElementById('btn-cad')['disabled'] = true
         const nameEmp = document.getElementById('ad-name')['value'],
             tagEmp = document.getElementById('ad-tag')['value'],
@@ -989,7 +996,8 @@ const Admin = () => {
             est = document.getElementById('ad-est')['value'],
             entrega = document.getElementById('ad-tax')['value'],
             logoEmp = document.getElementById('ad-logo')['value'],
-            telEmp = document.getElementById('ad-wha')['value'];
+            telEmp = document.getElementById('ad-wha')['value'],
+            colorBack = document.getElementById('ad-color')['value'];
 
         const arrCateg = JSON.parse(sessionStorage.getItem('categ'));
         const arrCategs = veriFyChecks(arrCateg)
@@ -1017,7 +1025,8 @@ const Admin = () => {
             "emppaymodes": arrPayModes,
             "emptag": tagEmp,
             "emptel": telEmp,
-            "emptxentrega": entrega
+            "emptxentrega": entrega,
+            "backcolor":colorBack
         }
 
         let verifyProp = true;

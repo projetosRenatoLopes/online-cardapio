@@ -5,10 +5,20 @@ import CardsGalerry from '../components/Card/CardsGalerry'
 import { listProducts } from '../services/products';
 import CategGallery from '../components/Categories/Categs'
 import { myCategs } from "../components/Companny";
-import { useLocation } from 'react-router-dom'
+import refreshData from '../utils/refreshData'
+import React, { useEffect } from 'react';
+import backcolor from '../utils/backColor'
 
 const Home = () => {
-  
+  backcolor()
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshData()
+    }, 10000);
+    return () => clearInterval(interval)
+  }, []);
+
   var products = listProducts();
   return (
     <>
