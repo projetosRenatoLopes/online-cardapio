@@ -25,7 +25,7 @@ function Client(props) {
                             <div></div>
                             <div className="add-remove-item">
                                 <div className="btns-cards-add-rem">
-                                    <Link to={`/${gallery.tag}`} ><button type="button" className="btn btn-success">Visitar</button></Link>
+                                    <Link to={`/${gallery.tag}`} ><button type="button" className="btn-co btn-l btn-g">Visitar</button></Link>
                                 </div>
                             </div>
                         </div>
