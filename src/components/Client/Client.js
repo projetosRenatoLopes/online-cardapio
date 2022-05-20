@@ -20,11 +20,11 @@ function Client(props) {
                             <p>Visite o cardápio de {gallery.name}.</p>
                         </div>
                     </div>
-                    <div className="card-body">
+                    <div className="card-body"  style={{'margin':'0 0 15px 0'}}>
                         <div className="bottom-Card">
                             <div></div>
-                            <div className="add-remove-item">
-                                <div className="btns-cards-add-rem">
+                            <div className="add-remove-item" >
+                                <div className="btns-cards-add-rem" >
                                     <Link to={`/${gallery.tag}`} ><button type="button" className="btn-co btn-l btn-g">Visitar</button></Link>
                                 </div>
                             </div>
