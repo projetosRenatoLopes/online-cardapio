@@ -239,9 +239,9 @@ const CheckOut = () => {
             </div>
             <br></br>
             <div className='bottomArea'>
-                <Link to={`${company}/mycart`}><button className="btn btn-success" >Voltar</button></Link>
-                <button className="btn btn-success" onClick={cleanData}>Limpar dados</button>
-                <button className="btn btn-success" type="submit" onClick={saveInfoClient}>Confirmar</button>
+                <Link to={`${company}/mycart`}><button className="btn-co btn-g btn-c" >Voltar</button></Link>
+                <button className="btn-co btn-g btn-r" onClick={cleanData}>Limpar dados</button>
+                <button className="btn-co btn-g btn-l" type="submit" onClick={saveInfoClient}>Confirmar</button>
             </div>
 
         </>

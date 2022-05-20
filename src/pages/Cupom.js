@@ -159,9 +159,9 @@ const Cupom = () => {
             <br></br>
 
             <div className='bottomArea'>
-                <Link to={`${company}/checkout`}><button className="btn btn-success" >Voltar</button></Link>
-                <Button className='btn btn-success' onClick={exportPDF}>Imprimir</Button>
-                <Button className="btn btn-success" onClick={sendOrder} >Enviar pedido</Button>
+                <Link to={`${company}/checkout`}><button className="btn-g btn-co btn-c" >Voltar</button></Link>
+                {/* <Button className='btn-g btn-co btn-c' onClick={exportPDF}>Imprimir</Button> */}
+                <Button className="btn-g btn-co btn-l" onClick={sendOrder} >Enviar pedido</Button>
             </div>
 
         </>

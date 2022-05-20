@@ -55,8 +55,8 @@ const MyCart = () => {
         <CartGalerry cards={products} />
       </div>
       <div className='bottomArea'>
-        <Link to={`${company}/home`}><button className="btn btn-success" >Voltar</button></Link>
-       <button className="btn btn-success" onClick={verifyCestEmpty}>Confirmar</button>
+        <Link to={`${company}/home`}><button className="btn-co btn-g btn-c" >Voltar</button></Link>
+       <button className="btn-co btn-g btn-l" onClick={verifyCestEmpty}>Confirmar</button>
       </div>
 
     </>

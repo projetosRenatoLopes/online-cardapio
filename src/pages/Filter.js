@@ -36,7 +36,7 @@ const Filter = () => {
             <br></br>
             <CardsGalerry cards={products} />
             <div className='bottomArea'>
-                <Link to={`${company}/home`}><Button onClick={myCategs} className="btn btn-success">Voltar</Button></Link>
+                <Link to={`${company}/home`}><Button onClick={myCategs} className="btn-co btn-c btn-g"><strong>Voltar</strong></Button></Link>
             </div>
         </>
     )
