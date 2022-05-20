@@ -616,9 +616,8 @@ const Admin = () => {
             )
         }
 
-        console.log(products)
-        console.log([])
-        if (products === null || products.length === 0) {
+        const productList  = JSON.parse(sessionStorage.getItem('listProduct'))
+        if (productList === null || productList.length === 0) {
             return (<><div style={{ 'display': 'flex', 'justifyContent': 'center', 'width': '100%' }}><h5>Você ainda não possui nenhum produto cadastrado.</h5></div></>)
         } else {
             return (

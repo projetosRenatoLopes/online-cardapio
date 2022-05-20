@@ -36,7 +36,18 @@ function CardsGalerry(props) {
         const interval = setInterval(() => {
           refreshData()
           const productsView =  JSON.parse(sessionStorage.getItem('viewProducts'))
+
           setGallery(productsView.sort(compare))
+          var newList = [];
+          productsView.forEach(element => { 
+            if (element.status === 'Ativo') {
+              newList.push(element)
+            }
+          });
+          sessionStorage.setItem('viewProducts', JSON.stringify(newList))
+          setGallery(newList.sort(compare))
+
+
         }, 10000);
         return () => clearInterval(interval)
       }, []);
@@ -63,6 +74,7 @@ function CardsGalerry(props) {
   if (itens === null) {
     return (
       <div>
+        <h5>Nenhum produto para exibir ainda.</h5>
       </div>
     )
   } else {
