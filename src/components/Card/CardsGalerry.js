@@ -1,33 +1,46 @@
 import { memo, useState } from 'react'
 import Card from '.'
 import * as React from 'react';
-
+import refreshData from '../../utils/refreshData';
+import { compare } from '../../services/orderById';
+import replaceAccent from '../../utils/replaceAccent';
 
 function CardsGalerry(props) {
-
   const { cards } = props
   var cardsAct = [];
   cards.forEach(element => {
     if (element.status === 'Ativo') {
-     cardsAct.push(element)
-    } 
+      cardsAct.push(element)
+    }
   });
 
   // eslint-disable-next-line no-unused-vars
-  const [gallery, setGallery] = useState(cardsAct)
+  const [gallery, setGallery] = useState(cardsAct.sort(compare))
 
   function pesquisarProd() {
     const pesq = document.getElementById('ad-pesq')['value']
     const listProd = JSON.parse(sessionStorage.getItem('listProduct'))
     var newList = [];
     listProd.forEach(element => {
-      if (element.nomeprod.toLowerCase().includes(pesq.toLowerCase()) && element.status === 'Ativo') {
+      const stringElement = replaceAccent(element.nomeprod.toLowerCase())
+      const stringSearch = replaceAccent(pesq.toLowerCase())      
+      if (stringElement.includes(stringSearch) && element.status === 'Ativo') {
         newList.push(element)
       }
     });
     sessionStorage.setItem('viewProducts', JSON.stringify(newList))
-    setGallery(newList)
+    setGallery(newList.sort(compare))
   }
+
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+          refreshData()
+          const productsView =  JSON.parse(sessionStorage.getItem('viewProducts'))
+          setGallery(productsView.sort(compare))
+        }, 10000);
+        return () => clearInterval(interval)
+      }, []);
+
 
 
   const renderCards = (gallery, key) => {
@@ -57,7 +70,9 @@ function CardsGalerry(props) {
 
     return (
       <div id='gallery'>
-        <input type='text' className="pesq-prod" id='ad-pesq' placeholder='Pesquisar' onChange={pesquisarProd}></input>
+        <div style={{'display':'flex','alignItems':'center','justifyContent':'center'}}>
+          <input type='text' className="pesq-prod" id='ad-pesq' placeholder='Pesquisar' onChange={pesquisarProd} style={{'width':'100%','backgroundColor':'rgb(255 255 255 / 62%)','borderRadius':'10px 10px 10px 10px'}}></input>
+        </div>
         {gallery.map(renderCards)}
 
       </div>

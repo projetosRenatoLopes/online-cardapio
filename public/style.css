@@ -281,6 +281,16 @@ body {
     margin: 3px 0px 0px 5px;
 }
 
+.co-data{
+    width: 90%;
+    height: 30px;
+    margin-bottom: 7px;
+    padding-inline-start: 8px;
+    border: 0;
+    background-color: rgba(235, 235, 235, 0.726);
+    box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
+}
+
 /* ADMIN */
 #icon-menu {
     margin-right: 25px;
@@ -411,18 +421,6 @@ body {
 .co-chk-drive-delivery {
     width: 90%;
     margin-bottom: 15px;
-}
-
-#co-input-obs:hover,
-#name:hover,
-#tel:hover,
-#co-input-street:hover,
-#co-input-num:hover,
-#co-input-complement:hover,
-#co-input-district:hover,
-#co-input-city:hover,
-#co-input-sel:hover {
-    border: 2px solid #05b422;
 }
 
 select:required:invalid {

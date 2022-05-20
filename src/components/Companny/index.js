@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SiGooglemaps } from 'react-icons/si'
 import { AiFillClockCircle } from 'react-icons/ai'
 import { RiMoneyDollarCircleFill } from 'react-icons/ri'
+import refreshData from "../../utils/refreshData";
 
 const getInfo = require("../../services/compannyInfo/info.json")
 const getInfoApi = JSON.parse(sessionStorage.getItem('info'))
@@ -59,13 +60,22 @@ export var CompannyName = (
 );
 
 const InfoCompanny = () => {
+    const [openHours, setOpenHours] = useState(openingHours)
+    useEffect(() => {
+        const interval = setInterval(() => {
+          refreshData()
+          const getInform = JSON.parse(sessionStorage.getItem('info'))
+          setOpenHours([getInform[0].funcdom, getInform[0].funcseg, getInform[0].functer, getInform[0].funcqua, getInform[0].funcqui, getInform[0].funcsex, getInform[0].funcsab])
+        }, 10000);
+        return () => clearInterval(interval)
+      }, []);
 
 
     const dayWeek = new Date();
     const week = ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado']
     const today = dayWeek.getDay();
     var showDay = week[today];
-    var openingHoursRange = openingHours[today]
+    var openingHoursRange = openHours[today]
 
     function colorDay(day, hours) {
         if (day === showDay) {
@@ -97,19 +107,19 @@ const InfoCompanny = () => {
                         <label className="box-title" id='title-cb1' htmlFor="cb1"><AiFillClockCircle />{colorDay(showDay, openingHoursRange)}</label>
                         <label className="box-close" htmlFor="acc-close"></label>
                         <div className="box-content">
-                            {colorDay(week[0], openingHours[0])}
+                            {colorDay(week[0], openHours[0])}
                             <br></br>
-                            {colorDay(week[1], openingHours[1])}
+                            {colorDay(week[1], openHours[1])}
                             <br></br>
-                            {colorDay(week[2], openingHours[2])}
+                            {colorDay(week[2], openHours[2])}
                             <br></br>
-                            {colorDay(week[3], openingHours[3])}
+                            {colorDay(week[3], openHours[3])}
                             <br></br>
-                            {colorDay(week[4], openingHours[4])}
+                            {colorDay(week[4], openHours[4])}
                             <br></br>
-                            {colorDay(week[5], openingHours[5])}
+                            {colorDay(week[5], openHours[5])}
                             <br></br>
-                            {colorDay(week[6], openingHours[6])}
+                            {colorDay(week[6], openHours[6])}
                         </div>
                     </section>
                     <input type="radio" name="accordion" id="cb2" />

@@ -10,7 +10,7 @@ import Modal from '@mui/material/Modal';
 import * as React from 'react';
 import InputEmail from "../components/InputEmail";
 import InputPass from "../components/InputPass";
-
+import formatTel from '../utils/formatTel'
 
 
 const Admin = () => {
@@ -122,6 +122,30 @@ const Admin = () => {
             </>)
         } else if (screen === 'Informacoes') {
             const data = JSON.parse(sessionStorage.getItem('info'))
+            const verifyTel = () => {
+                const tel = document.getElementById('ad-wha')['value']
+                document.getElementById('ad-wha')['value'] = formatTel(tel)
+            }
+            const verifyTaxa = () => {
+                var tx = document.getElementById('ad-tax')['value']
+                tx = tx.replace(/[A-Za-z]/, '');
+                tx = tx.replace(/\D/g, '');
+                var newTx;
+                if (tx.length === 0) {
+                    newTx = ""
+                } else if (tx.length === 1) {
+                    newTx = tx
+                } else if (tx.length === 2) {
+                    newTx = `${tx.slice(0, 1)},${tx.slice(1, 2)}`
+                } else if (tx.length === 3) {
+                    newTx = `${tx.slice(0, 1)},${tx.slice(1, 3)}`
+                } else {
+                    newTx = `${tx.slice(0, 2)},${tx.slice(2, 4)}`
+                }
+                document.getElementById('ad-tax')['value'] = ("R$ "+ newTx)
+            }
+
+            var telFormated = `(${data[0].tel.slice(2, 4)}) ${data[0].tel.slice(4, 9)}-${data[0].tel.slice(9, 13)}`
             return (<>
                 <div id='menu' className='menu' style={{ 'display': 'none' }}>
                     <div className='itens-menu'>
@@ -166,11 +190,11 @@ const Admin = () => {
                         </div>
                         <div style={{ 'width': '100%', 'display': 'inline' }}>
                             <p style={{ 'width': '100%', 'display': 'flex', 'margin': '0 0 7px 0' }}>WhatsApp:</p>
-                            <input type='text' className="ad-inp" id="ad-wha" defaultValue={data[0].tel} style={{ 'width': '100%' }}></input>
+                            <input type='text' className="ad-inp" id="ad-wha" onChange={verifyTel} defaultValue={telFormated} style={{ 'width': '100%' }}></input>
                         </div>
                         <div style={{ 'width': '100%', 'display': 'inline' }}>
                             <p style={{ 'width': '100%', 'margin': '0 0 7px 0' }}>Taxa de entrega:</p>
-                            <input type='text' className="ad-inp" id="ad-tax" defaultValue={data[0].txentrega} style={{ 'width': '100%' }}></input>
+                            <input type='text' className="ad-inp" id="ad-tax" onChange={verifyTaxa} defaultValue={`R$ ${data[0].txentrega}`} style={{ 'width': '100%' }}></input>
                         </div>
                     </div>
                 </div>
@@ -592,15 +616,18 @@ const Admin = () => {
             )
         }
 
-
-
-
-        return (
-            <div className="list-prod" id='list-prod' style={{ 'width': '100%', 'fontSize': '15px' }}>
-                <input type='text' className="pesq-prod" id='prod-pesq' placeholder='Pesquisar' onChange={pesquisarProd} style={{ 'marginBottom': '20px', 'width': '97%' }}></input>
-                {product.map(RenderOptions)}
-            </div>
-        )
+        console.log(products)
+        console.log([])
+        if (products === null || products.length === 0) {
+            return (<><div style={{ 'display': 'flex', 'justifyContent': 'center', 'width': '100%' }}><h5>Você ainda não possui nenhum produto cadastrado.</h5></div></>)
+        } else {
+            return (
+                <div className="list-prod" id='list-prod' style={{ 'width': '100%', 'fontSize': '15px' }}>
+                    <input type='text' className="pesq-prod" id='prod-pesq' placeholder='Pesquisar' onChange={pesquisarProd} style={{ 'marginBottom': '20px', 'width': '97%' }}></input>
+                    {product.map(RenderOptions)}
+                </div>
+            )
+        }
     }
 
     async function reqServer() {
@@ -1118,7 +1145,14 @@ const Admin = () => {
             logoEmp = document.getElementById('ad-logo')['value'],
             telEmp = document.getElementById('ad-wha')['value'],
             colorBack = document.getElementById('ad-color')['value'];
-
+        var newTel = telEmp.replace(/[A-Za-z]/, '');
+        newTel = newTel.replace(/\D/g, '');
+        newTel = newTel.replace(/[-]/, '');
+        newTel = newTel.replace(/( )+/g, '');
+        newTel = newTel.replace(/[()]+/g, '');
+        newTel = newTel.replace(/( )+/g, '');
+        newTel = `55${newTel}`;
+        var newTx = entrega.replace(/[A-Za-z]/, '').replace(/[$]/, '').replace(/[,]/, '.').replace(/( )+/g, '');
         const arrCateg = JSON.parse(sessionStorage.getItem('categ'));
         const arrCategs = veriFyChecks(arrCateg)
         const arrPayMode = JSON.parse(sessionStorage.getItem('payModes'))
@@ -1144,10 +1178,11 @@ const Admin = () => {
             "empname": nameEmp,
             "emppaymodes": arrPayModes,
             "emptag": tagEmp,
-            "emptel": telEmp,
-            "emptxentrega": entrega,
+            "emptel": newTel,
+            "emptxentrega": newTx,
             "backcolor": colorBack
         }
+        console.log(dadosEmpresa)
 
         let verifyProp = true;
         Object.entries(dadosEmpresa).forEach(([key, value]) => {
@@ -1224,7 +1259,7 @@ const Admin = () => {
     }
 
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(false);
+    //const handleOpen = () => setOpen(false);
     const handleClose = () => setOpen(false);
     const [img, setImg] = useState(undefined);
     const style = {

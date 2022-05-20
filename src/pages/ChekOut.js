@@ -4,9 +4,19 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 import PayementsModes from '../components/PaymentModes'
 import backcolor from '../utils/backColor'
+import { useEffect } from 'react';
+import refreshData from '../utils/refreshData';
+import formatTel from '../utils/formatTel'
 
 const CheckOut = () => {
+    useEffect(() => {
+        const interval = setInterval(() => {
+          refreshData()
+        }, 10000);
+        return () => clearInterval(interval)
+      }, []);
     backcolor()
+
     const company = sessionStorage.getItem('tag')
     var products = listItensCart();
     if (products === null) {
@@ -26,16 +36,25 @@ const CheckOut = () => {
     const dados = JSON.parse(sessionStorage.getItem('dadosPedido'))
     setTimeout(() => {
         document.getElementById('name')["value"] = dados[0].name
+        document.getElementById('name')["disabled"] = false
         document.getElementById('co-drive')["checked"] = dados[0].drive
         document.getElementById('co-delivery')["checked"] = dados[0].delivery
         document.getElementById('tel')["value"] = dados[0].tel
+        document.getElementById('tel')["disabled"] = false
         document.getElementById('co-input-street')["value"] = dados[0].rua
+        document.getElementById('co-input-street')["disabled"] = false
         document.getElementById('co-input-num')["value"] = dados[0].num
+        document.getElementById('co-input-num')["disabled"] = false
         document.getElementById('co-input-complement')["value"] = dados[0].comp
+        document.getElementById('co-input-complement')["disabled"] = false
         document.getElementById('co-input-district')["value"] = dados[0].bairro
+        document.getElementById('co-input-district')["disabled"] = false
         document.getElementById('co-input-city')["value"] = dados[0].cidade
+        document.getElementById('co-input-city')["disabled"] = false
         document.getElementById('co-input-sel')["value"] = dados[0].pagamento
+        document.getElementById('co-input-sel')["disabled"] = false
         document.getElementById('co-input-obs')["value"] = dados[0].obs
+        document.getElementById('co-input-obs')["disabled"] = false
     }, 1000);
 
 
@@ -181,6 +200,11 @@ const CheckOut = () => {
         document.getElementById('co-input-sel')["value"] = "Forma de Pagamento"
         document.getElementById('co-input-obs')["value"] = ""
     }
+
+    const verifyTel = () => {
+    const tel = document.getElementById('tel')['value']
+    document.getElementById('tel')['value'] = formatTel(tel)    
+    }
     return (
         <>
             <div className='title-page'>
@@ -193,9 +217,8 @@ const CheckOut = () => {
             <div className='data-checkout'>
 
                 <h3>Dados do pedido:</h3>
-                <input type="text" id='name' className='co-name' placeholder='Nome completo' ></input>
-                <input type='tel' id='tel' className='co-tel' placeholder='Telefone' pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    required ></input>
+                <input type="text"  id='name' className='co-data' placeholder='Nome completo' style={{'backgroundColor':'rgba(235, 235, 235, 0.726)'}} ></input>
+                <input type='text' id='tel' className='co-data' placeholder='Telefone' onChange={verifyTel} required style={{'backgroundColor':'rgba(235, 235, 235, 0.726)'}}></input>
                 <div className='co-chk-drive-delivery'>
                     <input type='radio' className='co-drive' id='co-drive' name='chkradio' value='drive' onClick={checkVerify} defaultChecked></input>
                     <label htmlFor='co-drive'>Retirar no local</label>
@@ -204,21 +227,21 @@ const CheckOut = () => {
                     <label htmlFor='co-delivery'>Receber em casa: (Taxa: {parseFloat(txDelivery.toString()).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })})</label>
                 </div>
 
-                <input className='co-address' id='co-input-street' type='text' placeholder='Rua' ></input>
+                <input className='co-data' id='co-input-street' type='text' placeholder='Rua' style={{'backgroundColor':'rgba(235, 235, 235, 0.726)'}} disabled></input>
                 <div className='co-addr-div'>
-                    <input className='co-address' id='co-input-num' type='text' placeholder='Número' ></input>
-                    <input className='co-address' id='co-input-complement' type='text' placeholder='Complemento' ></input>
+                    <input className='co-data' id='co-input-num' type='text' placeholder='Número' style={{'backgroundColor':'rgba(235, 235, 235, 0.726)'}} disabled></input>
+                    <input className='co-data' id='co-input-complement' type='text' placeholder='Complemento' style={{'backgroundColor':'rgba(235, 235, 235, 0.726)'}} disabled></input>
                 </div>
-                <input className='co-address' id='co-input-district' type='text' placeholder='Bairro' ></input>
-                <input className='co-address' id='co-input-city' type='text' placeholder='Cidade' ></input>
+                <input className='co-data' id='co-input-district' type='text' placeholder='Bairro' style={{'backgroundColor':'rgba(235, 235, 235, 0.726)'}} disabled></input>
+                <input className='co-data' id='co-input-city' type='text' placeholder='Cidade' style={{'backgroundColor':'rgba(235, 235, 235, 0.726)'}} disabled></input>
                 <PayementsModes options={paymentMode} />
-                <textarea style={{ width: '100%', height: '100px' }} className='co-obs' id='co-input-obs' placeholder='Observações' ></textarea >
+                <textarea style={{'width':'100%','height':'100px','backgroundColor':'rgba(235, 235, 235, 0.726)'}} className='co-data' id='co-input-obs' placeholder='Observações'></textarea >
             </div>
             <br></br>
             <div className='bottomArea'>
                 <Link to={`${company}/mycart`}><button className="btn btn-success" >Voltar</button></Link>
                 <button className="btn btn-success" onClick={cleanData}>Limpar dados</button>
-                <button className="btn btn-success" onClick={saveInfoClient}>Confirmar</button>
+                <button className="btn btn-success" type="submit" onClick={saveInfoClient}>Confirmar</button>
             </div>
 
         </>

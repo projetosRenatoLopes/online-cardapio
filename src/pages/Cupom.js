@@ -75,7 +75,7 @@ function sendOrder() {
             const ano = `${date.getFullYear()}`
             const produtos = renderPedido()
             const npedido = `${ano.slice(2, 4)}${date.getMonth() + 1}${date.getDate()}${date.getHours()}${date.getMinutes()}`
-            const msg = `Pedido: *${npedido}* %0ACliente: *${cliente}* %0AForma de Pagamento: *${pagamento}* %0AEndereço para entrega: *${entrega}* %0A%0AProdutos: %0A%0A${produtos}%0AObservações: ${dados[0].obs}%0A%0ATotal dos Produtos: *${totalProducts('total')}* %0ATaxa da Entrega: *${txEntrega('toString')}* %0ADesconto: *${totalProducts('desconto')}* %0ATotal: *${totalProducts('totalPedido')}*`
+            const msg = `📝 Pedido: *${npedido}* %0A👤 Cliente: *${cliente}* %0A💳 Forma de Pagamento: *${pagamento}* %0A📍 Endereço para entrega: *${entrega}* %0A%0A🛍️ Produtos: %0A%0A${produtos}%0A💬 Observações: ${dados[0].obs}%0A%0ATotal dos Produtos: *${totalProducts('total')}* %0ATaxa da Entrega: *${txEntrega('toString')}* %0ADesconto: *${totalProducts('desconto')}* %0ATotal: *${totalProducts('totalPedido')}*`
 
             const url = `https://api.whatsapp.com/send?phone=${tel}&text=${msg}`
             window.open(url, '_blank')

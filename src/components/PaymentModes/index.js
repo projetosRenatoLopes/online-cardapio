@@ -11,12 +11,12 @@ function PayementsModes(props) {
     const renderOptions = (optionsPayment, key) => {
 
         return (
-            <option key={optionsPayment}  value={optionsPayment}>{optionsPayment}</option>
+            <option className='co-data' key={optionsPayment}  value={optionsPayment}>{optionsPayment}</option>
         )
     }
 
     return (
-            <select id="co-input-sel" className='selPayModes' defaultValue='Forma de Pagamento' required>
+            <select id="co-input-sel" className='co-data' defaultValue='Forma de Pagamento' required>
                 <option value='Forma de Pagamento' hidden >Forma de Pagamento</option>
                 {optionsPayment.map(renderOptions)}
             </select>
