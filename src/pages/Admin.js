@@ -11,12 +11,13 @@ import * as React from 'react';
 import InputEmail from "../components/InputEmail";
 import InputPass from "../components/InputPass";
 import formatTel from '../utils/formatTel'
-
+import { compare } from '../services/orderById/'
+import replaceAccent from '../utils/replaceAccent.js';
 
 const Admin = () => {
     const company = useLocation()
     const companyTag = company.pathname.split('/')[2]
-    sessionStorage.setItem('tag', companyTag)
+    sessionStorage.setItem('tag', `/${companyTag}`)
 
     const Page = () => {
         const info = JSON.parse(sessionStorage.getItem('info'))
@@ -142,7 +143,7 @@ const Admin = () => {
                 } else {
                     newTx = `${tx.slice(0, 2)},${tx.slice(2, 4)}`
                 }
-                document.getElementById('ad-tax')['value'] = ("R$ "+ newTx)
+                document.getElementById('ad-tax')['value'] = ("R$ " + newTx)
             }
 
             var telFormated = `(${data[0].tel.slice(2, 4)}) ${data[0].tel.slice(4, 9)}-${data[0].tel.slice(9, 13)}`
@@ -444,8 +445,20 @@ const Admin = () => {
                 </>
             )
         } else {
-            const products = JSON.parse(sessionStorage.getItem('listProduct'))
-            const info = JSON.parse(sessionStorage.getItem('info'))
+            const products = JSON.parse(sessionStorage.getItem('listProduct'))            
+            var ativos = [];
+            var desativos = [];            
+            products.forEach(element => {
+                if (element.status === 'Ativo') {
+                    ativos.push(element)
+                }
+            })
+            products.forEach(element => {
+                if (element.status === 'Desativado') {
+                    desativos.push(element)
+                }
+            })
+
             return (<>
                 <div id='menu' className='menu' style={{ 'display': 'none' }}>
                     <div className='itens-menu'>
@@ -472,7 +485,9 @@ const Admin = () => {
                     <LogoPage />
                 </div>
                 <InfoCompanny></InfoCompanny>
-                <h4>Total de Produtos: {products.length} </h4>
+                <h4 style={{ 'marginBottom': '5px' }}>{products.length} produtos:  </h4>
+                <h5 style={{ 'margin': '0 0 0 0' }}>{ativos.length} Ativos. </h5>
+                <h5 style={{ 'margin': '0 0 0 0' }}>{desativos.length} Desativados. </h5>
 
 
             </>)
@@ -481,29 +496,45 @@ const Admin = () => {
 
 
     function ListProducts() {
-
+        function compareName(a, b) {
+            if (a.nomeprod < b.nomeprod)
+                return -1;
+            if (a.nomeprod > b.nomeprod)
+                return 1;
+            return 0;
+        }
         // eslint-disable-next-line no-unused-vars
         var list = [];
         const products = JSON.parse(sessionStorage.getItem('viewProducts'))
 
-        const [product, setProduct] = useState(products)
+        const [product, setProduct] = useState(products.sort(compareName).sort(compare))
 
-        async function pesquisarProd() {
+        async function pesquisarProd() {                                        
             const pesq = document.getElementById('prod-pesq')['value']
             const listProd = JSON.parse(sessionStorage.getItem('listProduct'))
+            const act = document.getElementById('active')['checked']
+            const des = document.getElementById('desactive')['checked']
+            var verifyStatus;
+            if (act === true) {
+                verifyStatus = 'Desativado'
+            } else if (des === true) {
+                verifyStatus = 'Ativo'
+            } else { verifyStatus = 'Todos' }
             var newList = [];
+            
             listProd.forEach(element => {
-                if (element.nomeprod.toLowerCase().includes(pesq.toLowerCase())) {
+                const stringElement = replaceAccent(element.nomeprod.toLowerCase())
+                const stringSearch = replaceAccent(pesq.toLowerCase())      
+                if (stringElement.includes(stringSearch) && element.status !== verifyStatus) {
                     newList.push(element)
                 }
             });
             sessionStorage.setItem('viewProducts', JSON.stringify(newList))
-            setProduct(newList)
+
+            setProduct(newList.sort(compareName).sort(compare))
         }
 
-
         const RenderOptions = (product, key) => {
-
 
             function delProd() {
                 var resp = window.confirm(`Deseja exlcuir ${product.nomeprod}\nAtenção: Isso não poderá ser desfeito.`)
@@ -539,9 +570,6 @@ const Admin = () => {
                 } else { alert('Preencha o campo nome.') }
 
             }
-
-
-
 
             return (<div key={product.nomeprod}>
 
@@ -616,13 +644,108 @@ const Admin = () => {
             )
         }
 
-        const productList  = JSON.parse(sessionStorage.getItem('listProduct'))
+        const filterActDes = () => {
+            const act = document.getElementById('active')['checked']
+            const des = document.getElementById('desactive')['checked']
+            const all = document.getElementById('all')['checked']
+            const listProd = JSON.parse(sessionStorage.getItem('listProduct'))
+            sessionStorage.setItem('viewProducts', JSON.stringify(listProd))
+            var status;
+            if (act === true) {
+                status = 'Ativo';
+            } else {
+                status = 'Desativado';
+            };
+            var newList = [];
+            listProd.forEach(element => {
+                if (element.status === status) {
+                    newList.push(element)
+                }
+            });
+            if (all === true) {
+                setProduct(listProd.sort(compareName).sort(compare))
+            } else {
+                setProduct(newList.sort(compareName).sort(compare))
+            }
+        }
+
+        async function editProd(productEdit) {
+            colorMsgEdit('yellow', `resp-${productEdit[0].id}`, 'Aguardando reposta do servidor')
+            const data = JSON.parse(sessionStorage.getItem('info'))
+
+            const product = productEdit;
+            const token = sessionStorage.getItem('token')
+            if (token !== undefined) {
+                var resposta;
+                await api({
+                    method: 'PUT',
+                    url: `/produtos/alterar`,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: token
+                    },
+                    data: product
+                })
+                    .then(resp => {
+                        resposta = resp.data;
+                        colorMsgEdit('GREEN', `resp-${productEdit[0].id}`, resposta.message)
+
+                        api.get(`/produtos/${data[0].tag}`).then(res => {
+                            if (res.data[0].products === undefined) {
+                                sessionStorage.setItem('listProduct', JSON.stringify([]))
+                                colorMsgEdit('yellow', `resp-${productEdit[0].id}`, 'Produto atualizado! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
+                            } else {
+                                sessionStorage.setItem('listProduct', JSON.stringify(res.data[0].products))
+                                sessionStorage.setItem('viewProducts', JSON.stringify(res.data[0].products))
+                                const act = document.getElementById('active')['checked']
+                                const des = document.getElementById('desactive')['checked']
+                                var verifyStatus;
+                                if (act === true) {
+                                    verifyStatus = 'Desativado'
+                                } else if (des === true) {
+                                    verifyStatus = 'Ativo'
+                                } else { verifyStatus = 'Todos' }
+                                var listProdView = res.data[0].products.sort(compareName).sort(compare)
+
+                                var newList = [];
+                                listProdView.forEach(element => {
+                                    if (element.status !== verifyStatus) {
+                                        newList.push(element)
+                                    }
+                                });
+                                setProduct(newList)
+                            }
+                        }).catch(error => {
+                            colorMsgEdit('yellow', `resp-${productEdit[0].id}`, 'Produto atualizado! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
+                        })
+
+                    }).catch(error => {
+                        resposta = error.toJSON();
+                        if (resposta.status === 404) {
+                            colorMsgEdit('RED', `resp-${productEdit[0].id}`, 'Erro 404 - Requisição invalida')
+                        } else { colorMsgEdit('RED', `resp-${productEdit[0].id}`, `Erro ${resposta.status} - ${resposta.message}`) }
+                    })
+            } else { colorMsgEdit('RED', `resp-${productEdit[0].id}`, 'Usuário não autenticado.'); window.location.href = `/admin/${companyTag}` }
+        }
+
+        const productList = JSON.parse(sessionStorage.getItem('listProduct'))
         if (productList === null || productList.length === 0) {
             return (<><div style={{ 'display': 'flex', 'justifyContent': 'center', 'width': '100%' }}><h5>Você ainda não possui nenhum produto cadastrado.</h5></div></>)
         } else {
             return (
                 <div className="list-prod" id='list-prod' style={{ 'width': '100%', 'fontSize': '15px' }}>
                     <input type='text' className="pesq-prod" id='prod-pesq' placeholder='Pesquisar' onChange={pesquisarProd} style={{ 'marginBottom': '20px', 'width': '97%' }}></input>
+                    <div style={{ 'margin': '0 0 15px 0' }}>
+                        <input type='radio' name='actDes' id='all' onChange={filterActDes} defaultChecked></input>
+                        <label htmlFor='all'>Todos</label>
+                        <input type='radio' name='actDes' id='active' onChange={filterActDes}></input>
+                        <label htmlFor='active'>Ativos</label>
+                        <input type='radio' name='actDes' id='desactive' onChange={filterActDes}></input>
+                        <label htmlFor='desactive'>Desativos</label>
+                    </div>
+                    <div>
+                        <p>{product.length} itens.</p>
+                    </div>
                     {product.map(RenderOptions)}
                 </div>
             )
@@ -688,55 +811,6 @@ const Admin = () => {
                 } else { colorMsg('RED', 'Preencha o campo Link da Imagem.') }
             } else { colorMsg('RED', 'Preencha o campo Descrição.') }
         } else { colorMsg('RED', 'Preencha o campo nome.') }
-
-    }
-
-    async function editProd(productEdit) {
-        console.log(productEdit[0].id)
-        colorMsgEdit('yellow', `resp-${productEdit[0].id}`, 'Aguardando reposta do servidor')
-        const data = JSON.parse(sessionStorage.getItem('info'))
-
-
-
-
-        const product = productEdit;
-        const token = sessionStorage.getItem('token')
-        if (token !== undefined) {
-            var resposta;
-            await api({
-                method: 'PUT',
-                url: `/produtos/alterar`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: token
-                },
-                data: product
-            })
-                .then(resp => {
-                    resposta = resp.data;
-                    colorMsgEdit('GREEN', `resp-${productEdit[0].id}`, resposta.message)
-
-                    api.get(`/produtos/${data[0].tag}`).then(res => {
-                        if (res.data[0].products === undefined) {
-                            sessionStorage.setItem('listProduct', JSON.stringify([]))
-                            colorMsgEdit('yellow', `resp-${productEdit[0].id}`, 'Produto atualizado! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
-                        } else {
-                            sessionStorage.setItem('listProduct', JSON.stringify(res.data[0].products))
-                            sessionStorage.setItem('viewProducts', JSON.stringify(res.data[0].products))
-                            window.location.href = `/admin/${companyTag}`
-                        }
-                    }).catch(error => {
-                        colorMsgEdit('yellow', `resp-${productEdit[0].id}`, 'Produto atualizado! Porém houve um erro ao recuperar as informações do servidor. \n\nFeche a página e entre novamente para obter os dados atualizados.')
-                    })
-
-                }).catch(error => {
-                    resposta = error.toJSON();
-                    if (resposta.status === 404) {
-                        colorMsgEdit('RED', `resp-${productEdit[0].id}`, 'Erro 404 - Requisição invalida')
-                    } else { colorMsgEdit('RED', `resp-${productEdit[0].id}`, `Erro ${resposta.status} - ${resposta.message}`) }
-                })
-        } else { colorMsgEdit('RED', `resp-${productEdit[0].id}`, 'Usuário não autenticado.'); window.location.href = `/admin/${companyTag}` }
-
 
     }
 

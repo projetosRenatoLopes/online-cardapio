@@ -81,7 +81,7 @@ const InfoCompanny = () => {
         if (day === showDay) {
             if (hours === 'Fechado') {
                 sessionStorage.setItem('ofp', 'false')
-                return <div id='todayInfo' style={{ color: '#198754','boxShadow':'#202020' }}>{day}: {hours}</div>
+                return <div id='todayInfo' style={{ color: 'RED','textShadow':'#202020' }}>{day}: {hours}</div>
             } else {
                 const date = new Date();
                 const hr = String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0')
