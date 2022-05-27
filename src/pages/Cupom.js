@@ -36,8 +36,9 @@ const txEntrega = (opc) => {
     var entrega = JSON.parse(sessionStorage.getItem('dadosPedido'));
     var taxaEntrega = 0.0;
     if (entrega[0].delivery === true) {
-        var taxa = require("../services/compannyInfo/info.json")
-        taxaEntrega = parseFloat(taxa[5].txEntrega)
+        //var taxa = require("../services/compannyInfo/info.json")
+        var taxa = JSON.parse(sessionStorage.getItem('info'))
+        taxaEntrega = parseFloat(taxa[0].txEntrega)
     }
     if (opc === 'calc') {
         return taxaEntrega
